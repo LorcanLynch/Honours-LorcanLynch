@@ -1,9 +1,12 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Xml.Schema;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.Sprites;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
@@ -16,7 +19,8 @@ public class UnitScript : MonoBehaviour
     public int tileY;
     public int tileX;
     public bool selected = false;
-    
+    public enum heroClass{knight,wizard,ranger,samurai };
+    public heroClass unitClass;
     public bool attackAvailable = true;    
     public TileMap map;
     public List<Node> currentPath = null;
@@ -25,6 +29,7 @@ public class UnitScript : MonoBehaviour
     public int targetX;
     public int targetY;
     public MonoBehaviour[] abilities;
+    
     public bool[] abilitiesTarget = new bool[1] { false } ;
     public bool attacking;
     public Animator animator;
@@ -32,7 +37,8 @@ public class UnitScript : MonoBehaviour
 
     public float maxMoveSpeed = 2;
     public float moveSpeed;
-    public float health = 10;
+    public float maxhealth = 10;
+    public float health;
     public float attackPower = 1;
     public float attackRange = 3;
     public Collider2D claveHb;
@@ -46,7 +52,7 @@ public class UnitScript : MonoBehaviour
     
     private void Start()
     {
-       
+        health = maxhealth;
         map = GameObject.Find("Map").GetComponent<TileMap>();
         map.AddUnit(gameObject);
         target = map.TileCoordToWorldCoord(tileX, tileY);
@@ -61,7 +67,22 @@ public class UnitScript : MonoBehaviour
         {
             if ( map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[0])
             {
-                map.selectedUnit.GetComponent<UnitScript>().Cleave(gameObject);
+                switch(map.selectedUnit.GetComponent<UnitScript>().unitClass)
+                {
+                    case heroClass.knight:
+                        map.selectedUnit.GetComponent<UnitScript>().Cleave(gameObject);
+                        break;
+                    case heroClass.samurai:
+                        map.selectedUnit.GetComponent<UnitScript>().Execute(gameObject);
+                        break;
+                    case heroClass.wizard:
+                        map.selectedUnit.GetComponent<UnitScript>().LightningStrike(gameObject);
+                        break;
+                    case heroClass.ranger:
+                        map.selectedUnit.GetComponent<UnitScript>().Cleave(gameObject);
+                        break;
+                }
+                
             }
             else
             map.selectedUnit.GetComponent<UnitScript>().attack(gameObject);
@@ -74,7 +95,7 @@ public class UnitScript : MonoBehaviour
     public void attack(GameObject target)
     {
         int hitChance = Random.Range(0, 100); 
-        print("hit" + hitChance);
+        
         animator.SetTrigger("attack");
         if(hitChance < accuracy - target.GetComponent<UnitScript>().dodgeRating)
 
@@ -355,5 +376,42 @@ public class UnitScript : MonoBehaviour
         //    if (map.graph[enemyX--, enemyY++].unit != null) { map.graph[enemyX--, enemyY++].unit.GetComponent<UnitScript>().UnitDamage(5); }
         //    if (map.graph[enemyX++, enemyY].unit != null) { map.graph[enemyX++, enemyY].unit.GetComponent<UnitScript>().UnitDamage(5); }
         //}
+    }
+
+    void Execute(GameObject targetUnit)
+    {
+        if(targetUnit.GetComponent<UnitScript>().health < targetUnit.GetComponent<UnitScript>().maxhealth /2)
+        {
+            animator.SetTrigger("attack");
+            targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower * 2);
+        }
+        else {
+            int hitChance = Random.Range(0, 100);
+
+            animator.SetTrigger("attack");
+            if (hitChance < accuracy - targetUnit.GetComponent<UnitScript>().dodgeRating)
+
+            {
+                targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);
+            }
+        }
+    
+        
+    }
+
+    void LightningStrike(GameObject targetUnit)
+    {
+        //RaycastHit2D[] unitsHit = Physics2D.LinecastAll(gameObject.transform.position, targetUnit.transform.position);
+        RaycastHit2D[] unitsHit = Physics2D.BoxCastAll(gameObject.transform.position, new Vector2(10, 10), 0, new Vector2(gameObject.transform.position.x - targetUnit.transform.position.x+1, gameObject.transform.position.y - targetUnit.transform.position.y+1));
+        foreach(RaycastHit2D hit in unitsHit)
+        {
+            hit.collider.GetComponent<UnitScript>().UnitDamage(100);
+        }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawCube(gameObject.transform.position, new Vector3(1, 1, -1));
+
     }
 }

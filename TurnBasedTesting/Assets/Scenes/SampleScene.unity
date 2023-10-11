@@ -319,6 +319,7 @@ MonoBehaviour:
   tileY: 9
   tileX: 0
   selected: 0
+  unitClass: 0
   attackAvailable: 1
   map: {fileID: 0}
   move: 0
@@ -331,7 +332,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   maxMoveSpeed: 5
   moveSpeed: 0
-  health: 10
+  maxhealth: 10
+  health: 0
   attackPower: 5
   attackRange: 4
   claveHb: {fileID: 0}
@@ -546,14 +548,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 373728223162344289, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
-      propertyPath: tileX
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 373728223162344289, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
-      propertyPath: tileY
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 373728223162344291, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -602,37 +596,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Huntress
       objectReference: {fileID: 0}
-    - target: {fileID: 373728223162344294, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
-      propertyPath: m_TagString
-      value: team1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
---- !u!1 &604473569 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 373728223162344294, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
-  m_PrefabInstance: {fileID: 590008818}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &604473576
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 604473569}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a80a013c81117634f99c885d37009873, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &696405147
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,14 +743,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Samurai
       objectReference: {fileID: 0}
-    - target: {fileID: 6777011672565598522, guid: 6c8c7e93caf7aef4eb1fe793022e5527, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6777011672565598522, guid: 6c8c7e93caf7aef4eb1fe793022e5527, type: 3}
-      propertyPath: m_TagString
-      value: team2
-      objectReference: {fileID: 0}
     - target: {fileID: 6777011672565598527, guid: 6c8c7e93caf7aef4eb1fe793022e5527, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -886,14 +843,6 @@ PrefabInstance:
     - target: {fileID: 1097717318652877622, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
       propertyPath: m_Name
       value: Knight
-      objectReference: {fileID: 0}
-    - target: {fileID: 1097717318652877622, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1097717318652877622, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
-      propertyPath: m_TagString
-      value: team1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
@@ -1268,6 +1217,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 373728223162344289, guid: e072ee0e89f0e8d4a899d7a0aaeb51d2, type: 3}
+      propertyPath: tileY
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 373728223162344291, guid: e072ee0e89f0e8d4a899d7a0aaeb51d2, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1452,6 +1405,7 @@ MonoBehaviour:
   tileY: 3
   tileX: 0
   selected: 0
+  unitClass: 0
   attackAvailable: 1
   map: {fileID: 0}
   move: 0
@@ -1464,7 +1418,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   maxMoveSpeed: 3
   moveSpeed: 3
-  health: 10
+  maxhealth: 10
+  health: 0
   attackPower: 5
   attackRange: 1
   claveHb: {fileID: 0}

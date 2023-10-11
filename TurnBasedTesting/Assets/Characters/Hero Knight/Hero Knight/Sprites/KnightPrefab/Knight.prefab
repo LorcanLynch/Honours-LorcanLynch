@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 726310732324025792}
   m_Layer: 0
   m_Name: Knight
-  m_TagString: Untagged
+  m_TagString: team1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,6 +103,7 @@ MonoBehaviour:
   tileY: 5
   tileX: 2
   selected: 0
+  unitClass: 0
   attackAvailable: 1
   map: {fileID: 0}
   move: 0

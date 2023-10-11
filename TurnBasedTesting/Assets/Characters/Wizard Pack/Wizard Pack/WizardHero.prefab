@@ -104,6 +104,7 @@ MonoBehaviour:
   tileY: 1
   tileX: 1
   selected: 0
+  unitClass: 1
   attackAvailable: 1
   map: {fileID: 0}
   move: 0

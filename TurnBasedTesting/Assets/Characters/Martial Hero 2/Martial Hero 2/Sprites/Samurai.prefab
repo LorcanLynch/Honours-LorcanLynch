@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6567224499875456972}
   m_Layer: 0
   m_Name: Samurai
-  m_TagString: Untagged
+  m_TagString: team2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,6 +103,7 @@ MonoBehaviour:
   tileY: 2
   tileX: 5
   selected: 0
+  unitClass: 3
   attackAvailable: 1
   map: {fileID: 0}
   move: 0

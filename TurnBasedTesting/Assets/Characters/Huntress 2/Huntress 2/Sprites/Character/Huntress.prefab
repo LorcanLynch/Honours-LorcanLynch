@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 373728223162344288}
   - component: {fileID: 373728223162344295}
   - component: {fileID: -1753030336412577868}
-  - component: {fileID: -5510197160249238690}
+  - component: {fileID: 604473576}
   m_Layer: 0
   m_Name: Huntress
-  m_TagString: Untagged
+  m_TagString: team1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,9 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a356487888309744e822259972c901f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileY: 5
-  tileX: 2
+  tileY: 3
+  tileX: 5
   selected: 0
+  unitClass: 2
   attackAvailable: 1
   map: {fileID: 0}
   move: 0
@@ -255,7 +256,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!95 &-5510197160249238690
+--- !u!95 &604473576
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
