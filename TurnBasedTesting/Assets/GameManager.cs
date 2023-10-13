@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
         graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].containsUnit = true;
         graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].unit = unit;
     }
-
+    
     public void EndTurn()
     {
         foreach(GameObject unit in Units)

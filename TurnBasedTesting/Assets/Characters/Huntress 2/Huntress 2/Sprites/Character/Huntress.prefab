@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 373728223162344289}
   - component: {fileID: 373728223162344288}
   - component: {fileID: 373728223162344295}
-  - component: {fileID: -1753030336412577868}
   - component: {fileID: 604473576}
   m_Layer: 0
   m_Name: Huntress
@@ -117,10 +116,12 @@ MonoBehaviour:
   animator: {fileID: 0}
   maxMoveSpeed: 3
   moveSpeed: 3
+  maxhealth: 10
   health: 10
   attackPower: 5
   attackRange: 4
   claveHb: {fileID: 0}
+  lightningBolt: {fileID: 0}
   accuracy: 90
   visibility: 0
   dodgeRating: 10
@@ -239,23 +240,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
---- !u!58 &-1753030336412577868
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373728223162344294}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.24
 --- !u!95 &604473576
 Animator:
   serializedVersion: 4

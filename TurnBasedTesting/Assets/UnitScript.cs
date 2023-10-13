@@ -42,7 +42,8 @@ public class UnitScript : MonoBehaviour
     public float attackPower = 1;
     public float attackRange = 3;
     public Collider2D claveHb;
-    
+    public GameObject lightningBolt;
+
     public float accuracy;
     public int visibility;
     public float dodgeRating;
@@ -119,10 +120,13 @@ public class UnitScript : MonoBehaviour
         if(health <= 0)
         {
             animator.SetTrigger("death");
+            map.GetComponent<TileMap>().RemoveUnit(gameObject);
             Destroy(gameObject, 1.2f);
+            
         }
         else
         {
+            
             animator.SetTrigger("damage");
         }
         
@@ -402,11 +406,9 @@ public class UnitScript : MonoBehaviour
     void LightningStrike(GameObject targetUnit)
     {
         //RaycastHit2D[] unitsHit = Physics2D.LinecastAll(gameObject.transform.position, targetUnit.transform.position);
-        RaycastHit2D[] unitsHit = Physics2D.BoxCastAll(gameObject.transform.position, new Vector2(10, 10), 0, new Vector2(gameObject.transform.position.x - targetUnit.transform.position.x+1, gameObject.transform.position.y - targetUnit.transform.position.y+1));
-        foreach(RaycastHit2D hit in unitsHit)
-        {
-            hit.collider.GetComponent<UnitScript>().UnitDamage(100);
-        }
+        GameObject bolt = Instantiate(lightningBolt,  Vector3.MoveTowards( gameObject.transform.position,targetUnit.transform.position,.4f), Quaternion.FromToRotation(transform.position, -targetUnit.transform.position));
+        bolt.GetComponent<LightningBoltScript>().target = targetUnit.transform.position;
+        
     }
     private void OnDrawGizmos()
     {

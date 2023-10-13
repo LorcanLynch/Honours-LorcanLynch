@@ -358,6 +358,13 @@ public class TileMap : MonoBehaviour
     {
         Units.Add(unit);
         graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].containsUnit = true;
+        graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].unit = unit;
+    }
+    public void RemoveUnit(GameObject unit)
+    {
+        Units.Remove(unit);
+        graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].containsUnit = false;
+        graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].unit = null;
     }
 
     public void EndTurn()
