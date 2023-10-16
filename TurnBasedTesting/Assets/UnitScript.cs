@@ -178,38 +178,38 @@ public class UnitScript : MonoBehaviour
         //        currNode++;
         //    }
         //}
-        
+
 
 
         //
 
         //Rudimentary version of the movement script, this is really innefecient but it does the job for now, preferably this  should be moved to a coroutine
-            if (currentPath != null)// Checks if there is a path to follow 
-            {
+        if (currentPath != null)// Checks if there is a path to follow 
+        {
             if (gameObject.transform.position == target)
             {
-                
-                if  (currentPath != null &&moveSpeed >= map.costToEnter(currentPath[1].x, currentPath[1].y))// We check if we have enough movement speed to move into the next tile
+
+                if (currentPath != null && moveSpeed >= map.costToEnter(currentPath[1].x, currentPath[1].y))// We check if we have enough movement speed to move into the next tile
                 {
                     moveSpeed -= map.costToEnter(currentPath[1].x, currentPath[1].y);//if we do we reduce our movement speed by the cost to enter the next tile
-                    
+
                     target = map.TileCoordToWorldCoord(currentPath[1].x, currentPath[1].y);// We set our target to the next tile
 
-                  //  map.UnitMoving(gameObject);
+                    //  map.UnitMoving(gameObject);
                     tileX = currentPath[1].x;//once were moving we set our current tile to the target tile
-                        tileY = currentPath[1].y;
-                    
-                    currentPath.RemoveAt(0);//we remove the current tile from the path
-                    
-                        if (currentPath.Count == 1)//Once the path is finished we set the path to null and stop moving
-                        {
+                    tileY = currentPath[1].y;
 
-                            move = false;
-                            currentPath = null;
-                        
+                    currentPath.RemoveAt(0);//we remove the current tile from the path
+
+                    if (currentPath.Count == 1)//Once the path is finished we set the path to null and stop moving
+                    {
+
+                        move = false;
+                        currentPath = null;
+
 
                     }
-                    
+
 
 
                 }
@@ -224,37 +224,40 @@ public class UnitScript : MonoBehaviour
                     currentPath = null;
                     move = false;
                     animator.SetBool("moving", false);
-                    
+
                 }
-               
 
 
-            
-            
 
 
-                
-                
-            }
 
-          
 
-               
+
+
+
             }
 
 
-                
 
-        
+
+        }
+
+
+
+
+
         if (currentPath == null && target == gameObject.transform.position)
         {
             animator.SetBool("moving", false);// simply stops the moving animation once we stop
-            
+
         }
         gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, target, 2 * Time.deltaTime);//We are constantly moving towards the target, this is why this should be in a coroutine
-        
+
 
     }
+
+    
+    
 
     public void EnterCourse(int x, int y,List<Node> possiblePath)///<summary>
         ///Used for both the linerender to show where were moving to, and to set the movement for the update function
@@ -267,7 +270,7 @@ public class UnitScript : MonoBehaviour
             float moveRemaining = moveSpeed;//Sets how much movement we have for the linerenderer
             if (targetX == x && targetY == y)//this is a janky way to check if this is the 2nd time we clikced on this tile 
             {
-                move = true;
+                
                 currentPath = possiblePath;//Sets the path for the update
                 lineRenderer.positionCount = possiblePath.Count;//thos gets rid of the linerenderer once we start moving
                 for (int i = 0; i < possiblePath.Count; i++)

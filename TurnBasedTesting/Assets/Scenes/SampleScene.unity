@@ -143,8 +143,12 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1097717318652877617, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
+      propertyPath: attackPower
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877617, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
       propertyPath: attackRange
-      value: 8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1097717318652877617, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
       propertyPath: maxMoveSpeed
@@ -719,6 +723,10 @@ PrefabInstance:
     - target: {fileID: 1097717318652877622, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
       propertyPath: m_Name
       value: Knight
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877622, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
+      propertyPath: m_TagString
+      value: team2
       objectReference: {fileID: 0}
     - target: {fileID: 1097717318652877623, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
       propertyPath: m_IsTrigger

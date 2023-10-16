@@ -159,7 +159,7 @@ public class TileMap : MonoBehaviour
 
     }
 
-    public List<Node> GenerateAttackPath(GameObject unitRequesting,int startX, int startY,int x, int y)
+    public List<Node> GenerateMovePath(GameObject unitRequesting,int startX, int startY,int x, int y)
     {
         unitRequesting.GetComponent<UnitScript>().map = this;
         currentPath = null;
@@ -232,10 +232,108 @@ public class TileMap : MonoBehaviour
             currentPath.Add(curr);
             curr = prev[curr];
         }
+        if (currentPath[0].containsUnit)
+        {
+            currentPath.RemoveAt(0);
+            if (currentPath.Count == 1)
+            { 
+
+                    return null;
+             }
+        }
         currentPath.Reverse();
        
            return currentPath;
        
+
+
+
+
+
+
+
+
+
+    }
+
+    public List<Node> GenerateAttackPath(GameObject unitRequesting, int startX, int startY, int x, int y)
+    {
+        unitRequesting.GetComponent<UnitScript>().map = this;
+        currentPath = null;
+
+        Dictionary<Node, float> dist = new Dictionary<Node, float>();
+        Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
+
+        List<Node> unvisited = new List<Node>();
+
+        Node source = graph[startX,
+                             startY
+                             ];
+
+        Node target = graph[y, x];
+        //if(target.containsUnit)
+
+        dist[source] = 0;
+        prev[source] = null;
+
+        foreach (Node v in graph)
+        {
+            if (v != source)
+            {
+                dist[v] = Mathf.Infinity;
+                prev[v] = null;
+            }
+            unvisited.Add(v);
+        }
+
+        while (unvisited.Count > 0)
+        {
+            Node u = null;
+            foreach (Node possibleU in unvisited)
+            {
+                if (u == null || dist[possibleU] < dist[u]) //&& !graph[possibleU.y, possibleU.x].containsUnit)
+                {
+                    u = possibleU;
+                }
+            }
+            if (u.containsUnit)
+            {
+                print("Unit in location");
+            }
+
+            if (u == target)
+            {
+
+                break;
+            }
+            unvisited.Remove(u);
+            foreach (Node v in u.connections)
+            {
+                float alt = dist[u] + costToEnter(v.x, v.y);
+                if (alt < dist[v])
+                {
+                    dist[v] = alt;
+                    prev[v] = u;
+                }
+            }
+        }
+
+        if (prev[target] == null)
+        {
+            return null;
+        }
+        currentPath = new List<Node>();
+        Node curr = target;
+        while (curr != null)
+        {
+            currentPath.Add(curr);
+            curr = prev[curr];
+        }
+        
+        currentPath.Reverse();
+
+        return currentPath;
+
 
 
 
