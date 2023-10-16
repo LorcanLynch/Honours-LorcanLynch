@@ -33,7 +33,11 @@ public class GameManager : MonoBehaviour
         foreach(GameObject unit in Units)
         {
             unit.GetComponent<UnitScript>().TurnOver();
-            
+          GameObject[] enemies =  GameObject.FindGameObjectsWithTag("Enemy");
+            foreach(GameObject enemy in enemies)
+            {
+                enemy.GetComponent<EnemyScript>().turnStart();
+            }
         }
     }
 

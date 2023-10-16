@@ -6,6 +6,7 @@ TagManager:
   tags:
   - team1
   - team2
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using UnityEngine.Animations;
+
 public class TileMap : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -157,9 +159,9 @@ public class TileMap : MonoBehaviour
 
     }
 
-    public List<Node> GenerateAttackPath(int x, int y)
+    public List<Node> GenerateAttackPath(GameObject unitRequesting,int startX, int startY,int x, int y)
     {
-        selectedUnit.GetComponent<UnitScript>().map = this;
+        unitRequesting.GetComponent<UnitScript>().map = this;
         currentPath = null;
 
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
@@ -167,8 +169,8 @@ public class TileMap : MonoBehaviour
 
         List<Node> unvisited = new List<Node>();
 
-        Node source = graph[selectedUnit.GetComponent<UnitScript>().tileX,
-                             selectedUnit.GetComponent<UnitScript>().tileY
+        Node source = graph[startX,
+                             startY
                              ];
 
         Node target = graph[y, x];
@@ -372,6 +374,11 @@ public class TileMap : MonoBehaviour
         foreach (GameObject unit in Units)
         {
             unit.GetComponent<UnitScript>().TurnOver();
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                enemy.GetComponent<EnemyScript>().turnStart();
+            }
         }
     }
 

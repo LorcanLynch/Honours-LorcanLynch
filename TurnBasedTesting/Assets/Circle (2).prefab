@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 373728223162344288}
   - component: {fileID: 373728223162344295}
   - component: {fileID: -1753030336412577868}
+  - component: {fileID: -9196206766475002483}
+  - component: {fileID: 1760775093317329689}
   m_Layer: 0
   m_Name: Circle (2)
   m_TagString: Untagged
@@ -100,9 +102,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a356487888309744e822259972c901f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileY: 5
-  tileX: 2
+  tileY: 8
+  tileX: 8
   selected: 0
+  unitClass: 0
   attackAvailable: 1
   map: {fileID: 0}
   move: 0
@@ -112,13 +115,16 @@ MonoBehaviour:
   abilities: []
   abilitiesTarget: 00
   attacking: 0
+  animator: {fileID: 0}
   maxMoveSpeed: 3
   moveSpeed: 3
+  maxhealth: 10
   health: 10
   attackPower: 5
   attackRange: 1
-  rangedAccuracy: 100
-  meleeAccuracy: 100
+  claveHb: {fileID: 0}
+  lightningBolt: {fileID: 0}
+  accuracy: 0
   visibility: 0
   dodgeRating: 20
   damageReduction: 5
@@ -253,3 +259,36 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-9196206766475002483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373728223162344294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23d2f31cadb570148b69a336abff65e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map: {fileID: 0}
+--- !u!95 &1760775093317329689
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373728223162344294}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

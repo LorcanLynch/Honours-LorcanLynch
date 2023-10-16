@@ -80,7 +80,7 @@ public class UnitScript : MonoBehaviour
                         map.selectedUnit.GetComponent<UnitScript>().LightningStrike(gameObject);
                         break;
                     case heroClass.ranger:
-                        map.selectedUnit.GetComponent<UnitScript>().Cleave(gameObject);
+                        map.selectedUnit.GetComponent<UnitScript>().PiercingShot(gameObject);
                         break;
                 }
                 
@@ -166,7 +166,7 @@ public class UnitScript : MonoBehaviour
                 if(currentPath.Count-1 <= attackRange && currentPath[1].containsUnit)
                 {//.GetComponent<UnitScript>().UnitDamage(attackPower);
 
-                    Destroy(currentPath[1].unit);
+                    
                     currentPath = null;
                     move = false;
                     
@@ -206,6 +206,7 @@ public class UnitScript : MonoBehaviour
                     currentPath = null;
                     move = false;
                     animator.SetBool("moving", false);
+                    
                 }
                
 
@@ -230,6 +231,7 @@ public class UnitScript : MonoBehaviour
         if (currentPath == null && target == gameObject.transform.position)
         {
             animator.SetBool("moving", false);
+            
         }
         gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, target, 2 * Time.deltaTime);
         
@@ -259,7 +261,7 @@ public class UnitScript : MonoBehaviour
             {
                 
                     Vector3[] Points = new Vector3[possiblePath.Count];
-
+                print(Points.Length);
                     int currNode = 0;
                     lineRenderer.positionCount = possiblePath.Count;
                     Vector3 start = map.TileCoordToWorldCoord(possiblePath[currNode].x, possiblePath[currNode].y) + new Vector3(0, 0, -2);
@@ -299,7 +301,7 @@ public class UnitScript : MonoBehaviour
     {
         
 
-        List<Node> possiblePath = map.GenerateAttackPath(y, x);
+        List<Node> possiblePath = map.GenerateAttackPath(gameObject,gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, y, x);
         if (possiblePath.Count - 1 <= attackRange)
         {
             return true;
@@ -386,8 +388,14 @@ public class UnitScript : MonoBehaviour
     {
         if(targetUnit.GetComponent<UnitScript>().health < targetUnit.GetComponent<UnitScript>().maxhealth /2)
         {
+            int hitChance = Random.Range(0, 100);
             animator.SetTrigger("attack");
-            targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower * 2);
+            if (hitChance < accuracy - targetUnit.GetComponent<UnitScript>().dodgeRating)
+
+            {
+                targetUnit.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower * 1.5f));
+            }
+           
         }
         else {
             int hitChance = Random.Range(0, 100);
@@ -410,6 +418,20 @@ public class UnitScript : MonoBehaviour
         bolt.GetComponent<LightningBoltScript>().target = targetUnit.transform.position;
         
     }
+
+    void PiercingShot(GameObject targetUnit)
+    {
+        int hitChance = Random.Range(0, 100);
+
+        animator.SetTrigger("attack");
+        if (hitChance < accuracy - targetUnit.GetComponent<UnitScript>().dodgeRating)
+
+        {
+            targetUnit.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower + (targetUnit.GetComponent<UnitScript>().damageReduction/2)));
+        }
+    }
+
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
