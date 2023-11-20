@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Xml.Schema;
@@ -9,7 +10,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.Sprites;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using UnityEngine.WSA;
 using static UnityEngine.GraphicsBuffer;
 
@@ -30,9 +31,11 @@ public class UnitScript : MonoBehaviour
     public Vector3 target;
     public int targetX;
     public int targetY;
-    
-    
-    public bool[] abilitiesTarget = new bool[1] { false } ;
+    float baseDodge;
+    int baseReduction;
+    public Image[] abilityIcons = { null, null, null, null };
+    public bool[] abilitiesTarget = new bool[4] { false,false,false,false } ;
+    public int[] abilitiesCooldown = new int[4] { 0, 0, 0, 0 };
     public bool attacking;
     public Animator animator;
 
@@ -69,15 +72,22 @@ public class UnitScript : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if(map.selectedUnit.GetComponent<UnitScript>().attacking && map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX,tileY) && map.selectedUnit.GetComponent<UnitScript>().attackAvailable && map.selectedUnit.tag != gameObject.tag)
+      
+            if (map.selectedUnit == null )
+            {
+            
+                map.UnitSelected(gameObject);
+            return;
+            }
+            if ( map.selectedUnit.GetComponent<UnitScript>().attackAvailable && map.selectedUnit.tag != gameObject.tag)
             //This looks really ugly and needs refacrtored. but it checks first if a unit is trying to attack this one, then if it is in range,
             //next if that unit can attack and finally if the unit is on the same team
-        {
+            {
             //Again a mess but it simply checks what ability the unit should use(1-4), then what ability that corelates to on the selected Unit's class and calls the
             //related function, this should definitly be its own script and **Should be** refactored later
-            if ( map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[0])
+            if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[0] && map.selectedUnit.GetComponent<UnitScript>().attacking && map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY) && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[0] == 0)
             {
-                switch(map.selectedUnit.GetComponent<UnitScript>().unitClass)
+                switch (map.selectedUnit.GetComponent<UnitScript>().unitClass)
                 {
                     case heroClass.knight:
                         map.selectedUnit.GetComponent<UnitScript>().Cleave(gameObject);
@@ -92,15 +102,37 @@ public class UnitScript : MonoBehaviour
                         map.selectedUnit.GetComponent<UnitScript>().PiercingShot(gameObject);
                         break;
                 }
+
+            }
+            else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[1] &&map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[1] == 0)
+            {
+                switch (map.selectedUnit.GetComponent<UnitScript>().unitClass)
+                {
+                    case heroClass.knight:
+                        map.selectedUnit.GetComponent<UnitScript>().Parry();
+                        break;
+                    case heroClass.samurai:
+                        map.selectedUnit.GetComponent<UnitScript>().Execute(gameObject);
+                        break;
+                    case heroClass.wizard:
+                        map.selectedUnit.GetComponent<UnitScript>().LightningStrike(gameObject);
+                        break;
+                    case heroClass.ranger:
+                        map.selectedUnit.GetComponent<UnitScript>().PiercingShot(gameObject);
+                        break;
+                }
+            }
+            else if (map.selectedUnit.GetComponent<UnitScript>().attacking && map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY))
+            // if the unit can attack but isnt trying to use an ability then we simply attack with their basic ability
+            {
+                map.selectedUnit.GetComponent<UnitScript>().attack(gameObject);
+            }
+
                 
             }
             else
-             // if the unit can attack but isnt trying to use an ability then we simply attack with their basic ability
-            map.selectedUnit.GetComponent<UnitScript>().attack(gameObject);
-        }
-        else
-            //If the selected unit isnt trying to attack or any of the paramaters arent met like range or team then we simply select this unit instead
-        map.UnitSelected(gameObject);
+                //If the selected unit isnt trying to attack or any of the paramaters arent met like range or team then we simply select this unit instead
+                map.UnitSelected(gameObject);
         
     }
 
@@ -160,9 +192,13 @@ public class UnitScript : MonoBehaviour
         {
             attacking = !attacking;
         }
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && map.selectedUnit == gameObject)
         {
             abilitiesTarget[0] = !abilitiesTarget[0];
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2) && map.selectedUnit == gameObject)
+        {
+            abilitiesTarget[1] = !abilitiesTarget[1];
         }
         //if(currentPath != null)
         //    {
@@ -195,7 +231,7 @@ public class UnitScript : MonoBehaviour
 
                     target = map.TileCoordToWorldCoord(currentPath[1].x, currentPath[1].y);// We set our target to the next tile
 
-                    //  map.UnitMoving(gameObject);
+                      map.UnitMoving(gameObject);
                     tileX = currentPath[1].x;//once were moving we set our current tile to the target tile
                     tileY = currentPath[1].y;
 
@@ -215,7 +251,7 @@ public class UnitScript : MonoBehaviour
                 }
                 else// if we dont have enough movement or the path is empty we clear out the relevant data
                 {
-                    //map.UnitStopped(gameObject);
+                    map.UnitStopped(gameObject);
                     target = map.TileCoordToWorldCoord(tileX, tileY);//set our target to the current tile
                     tileX = currentPath[0].x;//we set our current tile to this tile
                     tileY = currentPath[0].y;
@@ -224,6 +260,7 @@ public class UnitScript : MonoBehaviour
                     currentPath = null;
                     move = false;
                     animator.SetBool("moving", false);
+
 
                 }
 
@@ -249,6 +286,7 @@ public class UnitScript : MonoBehaviour
         if (currentPath == null && target == gameObject.transform.position)
         {
             animator.SetBool("moving", false);// simply stops the moving animation once we stop
+           
 
         }
         gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, target, 2 * Time.deltaTime);//We are constantly moving towards the target, this is why this should be in a coroutine
@@ -309,6 +347,7 @@ public class UnitScript : MonoBehaviour
                             lineRenderer.SetPosition(i + 1, Points[i]);
                         
                     }
+
                     print("nope");
                     targetX = x;
                     targetY = y;
@@ -317,6 +356,7 @@ public class UnitScript : MonoBehaviour
             
             
         }
+
         
     }
 
@@ -353,6 +393,21 @@ public class UnitScript : MonoBehaviour
     {
         moveSpeed = maxMoveSpeed;
         attackAvailable = true;//just resets our turn based actions
+        for(int i = 0; i < abilitiesCooldown.Length; i++)
+        {
+            if (abilitiesCooldown[i]< 0)
+            {
+                abilitiesCooldown[i]--;
+            }    
+                
+        }    
+
+        if(unitClass == heroClass.knight && abilitiesCooldown[1] < 2)
+        {
+            damageReduction = baseReduction;
+            dodgeRating = baseDodge; 
+        }    
+        
     }
 
    
@@ -361,12 +416,16 @@ public class UnitScript : MonoBehaviour
         ///<summary>
         ///Allows the knight to use it's cleave abiltiy
         /// </summary>
-        
+        abilitiesCooldown[0] = 2;
+        attackAvailable = false;
         targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);//simple attack
-        RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, 2, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+        RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, 1, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
         foreach(RaycastHit2D wacked in wack)
         {
-            wacked.collider.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower /3));
+            if (wacked.collider.tag == "Enemy")
+            {
+                wacked.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower / 3));
+            }
         }
 
         //int enemyX = targetUnit.GetComponent<UnitScript>().tileX;
@@ -417,10 +476,11 @@ public class UnitScript : MonoBehaviour
 
     void Execute(GameObject targetUnit)
     {
+        attackAvailable = false;
         ///<summary>
         ///Allows the Samurai to use execute
         ///</summary>
-        if(targetUnit.GetComponent<UnitScript>().health < targetUnit.GetComponent<UnitScript>().maxhealth /2)
+        if (targetUnit.GetComponent<UnitScript>().health < targetUnit.GetComponent<UnitScript>().maxhealth /2)
         {
             int hitChance = Random.Range(0, 100);//Does a normal attack, then if the target's health is lower than half it's max then it does extra damage, otherwise it does normal damage
             animator.SetTrigger("attack");
@@ -453,7 +513,7 @@ public class UnitScript : MonoBehaviour
         //RaycastHit2D[] unitsHit = Physics2D.LinecastAll(gameObject.transform.position, targetUnit.transform.position);
         GameObject bolt = Instantiate(lightningBolt,  Vector3.MoveTowards( gameObject.transform.position,targetUnit.transform.position,.4f), Quaternion.FromToRotation(transform.position, -targetUnit.transform.position));
         bolt.GetComponent<LightningBoltScript>().target = targetUnit.transform.position;
-        
+        attackAvailable = false;
     }
 
     void PiercingShot(GameObject targetUnit)
@@ -462,7 +522,7 @@ public class UnitScript : MonoBehaviour
         ///Simple attack that simply ignores a portion of the target unit's armour
         /// </summary>
         int hitChance = Random.Range(0, 100);
-
+        attackAvailable = false;
         animator.SetTrigger("attack");
         if (hitChance < accuracy - targetUnit.GetComponent<UnitScript>().dodgeRating)
 
@@ -470,7 +530,17 @@ public class UnitScript : MonoBehaviour
             targetUnit.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower + (targetUnit.GetComponent<UnitScript>().damageReduction* .75f)));
         }
     }
-
+    
+    void Parry()
+    {
+        map.UdateCooldowns(gameObject);
+        attackAvailable = false;
+        baseDodge = dodgeRating;
+        baseReduction = damageReduction;
+        abilitiesCooldown[1] = 4;
+        damageReduction = 20;
+        dodgeRating = dodgeRating * 2;
+    }    
 
     private void OnDrawGizmos()
     {

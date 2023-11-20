@@ -1,3 +1,4 @@
+using Mono.CompilerServices.SymbolWriter;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,35 +22,47 @@ public class EnemyScript : MonoBehaviour
 
    public void turnStart()
     {
+        
         GameObject[] playerUnits = GameObject.FindGameObjectsWithTag("team1");
-        int randTarget = Random.Range(0, playerUnits.Length);
-        unitTarget = playerUnits[randTarget];
+        float targetDistance = 100;
+        foreach (GameObject target in playerUnits)
+        {
+            if(map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX) == null)
 
+            {
+                targetDistance = 0;
+                unitTarget = target;
+                return;
+            }
+            if (map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX).Count < targetDistance )
+            {
+                targetDistance = map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX, target.GetComponent<UnitScript>().tileY).Count ;
+                unitTarget = target;
+            }
+        }
         List<Node> possiblePath = map.GenerateMovePath(gameObject,gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileX);
-        print(unitTarget.gameObject.name);
+        
         if (possiblePath != null)
         {
-            {
-                foreach (Node node in possiblePath)
-                {
-                    print(node);
-                }
-            }
-
 
             gameObject.GetComponent<UnitScript>().EnterCourse(unitTarget.GetComponent<UnitScript>().tileX, unitTarget.GetComponent<UnitScript>().tileY, possiblePath);
             gameObject.GetComponent<UnitScript>().EnterCourse(unitTarget.GetComponent<UnitScript>().tileX, unitTarget.GetComponent<UnitScript>().tileY, possiblePath);
         }
-        StartCoroutine(FinishedMove());
+       
             
     }
-    IEnumerator FinishedMove()
+    public void FinishedMove()
     {
-        yield return new WaitForSeconds(5F);
-        List<Node> possiblePath = map.GenerateAttackPath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileX);
-        if (possiblePath.Count -1 < GetComponent<UnitScript>().attackRange)
+        if (unitTarget != null)
         {
-            GetComponent<UnitScript>().attack(unitTarget);
+            if (GetComponent<UnitScript>().attackAvailable)
+            {
+                List<Node> possiblePath = map.GenerateAttackPath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileX);
+                if (possiblePath.Count - 1 < GetComponent<UnitScript>().attackRange)
+                {
+                    GetComponent<UnitScript>().attack(unitTarget);
+                }
+            }
         }
     }
 

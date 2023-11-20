@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
 using UnityEngine.Animations;
+using UnityEditor.Experimental.GraphView;
 
 public class TileMap : MonoBehaviour
 {
@@ -13,13 +14,17 @@ public class TileMap : MonoBehaviour
     public GameObject tile;
     int[,] tiles;
     List<GameObject> tileObjects;
-    int mapSizeX = 10;
-    int mapSizeY = 10;
+   public int mapSizeX = 10;
+    public int mapSizeY = 10;
     public Node[,] graph;
     float tileSize = 0.45f;
     List<Node> currentPath = null;
     public GameObject selectedUnit;
     public List<GameObject> Units;
+    public bool canSelect = true;
+    public GameObject panelEnd;
+    public GameObject panelBackdrop;
+    
     void Awake()
     {
         
@@ -111,12 +116,13 @@ public class TileMap : MonoBehaviour
             {
                 if (u == null || dist[possibleU] < dist[u]) //&& !graph[possibleU.y, possibleU.x].containsUnit)
                 {
+                    
                     u = possibleU;
                 }
             }
             if(u.containsUnit)
             {
-                print("Unit in location");
+                unvisited.Remove(u);
             }
             
             if(u == target)
@@ -199,10 +205,7 @@ public class TileMap : MonoBehaviour
                     u = possibleU;
                 }
             }
-            if (u.containsUnit)
-            {
-                print("Unit in location");
-            }
+            
 
             if (u == target)
             {
@@ -213,14 +216,14 @@ public class TileMap : MonoBehaviour
             foreach (Node v in u.connections)
             {
                 float alt = dist[u] + costToEnter(v.x, v.y);
-                if (alt < dist[v])
+                if ((alt < dist[v]))
                 {
                     dist[v] = alt;
                     prev[v] = u;
                 }
             }
         }
-
+        
         if (prev[target] == null)
         {
             return null;
@@ -291,7 +294,7 @@ public class TileMap : MonoBehaviour
             Node u = null;
             foreach (Node possibleU in unvisited)
             {
-                if (u == null || dist[possibleU] < dist[u]) //&& !graph[possibleU.y, possibleU.x].containsUnit)
+                if ((u == null || dist[possibleU] < dist[u]) ) //&& !graph[possibleU.y, possibleU.x].containsUnit)
                 {
                     u = possibleU;
                 }
@@ -309,7 +312,7 @@ public class TileMap : MonoBehaviour
             unvisited.Remove(u);
             foreach (Node v in u.connections)
             {
-                float alt = dist[u] + costToEnter(v.x, v.y);
+                float alt = dist[u] + 1;
                 if (alt < dist[v])
                 {
                     dist[v] = alt;
@@ -451,6 +454,10 @@ public class TileMap : MonoBehaviour
    public float costToEnter(int x, int y)
     {
         TileType tt = tileTypes[ tiles[x, y]];
+        if(graph[x, y].containsUnit)
+        {
+            return 99;
+        }
         return tt.moveCost;
     }
 
@@ -466,29 +473,55 @@ public class TileMap : MonoBehaviour
         graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].containsUnit = false;
         graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].unit = null;
     }
-
     public void EndTurn()
     {
+        selectedUnit = null;
+        canSelect = false;
+        StartCoroutine("EndTurnA");
+    }
+    public IEnumerator EndTurnA()
+    {
+        panelEnd.SetActive(true);
         foreach (GameObject unit in Units)
         {
             unit.GetComponent<UnitScript>().TurnOver();
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach (GameObject enemy in enemies)
-            {
-                enemy.GetComponent<EnemyScript>().turnStart();
-            }
+            
         }
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            enemy.GetComponent<EnemyScript>().turnStart();
+            yield return new WaitForSeconds(2);
+            enemy.GetComponent<EnemyScript>().FinishedMove();
+        }
+        canSelect = true;
+        panelEnd.SetActive(false);
+        yield return null;
     }
-
+    
     public void UnitSelected(GameObject unit)
     {
-        foreach (GameObject unit_ in Units)
+        if (canSelect && unit.tag!= "Enemy")
         {
-            unit_.GetComponent<SpriteRenderer>().color = Color.white;
-        }
+            foreach (GameObject unit_ in Units)
+            {
+                unit_.GetComponent<SpriteRenderer>().color = Color.white;
+                for (int i = 0 ; i < unit_.GetComponent<UnitScript>().abilitiesTarget.Length; i++)
+                {
+                    
+                    unit_.GetComponent<UnitScript>().abilitiesTarget[i] = false;
+                }
+              
 
-        unit.GetComponent<SpriteRenderer>().color = Color.red;
-        selectedUnit = unit;
+            }
+            panelBackdrop.GetComponent<BackDropScript>().newUnit(unit.GetComponent<UnitScript>().abilityIcons, unit.GetComponent<UnitScript>().abilitiesCooldown);
+            unit.GetComponent<SpriteRenderer>().color = Color.red;
+            selectedUnit = unit;
+        }
+    }
+    public void UdateCooldowns(GameObject unit)
+    {
+        panelBackdrop.GetComponent<BackDropScript>().newUnit(unit.GetComponent<UnitScript>().abilityIcons, unit.GetComponent<UnitScript>().abilitiesCooldown) ;
     }
     public void UnitMoving(GameObject unit)
     {
@@ -502,4 +535,57 @@ public class TileMap : MonoBehaviour
         graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].containsUnit = true;
 
     }
+
+    //public List<Node> aAlgothRecreate(Node prev, Node curr)
+    //{
+
+    //}
+    //public List<Node> aAlgothe(Node curr, Node goal, int estCost)
+    //{
+    //    List<Node> PossiblePath = new List<Node>();
+    //    PossiblePath.Add(graph[curr.x, curr.y]);
+    //    Node cameFrom = null;
+    //    float costToMove = Mathf.Infinity;
+    //    ;
+    //    List<float> gScore = new List<float>();
+    //    gScore.Add(0);
+
+    //    float fScore = Mathf.Infinity;
+
+    //    List<float> fScoreL = new List<float>();
+    //    fScoreL.Add(costToEnter(curr.x, curr.y));
+
+    //    while (PossiblePath.Count != 0)
+    //    {
+    //        Node currentNode = null;
+    //        foreach(Node currNode in PossiblePath)
+    //        {
+    //            if(currentNode == null)
+    //            {
+    //                currentNode = currNode;
+    //            }
+    //            if(costToEnter(currentNode.x, currentNode.y) > costToEnter(currNode.x,currNode.y))
+    //            {
+    //                currentNode = currNode;
+    //            }
+    //        }
+
+    //        if(currentNode == goal)
+    //        {
+    //           return aAlgothRecreate()
+    //        }
+
+    //        PossiblePath.Remove(currentNode);   
+    //        foreach (Node neighbour in currentNode.connections)
+    //        {
+    //            float tenativeScore = gScore[costToEnter(currentNode.x, currentNode.y])] + costToEnter(neighbour.x,neighbour.y)
+    //            if(tenativeScore < 
+    //        }
+
+
+    //    }
+
+
+
+    //}
 }

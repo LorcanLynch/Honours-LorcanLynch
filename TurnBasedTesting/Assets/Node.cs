@@ -6,7 +6,7 @@ using UnityEngine;
     // Start is called before the first frame update
     public class Node
     {
-        public bool containsUnit;
+        public bool containsUnit = false;
         public List<Node> connections;
         public GameObject unit;
         public int x;

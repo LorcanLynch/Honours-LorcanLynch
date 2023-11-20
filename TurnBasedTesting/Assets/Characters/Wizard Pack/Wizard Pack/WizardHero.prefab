@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1459552990621170734}
   m_Layer: 0
   m_Name: WizardHero
-  m_TagString: Untagged
+  m_TagString: team1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,16 +111,17 @@ MonoBehaviour:
   target: {x: 0, y: 0, z: 0}
   targetX: 0
   targetY: 0
-  abilities: []
   abilitiesTarget: 00
   attacking: 0
   animator: {fileID: 0}
   maxMoveSpeed: 3
   moveSpeed: 3
+  maxhealth: 10
   health: 10
   attackPower: 8
   attackRange: 3
   claveHb: {fileID: 0}
+  lightningBolt: {fileID: 0}
   accuracy: 70
   visibility: 0
   dodgeRating: 10
