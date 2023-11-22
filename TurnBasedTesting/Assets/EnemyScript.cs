@@ -32,11 +32,11 @@ public class EnemyScript : MonoBehaviour
             {
                 targetDistance = 0;
                 unitTarget = target;
-                return;
+                
             }
-            if (map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX).Count < targetDistance )
+            else if (map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX).Count < targetDistance )
             {
-                targetDistance = map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX, target.GetComponent<UnitScript>().tileY).Count ;
+                targetDistance = map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX).Count ;
                 unitTarget = target;
             }
         }
@@ -53,7 +53,7 @@ public class EnemyScript : MonoBehaviour
     }
     public void FinishedMove()
     {
-        if (unitTarget != null)
+        if (unitTarget != null) 
         {
             if (GetComponent<UnitScript>().attackAvailable)
             {

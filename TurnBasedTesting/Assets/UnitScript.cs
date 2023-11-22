@@ -68,6 +68,8 @@ public class UnitScript : MonoBehaviour
         gameObject.transform.position = target;
         moveSpeed = maxMoveSpeed;
         animator = GetComponent<Animator>();
+        baseDodge = dodgeRating;
+        baseReduction = damageReduction;
     }
 
     private void OnMouseUp()
@@ -118,7 +120,7 @@ public class UnitScript : MonoBehaviour
                         map.selectedUnit.GetComponent<UnitScript>().LightningStrike(gameObject);
                         break;
                     case heroClass.ranger:
-                        map.selectedUnit.GetComponent<UnitScript>().PiercingShot(gameObject);
+                        map.selectedUnit.GetComponent<UnitScript>().Soothe();
                         break;
                 }
             }
@@ -184,6 +186,23 @@ public class UnitScript : MonoBehaviour
             animator.SetTrigger("damage");
         }
         
+    }
+
+    public void HealDamage(float AP)
+    {
+        /// <summary>
+        /// Causes the unit to take damage
+        /// Starts by reducing it's health by the damage dealt factoring in the Unit's damage reduction, and clamping it so it cant be lower than one
+        /// Then if it's health is below 0 it kills the unit by destroying it
+        /// otherwise we simply play the hit animation.
+        /// </summary>
+        health += AP;
+        if(health > maxhealth)
+        {
+            health = maxhealth;
+        }    
+       
+
     }
     void Update()
     {
@@ -395,7 +414,7 @@ public class UnitScript : MonoBehaviour
         attackAvailable = true;//just resets our turn based actions
         for(int i = 0; i < abilitiesCooldown.Length; i++)
         {
-            if (abilitiesCooldown[i]< 0)
+            if (abilitiesCooldown[i]> 0)
             {
                 abilitiesCooldown[i]--;
             }    
@@ -540,8 +559,21 @@ public class UnitScript : MonoBehaviour
         abilitiesCooldown[1] = 4;
         damageReduction = 20;
         dodgeRating = dodgeRating * 2;
-    }    
+    }
 
+    void Soothe()
+    {
+        map.UdateCooldowns(gameObject);
+        attackAvailable = false;
+        RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, 1, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+        foreach (RaycastHit2D wacked in wack)
+        {
+            if (wacked.collider.tag == "team1")
+            {
+                wacked.collider.gameObject.GetComponent<UnitScript>().HealDamage(3);
+            }
+        }
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

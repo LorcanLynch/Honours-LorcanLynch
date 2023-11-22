@@ -81,84 +81,86 @@ public class TileMap : MonoBehaviour
     // Update is called once per frame
     public void GeneratePathTo(int x, int y, bool move)
     {
-        selectedUnit.GetComponent<UnitScript>().map = this;
-        currentPath = null;
-        
-        Dictionary<Node,float> dist = new Dictionary<Node,float>();
-        Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
-
-        List<Node> unvisited = new List<Node>();
-
-        Node source = graph[selectedUnit.GetComponent<UnitScript>().tileX,
-                             selectedUnit.GetComponent<UnitScript>().tileY
-                             ];
-
-        Node target = graph[y,x];
-        //if(target.containsUnit)
-        
-        dist[source] = 0;
-        prev[source] = null;
-
-        foreach(Node v in graph)
+        if (selectedUnit != null)
         {
-            if (v != source)
-            {
-                dist[v] = Mathf.Infinity;
-                prev[v] = null;
-            }
-            unvisited.Add(v);
-        }
+            selectedUnit.GetComponent<UnitScript>().map = this;
+            currentPath = null;
 
-        while(unvisited.Count > 0)
-        {
-            Node u = null;
-            foreach(Node possibleU in unvisited)
+            Dictionary<Node, float> dist = new Dictionary<Node, float>();
+            Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
+
+            List<Node> unvisited = new List<Node>();
+
+            Node source = graph[selectedUnit.GetComponent<UnitScript>().tileX,
+                                 selectedUnit.GetComponent<UnitScript>().tileY
+                                 ];
+
+            Node target = graph[y, x];
+            //if(target.containsUnit)
+
+            dist[source] = 0;
+            prev[source] = null;
+
+            foreach (Node v in graph)
             {
-                if (u == null || dist[possibleU] < dist[u]) //&& !graph[possibleU.y, possibleU.x].containsUnit)
+                if (v != source)
                 {
-                    
-                    u = possibleU;
+                    dist[v] = Mathf.Infinity;
+                    prev[v] = null;
                 }
+                unvisited.Add(v);
             }
-            if(u.containsUnit)
+
+            while (unvisited.Count > 0)
             {
+                Node u = null;
+                foreach (Node possibleU in unvisited)
+                {
+                    if (u == null || dist[possibleU] < dist[u]) //&& !graph[possibleU.y, possibleU.x].containsUnit)
+                    {
+
+                        u = possibleU;
+                    }
+                }
+                if (u.containsUnit)
+                {
+                    unvisited.Remove(u);
+                }
+
+                if (u == target)
+                {
+
+                    break;
+                }
                 unvisited.Remove(u);
-            }
-            
-            if(u == target)
-            {
-                
-                break;
-            }
-            unvisited.Remove(u);
-            foreach(Node v in u.connections)
-            {
-                float alt = dist[u] + costToEnter(v.x,v.y); 
-                if( alt < dist[v] )
+                foreach (Node v in u.connections)
                 {
-                    dist[v] = alt;
-                    prev[v] = u;
+                    float alt = dist[u] + costToEnter(v.x, v.y);
+                    if (alt < dist[v])
+                    {
+                        dist[v] = alt;
+                        prev[v] = u;
+                    }
                 }
             }
+
+            if (prev[target] == null)
+            {
+                return;
+            }
+            currentPath = new List<Node>();
+            Node curr = target;
+            while (curr != null)
+            {
+                currentPath.Add(curr);
+                curr = prev[curr];
+            }
+            currentPath.Reverse();
+            if (move)
+            {
+                selectedUnit.GetComponent<UnitScript>().EnterCourse(x, y, currentPath);
+            }
         }
-        
-        if (prev[target] == null)
-        {
-            return;
-        }
-        currentPath = new List<Node>();
-        Node curr = target;
-        while (curr != null)
-        {
-            currentPath.Add(curr);
-            curr = prev[curr];
-        }
-        currentPath.Reverse();
-        if(move)
-        {
-            selectedUnit.GetComponent<UnitScript>().EnterCourse(x, y, currentPath);
-        }
-        
         
         
 
@@ -477,7 +479,11 @@ public class TileMap : MonoBehaviour
     {
         selectedUnit = null;
         canSelect = false;
-        StartCoroutine("EndTurnA");
+        foreach (GameObject unit_ in Units)
+        {
+            unit_.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+            StartCoroutine("EndTurnA");
     }
     public IEnumerator EndTurnA()
     {
