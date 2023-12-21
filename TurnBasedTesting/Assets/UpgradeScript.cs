@@ -286,6 +286,57 @@ public class UpgradeScript : MonoBehaviour
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().Bombardment = true;
         upgradeContainers.Remove("BombardmentContainer");
+        upgradeContainers.Remove("LifeDrainContainer");
+        upgradeContainers.Remove("IncantationContainer");
+        targetButton.gameObject.SetActive(false);
+        upgradesAvailable--;
+        if (upgradesAvailable == 0)
+        {
+            UpgradesCancelled();
+        }
+    }
+    void LifeDrainContainer()
+    {
+        int button = Random.Range(0, upgradeButtons.Count);
+        Button target = upgradeButtons[button];
+        upgradeButtons.RemoveAt(button);
+        target.GetComponent<Image>().sprite = abilitySprites[2];
+        target.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Third Abilty becomes life drain, a standard attack that heals \n the wizard for the damage done";
+        target.onClick.RemoveAllListeners();
+        target.onClick.AddListener(delegate { LifeDrainOnClick(target); });
+    }
+    void LifeDrainOnClick(Button targetButton)
+    {
+
+        GameObject.Find("Wizard").GetComponent<WizardScript>().lifeDrain = true;
+        upgradeContainers.Remove("BombardmentContainer");
+        upgradeContainers.Remove("LifeDrainContainer");
+        upgradeContainers.Remove("IncantationContainer");
+        targetButton.gameObject.SetActive(false);
+        upgradesAvailable--;
+        if (upgradesAvailable == 0)
+        {
+            UpgradesCancelled();
+        }
+    }
+
+    void IncantationContainer()
+    {
+        int button = Random.Range(0, upgradeButtons.Count);
+        Button target = upgradeButtons[button];
+        upgradeButtons.RemoveAt(button);
+        target.GetComponent<Image>().sprite = abilitySprites[2];
+        target.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Third Abilty becomes Incantation of Power, an AoE buff that increases damage done \n of all nearby allies";
+        target.onClick.RemoveAllListeners();
+        target.onClick.AddListener(delegate { IncantationOnClick(target); });
+    }
+    void IncantationOnClick(Button targetButton)
+    {
+
+        GameObject.Find("Wizard").GetComponent<WizardScript>().incantationOfPower = true;
+        upgradeContainers.Remove("BombardmentContainer");
+        upgradeContainers.Remove("LifeDrainContainer");
+        upgradeContainers.Remove("IncantationContainer");
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
@@ -307,7 +358,7 @@ public class UpgradeScript : MonoBehaviour
     {
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
-        upgradeContainers.Remove("BombardmentContainer");
+        upgradeContainers.Remove("FireballContainer");
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
