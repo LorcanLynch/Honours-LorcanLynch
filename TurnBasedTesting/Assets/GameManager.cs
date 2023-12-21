@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,61 +12,129 @@ public class GameManager : MonoBehaviour
     public TileMap tileMap;
     GameObject previousUnit;
     Node[,] graph;
+    public GameObject unitPrefab;
+    
+    List<Node> spawnableTiles = new List<Node> { };   
     // Start is called before the first frame update
     void Start()
     {
-        graph = tileMap.graph;
+          
+            
+       
+        
+    }
+    private void Awake()
+    {
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+     if(Input.GetKeyUp(KeyCode.Y))
+        {
+            
+                SpawnUnit(1, 3);
+            
+         
+        }
     }
 
-    public void AddUnit(GameObject unit)
+    void SpawnUnit()
     {
-        Units.Add(unit);
-        graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].containsUnit = true;
-        graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].unit = unit;
-    }
-    
-    public void EndTurn()
-    {
-        foreach(GameObject unit in Units)
+        spawnableTiles.Clear();
+        for (int x = 0; x < tileMap.mapSizeX; x++)
         {
-            unit.GetComponent<UnitScript>().TurnOver();
-          GameObject[] enemies =  GameObject.FindGameObjectsWithTag("Enemy");
-            foreach(GameObject enemy in enemies)
+            for (int y = 0; y < tileMap.mapSizeY; y++)
             {
-                enemy.GetComponent<EnemyScript>().turnStart();
+
+                if (tileMap.tiles[x, y] == 0)
+                {
+                    spawnableTiles.Add(tileMap.graph[x, y]);
+                }
+
             }
         }
-    }
-
-    public void UnitSelected(GameObject unit)
-    {
-        foreach (GameObject unit_ in Units)
+        //print(spawnableTiles.Count);
+        
+        int spawnLoc = UnityEngine.Random.Range(0, spawnableTiles.Count);
+        if(tileMap.graph[spawnableTiles[spawnLoc].x, spawnableTiles[spawnLoc].y].containsUnit == false)
         {
-            unit_.GetComponent<SpriteRenderer>().color = Color.white;
+            GameObject unit = Instantiate(unitPrefab);
+            tileMap.graph[spawnableTiles[spawnLoc].x, spawnableTiles[spawnLoc].y].containsUnit = true;
+            unit.GetComponent<UnitScript>().tileX = spawnableTiles[spawnLoc].x;
+            unit.GetComponent<UnitScript>().tileY = spawnableTiles[spawnLoc].y;
+            
+            
+        }
+        else
+        {
+            print("happened");
+            SpawnUnit();
+        }
+        
+        
+
+    }
+    
+    public void SpawnUnit(int tileX,int tileY)
+    {
+        if(tileX< 0 ||  tileY<0|| tileX>tileMap.mapSizeX || tileY> tileMap.mapSizeY)
+        {
+            return;
+        }    
+        spawnableTiles.Clear();
+        for (int x = 0; x < tileMap.mapSizeX; x++)
+        {
+            for (int y = 0; y < tileMap.mapSizeY; y++)
+            {
+
+                if (tileMap.tiles[x, y] == 0)
+                {
+                    spawnableTiles.Add(tileMap.graph[x, y]);
+                }
+
+            }
+        }
+        //print(spawnableTiles.Count);
+
+       
+        if (tileMap.graph[tileX,tileY].containsUnit == false && tileMap.tiles[tileX, tileY] == 0)
+        {
+            GameObject unit = Instantiate(unitPrefab);
+            tileMap.graph[tileX,tileY].containsUnit = true;
+            unit.GetComponent<UnitScript>().tileX = tileX;
+            unit.GetComponent<UnitScript>().tileY = tileY;
+
+
+        }
+        else
+        {
+            print("happened");
+            int i = 0;
+            foreach(Node neighbour in tileMap.graph[tileX,tileY].connections)
+            {
+                i++;
+                if (neighbour.containsUnit == false && tileMap.tiles[neighbour.x,neighbour.y] == 0)
+                {
+                    SpawnUnit(neighbour.x, neighbour.y);
+                    break;
+                }
+                if(i>5)
+                {
+                   
+                    SpawnUnit(tileX, tileY +1);
+                   
+                }
+                
+                
+            }
+           
         }
 
-        unit.GetComponent<SpriteRenderer>().color = Color.red;
-        tileMap.selectedUnit = unit;
-    }
-    public void UnitMoving(GameObject unit)
-    {
-        graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].containsUnit = false;
-        graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].unit = null;
-        tileMap.graph = graph;
-        
+
+
     }
 
-    public void UnitStopped(GameObject unit)
-    {
-        graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].containsUnit = true;
-        graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].unit = unit;
-        tileMap.graph = graph;
-    }
-   
+
 }
