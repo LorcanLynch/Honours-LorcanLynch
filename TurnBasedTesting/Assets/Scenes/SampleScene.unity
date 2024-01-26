@@ -123,6 +123,71 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &15730456
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 62056801, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 62056801, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.8995843
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.109883666
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877622, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+      propertyPath: m_Name
+      value: Goblin
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
 --- !u!1 &86463117
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,7 +1272,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 373728223162344291, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 373728223162344291, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1263,6 +1328,79 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
+--- !u!1001 &634682751
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 62056801, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 62056801, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877617, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: tileX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877617, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: tileY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.297
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.126
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877619, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097717318652877622, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
+      propertyPath: m_Name
+      value: SkeleLord
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
 --- !u!1 &635404106
 GameObject:
   m_ObjectHideFlags: 0
@@ -1545,6 +1683,7 @@ GameObject:
   - component: {fileID: 689286361}
   - component: {fileID: 689286360}
   - component: {fileID: 689286359}
+  - component: {fileID: 689286362}
   m_Layer: 5
   m_Name: upgrade4
   m_TagString: Untagged
@@ -1655,6 +1794,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689286357}
   m_CullTransparentMesh: 1
+--- !u!114 &689286362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689286357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27bb2a2651c64864b92823f361c4ff42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeContainers: []
+  attachedButton: {fileID: 689286359}
+  abilitySprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  upgradesAvailable: 0
+  upgradeScreen: {fileID: 1296766528}
+  tileMapObj: {fileID: 1549699624}
 --- !u!1 &696405147
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,6 +2113,7 @@ GameObject:
   - component: {fileID: 778014115}
   - component: {fileID: 778014114}
   - component: {fileID: 778014113}
+  - component: {fileID: 778014116}
   m_Layer: 5
   m_Name: upgrade3
   m_TagString: Untagged
@@ -2046,6 +2224,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 778014111}
   m_CullTransparentMesh: 1
+--- !u!114 &778014116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778014111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e416e1e29728f742943a074e9cf8718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeContainers: []
+  attachedButton: {fileID: 778014113}
+  abilitySprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  upgradesAvailable: 0
+  upgradeScreen: {fileID: 1296766528}
+  tileMapObj: {fileID: 0}
 --- !u!114 &812245628 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7537953705367687852, guid: 6fd914f4ef9f32b45981f7d561cca654, type: 3}
@@ -2207,7 +2423,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &873231825
 GameObject:
@@ -2489,6 +2705,7 @@ GameObject:
   m_Component:
   - component: {fileID: 953613202}
   - component: {fileID: 953613205}
+  - component: {fileID: 953613206}
   - component: {fileID: 953613204}
   - component: {fileID: 953613203}
   m_Layer: 5
@@ -2601,6 +2818,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953613201}
   m_CullTransparentMesh: 1
+--- !u!114 &953613206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953613201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06d5a5d4f5ccdb64785781c6c1916f9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeContainers: []
+  attachedButton: {fileID: 953613203}
+  abilitySprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  upgradesAvailable: 0
+  upgradeScreen: {fileID: 1296766528}
+  tileMapObj: {fileID: 0}
 --- !u!1001 &1058335861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2622,7 +2877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6777011672565598527, guid: 6c8c7e93caf7aef4eb1fe793022e5527, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6777011672565598527, guid: 6c8c7e93caf7aef4eb1fe793022e5527, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2683,7 +2938,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1097717318652877619, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1097717318652877619, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2835,6 +3090,7 @@ GameObject:
   - component: {fileID: 1225913383}
   - component: {fileID: 1225913382}
   - component: {fileID: 1225913381}
+  - component: {fileID: 1225913384}
   m_Layer: 5
   m_Name: upgrade2
   m_TagString: Untagged
@@ -2945,6 +3201,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1225913379}
   m_CullTransparentMesh: 1
+--- !u!114 &1225913384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225913379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f0a3c6003ce5c46b2e5433597c9691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeContainers: []
+  attachedButton: {fileID: 1225913381}
+  abilitySprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  upgradesAvailable: 0
+  upgradeScreen: {fileID: 1296766528}
+  tileMapObj: {fileID: 0}
 --- !u!1 &1296766528
 GameObject:
   m_ObjectHideFlags: 0
@@ -2962,7 +3256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1296766529
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3226,7 +3520,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1506454482
 GameObject:
@@ -3382,7 +3676,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1549699624
 MonoBehaviour:
@@ -3403,7 +3697,11 @@ MonoBehaviour:
   bosses:
   - {fileID: 1097717318652877622, guid: 7a342016cf853bc4fb46db7d28b5938c, type: 3}
   vicPanel: {fileID: 1296766528}
-  upgradePanels: {fileID: 1706478091}
+  upgradePanels:
+  - {fileID: 953613201}
+  - {fileID: 1225913379}
+  - {fileID: 778014111}
+  - {fileID: 689286357}
 --- !u!1 &1684489904
 GameObject:
   m_ObjectHideFlags: 0
@@ -3628,7 +3926,6 @@ GameObject:
   - component: {fileID: 1706478089}
   - component: {fileID: 1706478088}
   - component: {fileID: 1706478087}
-  - component: {fileID: 1706478091}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3716,55 +4013,13 @@ RectTransform:
   - {fileID: 1296766529}
   - {fileID: 348416372}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1706478091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1706478086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72f65f157b27bf9449ac56ea4dfb825f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeButtons:
-  - {fileID: 953613203}
-  - {fileID: 1225913381}
-  - {fileID: 778014113}
-  - {fileID: 689286359}
-  tileMapObj: {fileID: 0}
-  abilitySprites:
-  - {fileID: 21300000, guid: 7bc431d9cc6a1fd48a16efbc342a6833, type: 3}
-  - {fileID: 21300000, guid: e8cef51d3e37dc745aa786f42313e9cd, type: 3}
-  - {fileID: 21300000, guid: c87a5ced26315c340a732e2c99a56b31, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  upgradeContainers: []
-  upgradesAvailable: 2
-  upgradeScreen: {fileID: 0}
 --- !u!1 &1789862707
 GameObject:
   m_ObjectHideFlags: 0
@@ -4210,7 +4465,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2007738566
 GameObject:
@@ -4460,7 +4715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 373728223162344291, guid: e072ee0e89f0e8d4a899d7a0aaeb51d2, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 373728223162344291, guid: e072ee0e89f0e8d4a899d7a0aaeb51d2, type: 3}
       propertyPath: m_LocalPosition.x

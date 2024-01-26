@@ -65,6 +65,7 @@ public class SkeletonLord : EnemyScript
         {
             map.gm.SpawnUnit(gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY);
         }
+        gameObject.GetComponentInChildren<Animator>().SetTrigger("spell");
         bonesCD =3;
 
     }
@@ -79,10 +80,11 @@ public class SkeletonLord : EnemyScript
                 gameObject.GetComponent<UnitScript>().health += 5;
             }
         }
-        expulsionCD = 5;
+        gameObject.GetComponentInChildren<Animator>().SetTrigger("spell");
+        bodiesCD = 5;
     }
 
-    void NecromanticExpulsion()
+    public void NecromanticExpulsion()
     {
         GameObject[] playerUnits = GameObject.FindGameObjectsWithTag("team1");
         float targetDistance = 0;
@@ -113,8 +115,8 @@ public class SkeletonLord : EnemyScript
             }
 
         }
-        
-
+        gameObject.GetComponentInChildren<Animator>().SetTrigger("spell");
+        expulsionCD = 5;
     }
 
 

@@ -38,7 +38,9 @@ public class UnitScript : MonoBehaviour
     public Animator animator;
     public string UnitName;
     public bool stunned;
-
+    public bool burning;
+    public int burnTimer;
+    public int burnDamage = 0;
     //**UNIT STATS**//
 
     public float maxMoveSpeed = 2;
@@ -68,7 +70,7 @@ public class UnitScript : MonoBehaviour
         target = map.TileCoordToWorldCoord(tileX, tileY);
         
         moveSpeed = maxMoveSpeed;
-        animator = GetComponent<Animator>();
+        if (animator == null) { animator = GetComponent<Animator>(); }
         baseDodge = dodgeRating;
         baseReduction = damageReduction;
         gameObject.transform.position = target;
@@ -115,10 +117,15 @@ public class UnitScript : MonoBehaviour
 
                 map.selectedUnit.GetComponent<UnitScript>().Ability3(gameObject);
             }
-            else if (map.selectedUnit.GetComponent<UnitScript>().attacking && map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY))
+            else if (map.selectedUnit.GetComponent<UnitScript>().attacking && gameObject.tag != map.selectedUnit.tag)
             // if the unit can attack but isnt trying to use an ability then we simply attack with their basic ability
             {
-                map.selectedUnit.GetComponent<UnitScript>().attack(gameObject);
+            if (map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY))
+            {
+                
+                    map.selectedUnit.GetComponent<UnitScript>().attack(gameObject);
+                
+            }
             }
             else
             {
@@ -142,7 +149,7 @@ public class UnitScript : MonoBehaviour
         ///Then we see if the number we rolled is below the units accuracy minus the target's dodge chance
         ///finally if that is true we cause the unit to take damage which is shown later
         ///</summary>
-        
+
         int hitChance = Random.Range(0, 100);
 
         animator.SetTrigger("attack");
@@ -150,10 +157,14 @@ public class UnitScript : MonoBehaviour
 
         {
             target.GetComponent<UnitScript>().UnitDamage(attackPower);
-        }
 
-        attackAvailable = false;
+        }
+        else
+        {
+            text.GetComponent<DamageTextScript>().UpdateText("Miss");
+        }
         attacking = false;
+        attackAvailable = false;
     }
     private void Awake()
     {
@@ -434,7 +445,31 @@ public class UnitScript : MonoBehaviour
         ///</summary>
 
         List<Node> possiblePath = map.GenerateAttackPath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, y, x);
-        if (possiblePath.Count - 1 <= attackRange)
+            if (possiblePath.Count - 1 <= attackRange ||possiblePath ==  null)
+            {
+            print(possiblePath.Count);
+            return true;
+           
+            }
+        else
+        {
+            print("Miss?");
+            return false;
+        }
+       
+
+
+
+
+    }
+    public bool CheckAttackDistance(int x, int y,int rng)
+    {
+        ///<summary>
+        ///Really simple function that checks if the range we need to attack across is within the unit's range
+        ///</summary>
+
+        List<Node> possiblePath = map.GenerateAttackPath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, y, x);
+        if (possiblePath.Count - 1 <= rng)
         {
             return true;
 
@@ -444,6 +479,13 @@ public class UnitScript : MonoBehaviour
 
 
 
+    }
+
+    public void Burn(int length, int damage)
+    {
+        burning = true;
+        burnTimer = length;
+        burnDamage = damage;
     }
 
 
@@ -474,6 +516,16 @@ public class UnitScript : MonoBehaviour
                 {
                     tile.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
                 }
+            }
+        }
+
+        if(burning)
+        {
+            UnitDamage(burnDamage + damageReduction);
+            burnTimer--;
+            if(burnTimer == 0)
+            {
+                burning = false;
             }
         }
         

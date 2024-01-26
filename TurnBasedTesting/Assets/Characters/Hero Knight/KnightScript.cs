@@ -66,36 +66,38 @@ public class KnightScript : UnitScript
 
     public override void attack(GameObject target)
     {
-
-        if(lordlyGreatsword)
+        if (attackAvailable)
         {
-            RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-            foreach (RaycastHit2D hit in targets)
+            if (lordlyGreatsword)
             {
-                if (hit.collider.tag == "Enemy")
+                RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                foreach (RaycastHit2D hit in targets)
                 {
-                    hit.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower / 4));
+                    if (hit.collider.tag == "Enemy")
+                    {
+                        hit.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower / 4));
+                    }
                 }
             }
-        }
-        int hitChance = Random.Range(0, 100);
+            int hitChance = Random.Range(0, 100);
 
-        animator.SetTrigger("attack");
-        if (hitChance < accuracy - target.GetComponent<UnitScript>().dodgeRating)
+            animator.SetTrigger("attack");
+            if (hitChance < accuracy - target.GetComponent<UnitScript>().dodgeRating)
 
-        {
-            target.GetComponent<UnitScript>().UnitDamage(attackPower);
-            if(litBlade > 0)
             {
                 target.GetComponent<UnitScript>().UnitDamage(attackPower);
-            }    
+                if (litBlade > 0)
+                {
+                    target.GetComponent<UnitScript>().UnitDamage(attackPower);
+                }
+            }
+            else
+            {
+                text.GetComponent<DamageTextScript>().UpdateText("Miss");
+            }
+            attacking = false;
+            attackAvailable = false;
         }
-        else
-        {
-            text.GetComponent<DamageTextScript>().UpdateText("Miss");
-        }
-        attacking = false;
-        attackAvailable = false;
     }
 
     public override void Ability1(GameObject targetUnit)

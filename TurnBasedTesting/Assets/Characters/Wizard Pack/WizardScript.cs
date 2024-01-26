@@ -12,10 +12,52 @@ public class WizardScript : UnitScript
     public bool greaterInvocation;
     public bool PowerSurge;
     public bool Bombardment;
-    
+    public bool soulDrain;
+    GameObject drained = null;
+    public int drainedTimer;
     GameObject surged;
     List<GameObject> buffed = new List<GameObject> { };
     public int incatationed = 0;
+    public bool fireLord;
+    public bool iceLord;
+
+    public override void attack(GameObject target)
+    {
+
+        ///<summary>
+        ///Really simple attack function, first it generates a random number to hit, kind of like a lot of Table top systems might use
+        ///Then we see if the number we rolled is below the units accuracy minus the target's dodge chance
+        ///finally if that is true we cause the unit to take damage which is shown later
+        ///</summary>
+        if (attackAvailable)
+        {
+            int hitChance = Random.Range(0, 100);
+
+            animator.SetTrigger("attack");
+            if (hitChance < accuracy - target.GetComponent<UnitScript>().dodgeRating)
+            {
+                target.GetComponent<UnitScript>().UnitDamage(attackPower);
+                if (fireLord)
+                {
+                    target.GetComponent<UnitScript>().Burn(4, 2);
+                }
+                if (iceLord)
+                {
+                    int stunChance = Random.Range(0, 100);
+                    if (stunChance > 25)
+                    {
+                        target.GetComponent<UnitScript>().stunned = true;
+                    }
+                }
+
+
+                attackAvailable = false;
+                attacking = false;
+            }
+        }
+
+        
+    }
     public override void Ability1(GameObject targetUnit)
     {
         ///<summary>
@@ -56,7 +98,7 @@ public class WizardScript : UnitScript
         if (targetUnit.tag != gameObject.tag && map.GenerateAttackPath(gameObject, targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, tileY, tileX).Count - 2 < 10 && Bombardment)
         {
             targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower/2);
-            abilitiesTarget[2] = false;
+           
         }
 
         if (lifeDrain)
@@ -65,7 +107,11 @@ public class WizardScript : UnitScript
             {
                 targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);
                 gameObject.GetComponent<UnitScript>().HealDamage(attackPower - targetUnit.GetComponent<UnitScript>().damageReduction);
-
+                if(soulDrain)
+                {
+                    drained = targetUnit;
+                    drainedTimer = 4;
+                }
             }
         }
         if(incantationOfPower)
@@ -86,8 +132,10 @@ public class WizardScript : UnitScript
                     buffed.Add(hit.collider.gameObject);
                 }
             }
-            attackAvailable = false;
+            
         }
+        attackAvailable = false;
+        abilitiesTarget[2] = false;
     }
 
     public override void Ability4(GameObject targetUnit)
@@ -135,8 +183,17 @@ public class WizardScript : UnitScript
                 }
             }
         }
+        if(drained != null)
+        {
+            drained.GetComponent<UnitScript>().UnitDamage(damageReduction/4 + drained.GetComponent<UnitScript>().damageReduction);
+            drainedTimer--;
+            if(drainedTimer == 0)
+            {
+                drained = null;
+            }
+        }
         
-      
+
         base.TurnOver();
     }
 

@@ -521,10 +521,13 @@ MonoBehaviour:
   animator: {fileID: 0}
   UnitName: Skeleton
   stunned: 0
+  burning: 0
+  burnTimer: 0
+  burnDamage: 0
   maxMoveSpeed: 3
   moveSpeed: 3
-  maxhealth: 5
-  health: 5
+  maxhealth: 6
+  health: 6
   attackPower: 3
   attackRange: 2
   claveHb: {fileID: 0}
@@ -532,7 +535,7 @@ MonoBehaviour:
   accuracy: 80
   visibility: 0
   dodgeRating: 5
-  damageReduction: 1
+  damageReduction: 2
   text: {fileID: 1352303638216423341}
   lineRenderer: {fileID: 0}
   speedFloatVal: 3
@@ -661,7 +664,7 @@ Animator:
   m_GameObject: {fileID: 1097717318652877622}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e8b6fa248be5cf246b1ec569940431b7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 64fba1fade2baed4ab2df13e85d59d73, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -705,7 +708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 0}
-  aggroRange: 3
+  aggroRange: 5
 --- !u!1 &7700022161010682661
 GameObject:
   m_ObjectHideFlags: 0

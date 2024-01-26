@@ -24,10 +24,27 @@ public class UpgradeScript : MonoBehaviour
         upgradeContainers.Add("ParryDodgeChanceContainer");
         upgradeContainers.Add("FrenziedContainer");
         upgradeContainers.Add("GloryContainer");
+        upgradeContainers.Add("UnstopableContainer");
+
+        //Wizard Upgrades
         upgradeContainers.Add("SeekingBlastContainer");
         upgradeContainers.Add("PowerSurgeContainer");
         upgradeContainers.Add("BombardmentContainer");
+        upgradeContainers.Add("IceKingContainer");
+        upgradeContainers.Add("FireLordContainer");
+        upgradeContainers.Add("FireBallContainer");
+        
+        upgradeContainers.Add("LifeDrainContainer");
+        upgradeContainers.Add("IncantationContainer");
         upgradeScreen = GameObject.Find("VictoryScreen");
+
+
+        //Huntress Upgrades
+        upgradeContainers.Add("LastingInfluenceContainer");
+
+
+        //Sam Upgrades
+        
         upgradeScreen.SetActive(false);
         upgradesAllowed();
 
@@ -52,8 +69,9 @@ public class UpgradeScript : MonoBehaviour
         upgradesAvailable = 2;
         for(int y = 0; y <4; y++)
         {
+            
             x = Random.Range(0, possibleContainers.Count);
-            Invoke(upgradeContainers[x], 0.1f);
+            Invoke(upgradeContainers[x], 0.1f * y);
             possibleContainers.RemoveAt(x);
             print(x);
         }    
@@ -78,14 +96,15 @@ public class UpgradeScript : MonoBehaviour
         target.GetComponentInChildren<TextMeshProUGUI>().text = "+1 range, and cleave now sweeps \n all in range, stunning them for one turn";
         target.onClick.RemoveAllListeners();
         target.onClick.AddListener(delegate { HalberdOnClick(target); });
-       
+        upgradeContainers.Remove("HalberdContainer");
+
     }
 
     void HalberdOnClick(Button targetButton)
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().domumHalberd = true;
         GameObject.Find("Knight").GetComponent<KnightScript>().attackRange++;
-        upgradeContainers.Remove("HalberdContainer");
+       
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if(upgradesAvailable == 0)
@@ -104,12 +123,13 @@ public class UpgradeScript : MonoBehaviour
         target.GetComponentInChildren<TextMeshProUGUI>().text = "After Activating Parry, the first time the knight is struck they take no damage and strike all enemies in range";
         target.onClick.RemoveAllListeners();
         target.onClick.AddListener(delegate { ParryStrikeOnClick(target); });
+        upgradeContainers.Remove("ParryStikebackContainer");
 
     }
     void ParryStrikeOnClick(Button targetButton)
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().parryDamage = true;
-        upgradeContainers.Remove("ParryStikebackContainer");
+      
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
@@ -127,13 +147,14 @@ public class UpgradeScript : MonoBehaviour
         target.GetComponentInChildren<TextMeshProUGUI>().text = "Parry now increases dodge by 4x(Previously 2x), and its cooldown is one turn shorter";
         target.onClick.RemoveAllListeners();
         target.onClick.AddListener(delegate { ParryHoldfastOnClick(target); });
+        upgradeContainers.Remove("ParryDodgeChanceContainer");
 
     }
 
     void ParryHoldfastOnClick(Button targetButton)
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().parryHoldfast = true;
-        upgradeContainers.Remove("ParryDodgeChanceContainer");
+      
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
@@ -151,14 +172,15 @@ public class UpgradeScript : MonoBehaviour
         target.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 3rd ability becomes 'Frenzied Strike', which attacks the same target 3 times in quick succession";
         target.onClick.RemoveAllListeners();
         target.onClick.AddListener(delegate { FrenziedOnClick(target); });
+        upgradeContainers.Remove("GloryContainer");
+        upgradeContainers.Remove("FrenziedContainer");
+        upgradeContainers.Remove("UnstopableContainer");
     }
 
     void FrenziedOnClick(Button targetButton)
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().frenziedStrike = true;
-        upgradeContainers.Remove("GloryContainer");
-        upgradeContainers.Remove("FrenziedContainer");
-        upgradeContainers.Remove("UnstopableContainer");
+    
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
@@ -176,13 +198,14 @@ public class UpgradeScript : MonoBehaviour
         target.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 3rd ability becomes 'Glory or Death', Granting +2 Damage reduction to all friendly units within 2 tiles";
         target.onClick.RemoveAllListeners();
         target.onClick.AddListener(delegate { GloryOnClick(target); });
+        upgradeContainers.Remove("GloryContainer");
+        upgradeContainers.Remove("FrenziedContainer");
+        upgradeContainers.Remove("UnstopableContainer");
     }
     void GloryOnClick(Button targetButton)
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().righteousGlory = true;
-        upgradeContainers.Remove("GloryContainer");
-        upgradeContainers.Remove("FrenziedContainer");
-        upgradeContainers.Remove("UnstopableContainer");
+       
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
@@ -198,15 +221,16 @@ public class UpgradeScript : MonoBehaviour
         upgradeButtons.RemoveAt(button);
         target.GetComponent<Image>().sprite = abilitySprites[2];
         target.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 3rd ability becomes 'Unstopable Force', Causing them to take no damage until their next turn";
+        upgradeContainers.Remove("GloryContainer");
+        upgradeContainers.Remove("FrenziedContainer");
+        upgradeContainers.Remove("UnstopableContainer");
         target.onClick.RemoveAllListeners();
         target.onClick.AddListener(delegate { UnstopableOnClick(target); });
     }
     void UnstopableOnClick(Button targetButton)
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().unstopableForce = true;
-        upgradeContainers.Remove("GloryContainer");
-        upgradeContainers.Remove("FrenziedContainer");
-        upgradeContainers.Remove("UnstopableContainer");
+       
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
@@ -247,6 +271,60 @@ public class UpgradeScript : MonoBehaviour
         }
     }
 
+    void FireLordContainer()
+    {
+        int button = Random.Range(0, upgradeButtons.Count);
+        Button target = upgradeButtons[button];
+        upgradeButtons.RemoveAt(button);
+        target.GetComponent<Image>().sprite = abilitySprites[0];
+        target.GetComponentInChildren<TextMeshProUGUI>().text = "The wizard's basic attacks now deal +2 damage and apply a 4 Turn Burn, dealing damage over time \n but accuracy is reduced by 10";
+        target.onClick.RemoveAllListeners();
+        target.onClick.AddListener(delegate { FireLordOnClick(target); });
+        upgradeContainers.Remove("FireLordContainer");
+        upgradeContainers.Remove("SeekingBlastContainer");
+        upgradeContainers.Remove("IceKingContainer");
+
+    }
+
+    void FireLordOnClick(Button targetButton)
+    {
+        GameObject.Find("Wizard").GetComponent<WizardScript>().fireLord = true;
+       
+        targetButton.gameObject.SetActive(false);
+        upgradesAvailable--;
+        if (upgradesAvailable == 0)
+        {
+            UpgradesCancelled();
+        }
+
+    }
+
+    void IceKingContainer()
+    {
+        int button = Random.Range(0, upgradeButtons.Count);
+        Button target = upgradeButtons[button];
+        upgradeButtons.RemoveAt(button);
+        target.GetComponent<Image>().sprite = abilitySprites[0];
+        target.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard now has a chance to freeze enemies with his basic attacks, stunning them";
+        target.onClick.RemoveAllListeners();
+        target.onClick.AddListener(delegate { FireLordOnClick(target); });
+        upgradeContainers.Remove("IceKingContainer");
+        upgradeContainers.Remove("FireLordContainer");
+
+    }
+
+    void IceKingOnClick(Button targetButton)
+    {
+        GameObject.Find("Wizard").GetComponent<WizardScript>().fireLord = true;
+        
+        targetButton.gameObject.SetActive(false);
+        upgradesAvailable--;
+        if (upgradesAvailable == 0)
+        {
+            UpgradesCancelled();
+        }
+
+    }
     void PowerSurgeContainer()
     {
         int button = Random.Range(0, upgradeButtons.Count);
@@ -256,13 +334,14 @@ public class UpgradeScript : MonoBehaviour
         target.GetComponentInChildren<TextMeshProUGUI>().text = "Surge now also grants +4 damage, and 2 additional move speed \n (This exceeds a character's max move speed)";
         target.onClick.RemoveAllListeners();
         target.onClick.AddListener(delegate { PowerSurgeOnClick(target); });
+        upgradeContainers.Remove("PowerSurgeContainer");
     }
 
     void PowerSurgeOnClick(Button targetButton)
     {
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().PowerSurge = true;
-        upgradeContainers.Remove("PowerSurgeContainer");
+       
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
@@ -273,6 +352,9 @@ public class UpgradeScript : MonoBehaviour
 
     void BombardmentContainer()
     {
+        upgradeContainers.Remove("BombardmentContainer");
+        upgradeContainers.Remove("LifeDrainContainer");
+        upgradeContainers.Remove("IncantationContainer");
         int button = Random.Range(0, upgradeButtons.Count);
         Button target = upgradeButtons[button];
         upgradeButtons.RemoveAt(button);
@@ -280,14 +362,13 @@ public class UpgradeScript : MonoBehaviour
         target.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Third Abilty becomes Bombardment, a low damage ability but with extreme range";
         target.onClick.RemoveAllListeners();
         target.onClick.AddListener(delegate { BombardmentOnClick(target); });
+       
     }
     void BombardmentOnClick(Button targetButton)
     {
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().Bombardment = true;
-        upgradeContainers.Remove("BombardmentContainer");
-        upgradeContainers.Remove("LifeDrainContainer");
-        upgradeContainers.Remove("IncantationContainer");
+       
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
@@ -304,14 +385,15 @@ public class UpgradeScript : MonoBehaviour
         target.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Third Abilty becomes life drain, a standard attack that heals \n the wizard for the damage done";
         target.onClick.RemoveAllListeners();
         target.onClick.AddListener(delegate { LifeDrainOnClick(target); });
+        upgradeContainers.Remove("BombardmentContainer");
+        upgradeContainers.Remove("LifeDrainContainer");
+        upgradeContainers.Remove("IncantationContainer");
     }
     void LifeDrainOnClick(Button targetButton)
     {
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().lifeDrain = true;
-        upgradeContainers.Remove("BombardmentContainer");
-        upgradeContainers.Remove("LifeDrainContainer");
-        upgradeContainers.Remove("IncantationContainer");
+        upgradeContainers.Add("SoulDrainContainer");
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
@@ -320,6 +402,29 @@ public class UpgradeScript : MonoBehaviour
         }
     }
 
+    void SoulDrainContainer()
+    {
+        int button = Random.Range(0, upgradeButtons.Count);
+        Button target = upgradeButtons[button];
+        upgradeButtons.RemoveAt(button);
+        target.GetComponent<Image>().sprite = abilitySprites[2];
+        target.GetComponentInChildren<TextMeshProUGUI>().text = "Life drain applies a damage over time affect, dealing 100% of the abilities damage over 4 turns";
+        target.onClick.RemoveAllListeners();
+        target.onClick.AddListener(delegate { SoulDrainOnClick(target); });
+        upgradeContainers.Remove("SoulDrainContainer");
+        
+    }
+    void SoulDrainOnClick(Button targetButton)
+    {
+
+        GameObject.Find("Wizard").GetComponent<WizardScript>().soulDrain = true;
+        targetButton.gameObject.SetActive(false);
+        upgradesAvailable--;
+        if (upgradesAvailable == 0)
+        {
+            UpgradesCancelled();
+        }
+    }
     void IncantationContainer()
     {
         int button = Random.Range(0, upgradeButtons.Count);
@@ -329,14 +434,15 @@ public class UpgradeScript : MonoBehaviour
         target.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Third Abilty becomes Incantation of Power, an AoE buff that increases damage done \n of all nearby allies";
         target.onClick.RemoveAllListeners();
         target.onClick.AddListener(delegate { IncantationOnClick(target); });
+        upgradeContainers.Remove("BombardmentContainer");
+        upgradeContainers.Remove("LifeDrainContainer");
+        upgradeContainers.Remove("IncantationContainer");
     }
     void IncantationOnClick(Button targetButton)
     {
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().incantationOfPower = true;
-        upgradeContainers.Remove("BombardmentContainer");
-        upgradeContainers.Remove("LifeDrainContainer");
-        upgradeContainers.Remove("IncantationContainer");
+       
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
@@ -344,7 +450,7 @@ public class UpgradeScript : MonoBehaviour
             UpgradesCancelled();
         }
     }
-    void FireballContainer()
+    void FireBallContainer()
     {
         int button = Random.Range(0, upgradeButtons.Count);
         Button target = upgradeButtons[button];
@@ -353,12 +459,13 @@ public class UpgradeScript : MonoBehaviour
         target.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Fourth Abilty becomes Fireball, a large damage AoE.";
         target.onClick.RemoveAllListeners();
         target.onClick.AddListener(delegate { FireballOnClick(target); });
+        upgradeContainers.Remove("FireballContainer");
     }
     void FireballOnClick(Button targetButton)
     {
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
-        upgradeContainers.Remove("FireballContainer");
+       
         targetButton.gameObject.SetActive(false);
         upgradesAvailable--;
         if (upgradesAvailable == 0)
@@ -366,6 +473,130 @@ public class UpgradeScript : MonoBehaviour
             UpgradesCancelled();
         }
     }
+
+
+
+
+
+
+
+
+
+    /// <summary>
+    /// Huntress Abilities
+    /// </summary>
+    /// 
+
+    void LastingInfluenceContainer()
+    {
+        int button = Random.Range(0, upgradeButtons.Count);
+        Button target = upgradeButtons[button];
+        upgradeButtons.RemoveAt(button);
+        target.GetComponent<Image>().sprite = abilitySprites[2];
+        target.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' soothe ability now grants an extra two health each turn for 3 turns";
+        target.onClick.RemoveAllListeners();
+        target.onClick.AddListener(delegate { LastingInfluenceOnClick(target); });
+        upgradeContainers.Remove("LastingInfluenceContainer");
+    }
+    void LastingInfluenceOnClick(Button targetButton)
+    {
+
+        GameObject.Find("Huntress").GetComponent<HuntressScript>().lastingInfluence = true;
+       
+        targetButton.gameObject.SetActive(false);
+        upgradesAvailable--;
+        if (upgradesAvailable == 0)
+        {   
+            UpgradesCancelled();
+        }
+    }
+
+
+
+    void PickYourPreyContainer()
+    {
+        int button = Random.Range(0, upgradeButtons.Count);
+        Button target = upgradeButtons[button];
+        upgradeButtons.RemoveAt(button);
+        target.GetComponent<Image>().sprite = abilitySprites[2];
+        target.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' 3rd ability becomes mark prey, which marks an enemy unit causing it to take +3 damage for three turns(Does not cost their action)";
+        target.onClick.RemoveAllListeners();
+        target.onClick.AddListener(delegate { PickYourPreyOnClick(target); });
+        upgradeContainers.Remove("FieldMedicineContainer");
+        upgradeContainers.Remove("PickYourPreyContainer");
+        upgradeContainers.Remove("SnipeContainer");
+    }
+    void PickYourPreyOnClick(Button targetButton)
+    {
+
+        GameObject.Find("Huntress").GetComponent<HuntressScript>().markPrey = true;
+       
+        targetButton.gameObject.SetActive(false);
+        upgradesAvailable--;
+        if (upgradesAvailable == 0)
+        {
+            UpgradesCancelled();
+        }
+    }
+
+    void FieldMedicineContainer()
+    {
+        int button = Random.Range(0, upgradeButtons.Count);
+        Button target = upgradeButtons[button];
+        upgradeButtons.RemoveAt(button);
+        target.GetComponent<Image>().sprite = abilitySprites[2];
+        target.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' 3rd ability becomes mark prey, which marks an enemy unit causing it to take +3 damage for three turns(Does not cost their action)";
+        target.onClick.RemoveAllListeners();
+        target.onClick.AddListener(delegate { PickYourPreyOnClick(target); });
+        upgradeContainers.Remove("FieldMedicineContainer");
+        upgradeContainers.Remove("PickYourPreyContainer");
+        upgradeContainers.Remove("SnipeContainer");
+    }
+    void FieldMedicineOnClick(Button targetButton)
+    {
+
+        GameObject.Find("Huntress").GetComponent<HuntressScript>().markPrey = true;
+        targetButton.gameObject.SetActive(false);
+        upgradesAvailable--;
+        if (upgradesAvailable == 0)
+        {
+            UpgradesCancelled();
+        }
+    }
+
+    void SnipeContainer()
+    {
+        int button = Random.Range(0, upgradeButtons.Count);
+        Button target = upgradeButtons[button];
+        upgradeButtons.RemoveAt(button);
+        target.GetComponent<Image>().sprite = abilitySprites[2];
+        target.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' 3rd ability becomes mark prey, which marks an enemy unit causing it to take +3 damage for three turns(Does not cost their action)";
+        target.onClick.RemoveAllListeners();
+        target.onClick.AddListener(delegate { PickYourPreyOnClick(target); });
+        upgradeContainers.Remove("FieldMedicineContainer");
+        upgradeContainers.Remove("PickYourPreyContainer");
+        upgradeContainers.Remove("SnipeContainer");
+    }
+    void SnipeOnClick(Button targetButton)
+    {
+
+        GameObject.Find("Huntress").GetComponent<HuntressScript>().markPrey = true;
+        
+        targetButton.gameObject.SetActive(false);
+        upgradesAvailable--;
+        if (upgradesAvailable == 0)
+        {
+            UpgradesCancelled();
+        }
+    }
+
+
+
+
+
+
+
+
 
     // Update is called once per frame
     void Update()

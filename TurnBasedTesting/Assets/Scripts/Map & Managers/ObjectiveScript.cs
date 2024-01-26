@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
+
 
 public class ObjectiveScript : MonoBehaviour
 {
@@ -21,8 +21,8 @@ public class ObjectiveScript : MonoBehaviour
      GameObject boss;
     public GameObject[] bosses;
     GameObject[] playerUnits = new GameObject[4] ;
-    public GameObject vicPanel;
-    public UpgradeScript upgradePanels;
+    public GameObject vicPanel; 
+    public GameObject[] upgradePanels  = new GameObject[4];
     // Start is called before the first frame update
     void Start()
     {
@@ -349,8 +349,11 @@ public class ObjectiveScript : MonoBehaviour
         if (turnsRemaining <= 0)
         {
             print("You win");
-            upgradePanels.upgradesAllowed();
-        }
+            for(int i = 0;i< upgradePanels.Length; i++)
+            {
+                upgradePanels[i].SetActive(true);
+            }
+        } 
         
     }
 
@@ -364,7 +367,10 @@ public class ObjectiveScript : MonoBehaviour
             {
                 print("You Win!");
                 vicPanel.SetActive(true);
-                upgradePanels.upgradesAllowed();
+                for (int i = 0; i < upgradePanels.Length; i++)
+                {
+                    upgradePanels[i].SetActive(true);
+                }
             }
         }
         
@@ -373,6 +379,14 @@ public class ObjectiveScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            for (int i = 0; i < upgradePanels.Length; i++)
+            {
+                upgradePanels[i].SetActive(true);
+            }
+            vicPanel.SetActive(true);
+            
+        }
     }
 }
