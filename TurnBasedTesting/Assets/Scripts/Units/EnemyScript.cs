@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     public TileMap map;
-    GameObject unitTarget;
+   public  GameObject unitTarget;
    public int aggroRange = 3;
     // Start is called before the first frame update
     void Start()
@@ -26,6 +26,7 @@ public class EnemyScript : MonoBehaviour
         
         GameObject[] playerUnits = GameObject.FindGameObjectsWithTag("team1");
         float targetDistance = 100;
+        
         foreach (GameObject target in playerUnits)
         {
             if(map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX) == null)
@@ -43,7 +44,7 @@ public class EnemyScript : MonoBehaviour
         }
         List<Node> possiblePath = map.GenerateMovePath(gameObject,gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileX);
         
-        if (possiblePath != null&& possiblePath.Count-2 < aggroRange)
+        if (possiblePath != null && possiblePath.Count-2 < aggroRange)
         {
 
             gameObject.GetComponent<UnitScript>().EnterCourse(unitTarget.GetComponent<UnitScript>().tileX, unitTarget.GetComponent<UnitScript>().tileY, possiblePath);
@@ -55,7 +56,7 @@ public class EnemyScript : MonoBehaviour
        
             
     }
-    public void FinishedMove()
+    public virtual void FinishedMove()
     {
         if (unitTarget != null) 
         {

@@ -9,7 +9,7 @@ public class SkeletonLord : EnemyScript
     public int bodiesCD = 0;
     public int bonesCD = 0;
     public int expulsionCD = 0;
-    GameObject unitTarget;
+    GameObject targetUnit;
     // Start is called before the first frame update
     
 
@@ -37,22 +37,22 @@ public class SkeletonLord : EnemyScript
 
             {
                 targetDistance = 0;
-                unitTarget = target;
+                targetUnit = target;
 
             }
             else if (map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX).Count < targetDistance)
             {
                 targetDistance = map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX).Count;
-                unitTarget = target;
+                targetUnit = target;
             }
         }
-        List<Node> possiblePath = map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileX);
+        List<Node> possiblePath = map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, targetUnit.GetComponent<UnitScript>().tileY, targetUnit.GetComponent<UnitScript>().tileX);
 
         if (possiblePath != null && possiblePath.Count - 2 < aggroRange)
         {
 
-            gameObject.GetComponent<UnitScript>().EnterCourse(unitTarget.GetComponent<UnitScript>().tileX, unitTarget.GetComponent<UnitScript>().tileY, possiblePath);
-            gameObject.GetComponent<UnitScript>().EnterCourse(unitTarget.GetComponent<UnitScript>().tileX, unitTarget.GetComponent<UnitScript>().tileY, possiblePath);
+            gameObject.GetComponent<UnitScript>().EnterCourse(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, possiblePath);
+            gameObject.GetComponent<UnitScript>().EnterCourse(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, possiblePath);
         }
 
 
@@ -94,18 +94,18 @@ public class SkeletonLord : EnemyScript
 
             {
                 targetDistance = 0;
-                unitTarget = target;
+                targetUnit = target;
 
             }
             else if (map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX).Count > targetDistance)
             {
                 targetDistance = map.GenerateMovePath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileY, target.GetComponent<UnitScript>().tileX).Count;
-                unitTarget = target;
+                targetUnit = target;
             }
         }
-        if(map.GenerateAttackPath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileX).Count  < 7)
+        if(map.GenerateAttackPath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, targetUnit.GetComponent<UnitScript>().tileY, targetUnit.GetComponent<UnitScript>().tileX).Count  < 7)
         {
-            RaycastHit2D[] blast = Physics2D.CircleCastAll(unitTarget.transform.position, 1.6f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+            RaycastHit2D[] blast = Physics2D.CircleCastAll(targetUnit.transform.position, 1.6f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
             foreach (RaycastHit2D hits in blast)
             {
                 if (hits.collider.tag == "team1")

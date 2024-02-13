@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class KnightScript : UnitScript
 {
@@ -9,6 +11,7 @@ public class KnightScript : UnitScript
     public bool parryStrikeback;
     public bool parryDamage;
     public bool parryHoldfast;
+    public bool parryStrikebackF;
 
     public bool lordlyGreatsword;
     public bool domumHalberd;
@@ -18,13 +21,29 @@ public class KnightScript : UnitScript
     public bool righteousGlory;
     public bool unstopableForce;
 
+    public bool deathKnight;
+    public bool slayer;
+
+    public int slayerDamage;
+
     public int litBlade;
+    public bool lingeringFlame;
+
     public int gloryActivated;
     public int unstopableWarrior;
     public int parryActive;
     public List<GameObject> gloried = new List<GameObject>();
-    
-    
+
+    public bool riposte;
+    public bool riposteCombo;
+
+    public bool rawGrit;
+    public bool rawGritUsed;
+
+    public bool adrenalineRush;
+
+    public bool[] combos = new bool[4] ;
+    public bool[] combosU = new bool[4];
     public override void UnitDamage(float AP)
     {
         if (unstopableWarrior < 1)
@@ -37,23 +56,64 @@ public class KnightScript : UnitScript
                 {
                     if (target.collider.tag == "Enemy")
                     {
-                        target.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower));
+                        target.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower +slayerDamage));
                     }
+
                 }
                 animator.SetTrigger("attack");
                 parryStrikeback = false;
             }
             else
             {
+                if (parryStrikebackF)
+                {
+
+                    RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                    foreach (RaycastHit2D target in targets)
+                    {
+                        if (target.collider.tag == "Enemy")
+                        {
+                            target.collider.gameObject.GetComponent<UnitScript>().Burn(3,2);
+                        }
+
+                    }
+                    animator.SetTrigger("attack");
+                    parryStrikebackF = false;
+                }
                 health -= Mathf.Clamp(AP - damageReduction, 1, 100);
-                
+                if (slayer)
+                {
+                    if (slayerDamage < 5)
+                    {
+                        slayerDamage++;
+                    }
+                }
                 text.GetComponent<DamageTextScript>().UpdateText(Mathf.RoundToInt((AP - damageReduction) * -1).ToString());
                 if (health <= 0)
                 {
-                    animator.SetTrigger("death");
-                    map.GetComponent<TileMap>().RemoveUnit(gameObject);
-                    Destroy(gameObject, 1.2f);
-
+                    if(rawGrit)
+                    {
+                        if(rawGritUsed)
+                        {
+                            animator.SetTrigger("death");
+                            map.GetComponent<TileMap>().RemoveUnit(gameObject);
+                            Destroy(gameObject, 1.2f);
+                        }
+                        else
+                        {
+                            rawGritUsed = true;
+                            health = 1;
+                            animator.SetTrigger("damage");
+                        }
+                    }
+                    else
+                    {
+                        animator.SetTrigger("death");
+                        map.GetComponent<TileMap>().RemoveUnit(gameObject);
+                        Destroy(gameObject, 1.2f);
+                    }
+                       
+                   
                 }
                 else
                 {
@@ -76,6 +136,10 @@ public class KnightScript : UnitScript
                     if (hit.collider.tag == "Enemy")
                     {
                         hit.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower / 4));
+                        if(deathKnight)
+                        {
+                            HealDamage(1);
+                        }
                     }
                 }
             }
@@ -85,17 +149,38 @@ public class KnightScript : UnitScript
             if (hitChance < accuracy - target.GetComponent<UnitScript>().dodgeRating)
 
             {
-                target.GetComponent<UnitScript>().UnitDamage(attackPower);
+                target.GetComponent<UnitScript>().UnitDamage(attackPower +slayerDamage);
                 if (litBlade > 0)
                 {
-                    target.GetComponent<UnitScript>().UnitDamage(attackPower);
+                    target.GetComponent<UnitScript>().UnitDamage(attackPower/2);
+                    if(lingeringFlame)
+                    {
+                        target.GetComponent<UnitScript>().Burn(2, 3);
+                    }
+                }
+                if(adrenalineRush && health <= maxhealth/2)
+                {
+                    target.GetComponent<UnitScript>().UnitDamage(1);
+                    target.GetComponent<UnitScript>().UnitDamage(1);
+                    target.GetComponent<UnitScript>().UnitDamage(1);
+                  
+                }
+                if(deathKnight)
+                {
+                    HealDamage((attackPower - target.GetComponent<UnitScript>().damageReduction)/2);
                 }
             }
             else
             {
                 text.GetComponent<DamageTextScript>().UpdateText("Miss");
             }
+
+            for (int i = 0; i < combos.Length; i++)
+            {
+                combos[i] = false;
+            }
             attacking = false;
+            riposteCombo = false;
             attackAvailable = false;
         }
     }
@@ -106,34 +191,58 @@ public class KnightScript : UnitScript
         ///Allows the knight to use it's cleave abiltiy
         /// </summary>
         animator.SetTrigger("attack");
-        abilitiesCooldown[0] = 2;
+        abilitiesCooldown[0] = 4;
         attackAvailable = false;
         targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);//simple attack
         RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+        if (riposte)
+        {
+            if (!riposteCombo)
+            {
+                riposteCombo = true;
+            }
+            else
+            {
+                riposteCombo = false;
+                abilitiesCooldown[0] = 3;
+                abilitiesCooldown[0]--;
+            }
+
+        }
         foreach (RaycastHit2D hit in targets)
         {
             if (hit.collider.tag == "Enemy")
             {
-                hit.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower / 2));
+                hit.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round((attackPower + slayerDamage) / 2));
                 if (domumHalberd)
                 {
                     hit.collider.gameObject.GetComponent<UnitScript>().stunned = true;
                 }
+                if(deathKnight)
+                {
+                    HealDamage((attackPower - targetUnit.GetComponent<UnitScript>().damageReduction) / 2);
+                }
+
             }
         }
+        for (int i = 0; i < combos.Length; i++)
+        {
+            combos[i] = false;
+        }
+        map.UpdateCooldowns(gameObject);
         abilitiesTarget[0] = false;
 
     }
 
     public override void Ability2(GameObject targetUnit)
     {
-        map.UpdateCooldowns(gameObject);
+        
         parryActive = 2;
         attackAvailable = false;
         baseDodge = dodgeRating;
         baseReduction = damageReduction;
         abilitiesCooldown[1] = 4;
-        damageReduction = 20;
+        damageReduction += 3;
         dodgeRating = dodgeRating * 2;
         if (parryDamage)
         {
@@ -144,8 +253,92 @@ public class KnightScript : UnitScript
             dodgeRating *= 2;
             abilitiesCooldown[1] = 3;
         }
+        if (riposte)
+        {
+            if (!riposteCombo)
+            {
+                riposteCombo = true;
+            }
+            else
+            {
+                riposteCombo = false;
+                damageReduction += 3;
+            }
+        }
+        if (combosU[3])
+        {
+            if (combos[3])
+            {
+                RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                foreach (RaycastHit2D hit in targets)
+                {
+                    if (hit.collider.tag == "Team1")
+                    {
+                        hit.collider.gameObject.GetComponent<UnitScript>().HealDamage(5);
+
+                    }
+                }
+                combos[3] = false;
+            }
+            else
+            {
+                combos[3] = true;
+            }
+        }
+        if (combosU[0])
+        {
+            if (combos[0])
+            {
+                RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                foreach (RaycastHit2D hit in targets)
+                {
+                    if (hit.collider.tag == "Team1")
+                    {
+                        hit.collider.gameObject.GetComponent<UnitScript>().HealDamage(5);
+
+                    }
+                }
+                combos[0] = false;
+            }
+            else
+            {
+                combos[0] = true;
+            }
+        }
+
+        if (combosU[1])
+        {
+            if (combos[1])
+            {
+                parryActive++;
+                combos[1] = false;
+            }
+            else
+            {
+                combos[1] = true;
+            }
+        }
+
+
+        if (combosU[2])
+        {
+            if (combos[2])
+            {
+                parryStrikebackF = true;
+                combos[2] = false;
+            }
+            else
+            {
+                combos[2] = true;
+            }
+        }
+
+
+        
+        
         baseDodge = dodgeRating - baseDodge;
         baseReduction = damageReduction - baseReduction;
+        map.UpdateCooldowns(gameObject);
         abilitiesTarget[1] = false;
     }
 
@@ -157,11 +350,26 @@ public class KnightScript : UnitScript
         {
             if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY) && targetUnit.tag == "Enemy")
             {
-                base.attack(targetUnit);
-                base.attack(targetUnit);
-                base.attack(targetUnit);
+                attack(targetUnit);
+                attack(targetUnit);
+                attack(targetUnit);
                 abilitiesCooldown[2] = 4;
                 attackAvailable = false;
+                riposteCombo = false;
+                if (combosU[0])
+                {
+                    if (!combos[0])
+                    {
+                        combos[0] = true;
+                    }
+                    else
+                    {
+                        combos[0] = false;
+                        attack(targetUnit);
+                    }
+
+                }
+               
             }
         }    
 
@@ -173,12 +381,52 @@ public class KnightScript : UnitScript
                 health = maxhealth;
             abilitiesCooldown[2] = 4;
             attackAvailable = false;
+            riposteCombo = false;
+
+
+            if (combosU[1])
+            {
+                if (!combos[1])
+                {
+                    combos[1] = true;
+                }
+                else
+                {
+                    combos[1] = false;
+                    unstopableWarrior++;
+                }
+
+            }
+            
+            
         }
+
+        ///FlamingBlade
         if(flamingBlade)
         {
             litBlade = 3;
             abilitiesCooldown[2] = 4;
+            riposteCombo = false;
+            
+
+            if (combosU[2])
+            {
+                if (!combos[2])
+                {
+                    combos[2] = true;
+                }
+                else
+                {
+                    combos[2] = false;
+                    litBlade++;
+                }
+
+            }
+          
         }
+
+
+        ///Righteous
         if(righteousGlory)
         {
             gloried.Clear();
@@ -194,15 +442,40 @@ public class KnightScript : UnitScript
                 }
             }
             attackAvailable = false;
+            riposteCombo = false;
+            
+            if (combosU[3])
+            {
+                if (!combos[3])
+                {
+                    combos[3] = true;
+                }
+                else
+                {
+                    combos[3]= false;
+                    foreach (RaycastHit2D hit in targets)
+                    {
+                        if (hit.collider.tag == "team1")
+                        {
+                            hit.collider.GetComponent<UnitScript>().HealDamage(5);
+                            
+                        }
+                    }
+                }
 
+            }
+
+         
+                
         }
+
         map.UpdateCooldowns(gameObject);
         abilitiesTarget[2] = false;
     }
 
     public override void TurnOver()
-    {
-
+    {attackAvailable = true;
+        
         parryActive--;
         gloryActivated--;
         if(gloryActivated ==0)
@@ -219,7 +492,35 @@ public class KnightScript : UnitScript
         }
         unstopableWarrior--;
         litBlade--;
-        base.TurnOver();
+        moveSpeed = maxMoveSpeed;
+        for (int i = 0; i < abilitiesCooldown.Length; i++)
+        {
+            if (abilitiesCooldown[i] > 0)
+            {
+                abilitiesCooldown[i]--;
+            }
+
+        }
+        {
+            RaycastHit2D[] tilesAffected = Physics2D.CircleCastAll(gameObject.transform.position, (.8f * attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+            foreach (RaycastHit2D tile in tilesAffected)
+            {
+                if (tile.collider.gameObject.layer == 8)
+                {
+                    tile.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                }
+            }
+        }
+
+        if (burning)
+        {
+            UnitDamage(burnDamage + damageReduction);
+            burnTimer--;
+            if (burnTimer == 0)
+            {
+                burning = false;
+            }
+        }
     }
 
 

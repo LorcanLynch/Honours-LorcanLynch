@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 
 
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using UnityEngine.UI;
@@ -48,7 +49,7 @@ public class UnitScript : MonoBehaviour
     public float maxhealth = 10;
     public float health;
     public float attackPower = 1;
-    public float attackRange = 3;
+    public int attackRange = 3;
     public Collider2D claveHb;
     public GameObject lightningBolt;
 
@@ -61,6 +62,17 @@ public class UnitScript : MonoBehaviour
     
     public float speedFloatVal = 2;
 
+    bool healing = false;
+    int healTimer = 0;
+    int heal = 0;
+
+    int buffTimer = 0   ;
+    bool buffed;
+    int dRbuff;
+
+    int dodgeBuffT = 0;
+    bool dodgeBuffed;
+    int dodgeBuffN= 0;
     public void Start()
     {
         //This sets all the various initial values needed for a unit
@@ -149,7 +161,7 @@ public class UnitScript : MonoBehaviour
         ///Then we see if the number we rolled is below the units accuracy minus the target's dodge chance
         ///finally if that is true we cause the unit to take damage which is shown later
         ///</summary>
-
+        attackAvailable = false;
         int hitChance = Random.Range(0, 100);
 
         animator.SetTrigger("attack");
@@ -164,7 +176,7 @@ public class UnitScript : MonoBehaviour
             text.GetComponent<DamageTextScript>().UpdateText("Miss");
         }
         attacking = false;
-        attackAvailable = false;
+        
     }
     private void Awake()
     {
@@ -201,6 +213,7 @@ public class UnitScript : MonoBehaviour
         }
     }
 
+    
     public void HealDamage(float AP)
     {
         /// <summary>
@@ -445,12 +458,16 @@ public class UnitScript : MonoBehaviour
         ///</summary>
 
         List<Node> possiblePath = map.GenerateAttackPath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, y, x);
-            if (possiblePath.Count - 1 <= attackRange ||possiblePath ==  null)
-            {
+        if(possiblePath == null)
+        {
+            return true;
+        }
+
+        if (possiblePath.Count - 1 <= attackRange )
+        {
             print(possiblePath.Count);
             return true;
-           
-            }
+        }
         else
         {
             print("Miss?");
@@ -488,17 +505,41 @@ public class UnitScript : MonoBehaviour
         burnDamage = damage;
     }
 
+    public void HealOverTime(int length, int damage)
+    {
+        healing = true;
+        healTimer = length;
+        heal = damage;
+    }
+
+    public void DRBuff(int length, int buff)
+    {
+        buffed = true;
+        buffTimer = length;
+        damageReduction += buff;
+        dRbuff = buff;
+    }
+
+    public void DodgeBuff(int length, int dodgeBuff)
+    {
+        dodgeBuffed = true;
+        dodgeBuffT = length;
+        dodgeRating += dodgeBuff;
+        dodgeBuffN = dodgeBuff;
+    }
+
+
 
     public virtual void TurnOver()
     {
         moveSpeed = maxMoveSpeed;
-        if (!stunned)
+        if(!stunned)
         {
-            attackAvailable = true;//just resets our turn based actions
+            attackAvailable = true;
         }
         else
         {
-            stunned = false;
+            attackAvailable = false;
         }
         for (int i = 0; i < abilitiesCooldown.Length; i++)
         {
@@ -518,8 +559,43 @@ public class UnitScript : MonoBehaviour
                 }
             }
         }
+        if (healing)
+        {
+            HealDamage(heal);
+            healTimer--;
+            if (healTimer <= 0)
+            {
+                healing = false;
+            }
+        }
 
-        if(burning)
+        if (dodgeBuffed)
+        {
+            
+            
+            if (dodgeBuffT <= 0)
+            {
+                dodgeBuffed= false;
+                dodgeRating -= dodgeBuffN;
+
+            }
+            dodgeBuffT--;
+        }
+
+
+        if (buffed)
+        {
+           
+            
+            if (buffTimer <= 0)
+            {
+                buffed = false;
+                damageReduction -= dRbuff ;
+            }
+            buffTimer--;
+        }
+
+        if (burning)
         {
             UnitDamage(burnDamage + damageReduction);
             burnTimer--;

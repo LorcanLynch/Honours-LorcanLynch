@@ -131,7 +131,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f0b0c421006ee764c95f2043c0c4c0b0, type: 2}
+  m_Motion: {fileID: 7400000, guid: a9e90e41dff11cb45a90877d66037d08, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -157,7 +157,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 802a41d71734873498be27c87f7bf45b, type: 2}
+  m_Motion: {fileID: 7400000, guid: f05496ee6746ed741aea6b3ad0de8205, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -213,7 +213,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SkeletonAnim 1
+  m_Name: Wyrm
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: moving
@@ -324,7 +324,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 16f385cdbbafd4445bf3a1647d9909de, type: 2}
+  m_Motion: {fileID: 7400000, guid: 33b71ea59e9a5cb4da03d9913f0c36d9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -354,7 +354,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d91fd5c2d4a992a4aafa5c2264b0f643, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8924bd4c17293ed49ae2cff9999124c1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -406,7 +406,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 700a164373d934848b82727445152b58, type: 2}
+  m_Motion: {fileID: 7400000, guid: d861aef1094330f45b3ecaf3d9c34420, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
