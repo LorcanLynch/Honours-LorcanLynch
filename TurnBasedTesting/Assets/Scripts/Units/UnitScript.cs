@@ -62,17 +62,21 @@ public class UnitScript : MonoBehaviour
     
     public float speedFloatVal = 2;
 
-    bool healing = false;
-    int healTimer = 0;
-    int heal = 0;
+    public bool healing = false;
+    public int healTimer = 0;
+    public int heal = 0;
 
-    int buffTimer = 0   ;
-    bool buffed;
-    int dRbuff;
+    public int buffTimer = 0   ;
+    public bool buffed;
+    public int dRbuff;
 
-    int dodgeBuffT = 0;
-    bool dodgeBuffed;
-    int dodgeBuffN= 0;
+    public int dodgeBuffT = 0;
+    public bool dodgeBuffed;
+    public int dodgeBuffN= 0;
+
+    public int damageBuffT = 0;
+    public bool damageBuffed;
+    public int damageBuffN = 0;
     public void Start()
     {
         //This sets all the various initial values needed for a unit
@@ -522,10 +526,27 @@ public class UnitScript : MonoBehaviour
 
     public void DodgeBuff(int length, int dodgeBuff)
     {
-        dodgeBuffed = true;
-        dodgeBuffT = length;
-        dodgeRating += dodgeBuff;
-        dodgeBuffN = dodgeBuff;
+        if (dodgeBuff > dodgeBuffN)
+        {
+            dodgeRating -= dodgeBuffN;
+            dodgeBuffed = true;
+            dodgeBuffT = length;
+            dodgeRating += dodgeBuff;
+            dodgeBuffN = dodgeBuff;
+        }
+    }
+
+    public void DamageBuff(int length, int dmgBuff)
+    {
+
+        if (dmgBuff > damageBuffN)
+        {
+            attackPower -= damageBuffN;
+            damageBuffed = true;
+            damageBuffT = length;
+            attackPower += dmgBuff;
+            damageBuffN = dmgBuff;
+        }
     }
 
 
@@ -562,11 +583,13 @@ public class UnitScript : MonoBehaviour
         if (healing)
         {
             HealDamage(heal);
-            healTimer--;
+             
             if (healTimer <= 0)
             {
                 healing = false;
+                heal = 0;
             }
+            healTimer--;
         }
 
         if (dodgeBuffed)
@@ -577,11 +600,23 @@ public class UnitScript : MonoBehaviour
             {
                 dodgeBuffed= false;
                 dodgeRating -= dodgeBuffN;
-
+                dodgeBuffN = 0;
             }
             dodgeBuffT--;
         }
 
+        if (damageBuffed)
+        {
+
+
+            if (damageBuffT <= 0)
+            {
+                damageBuffed = false;
+                attackPower -= damageBuffN;
+                damageBuffN = 0;
+            }
+            damageBuffT--;
+        }
 
         if (buffed)
         {
@@ -591,6 +626,7 @@ public class UnitScript : MonoBehaviour
             {
                 buffed = false;
                 damageReduction -= dRbuff ;
+                dRbuff = 0;
             }
             buffTimer--;
         }

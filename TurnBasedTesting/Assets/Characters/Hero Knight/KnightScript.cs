@@ -1,8 +1,11 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 using static UnityEngine.GraphicsBuffer;
 
 public class KnightScript : UnitScript
@@ -29,6 +32,8 @@ public class KnightScript : UnitScript
     public int litBlade;
     public bool lingeringFlame;
 
+    public bool gloriousWarrior;
+
     public int gloryActivated;
     public int unstopableWarrior;
     public int parryActive;
@@ -44,6 +49,11 @@ public class KnightScript : UnitScript
 
     public bool[] combos = new bool[4] ;
     public bool[] combosU = new bool[4];
+    public bool hardened;
+
+    public bool unmovable;
+    public bool unmovableA;
+
     public override void UnitDamage(float AP)
     {
         if (unstopableWarrior < 1)
@@ -57,6 +67,10 @@ public class KnightScript : UnitScript
                     if (target.collider.tag == "Enemy")
                     {
                         target.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower +slayerDamage));
+                        if (unmovableA)
+                        {
+                            target.collider.gameObject.GetComponent<UnitScript>().stunned = true;
+                        }
                     }
 
                 }
@@ -74,6 +88,7 @@ public class KnightScript : UnitScript
                         if (target.collider.tag == "Enemy")
                         {
                             target.collider.gameObject.GetComponent<UnitScript>().Burn(3,2);
+                            target.collider.gameObject.GetComponent<UnitScript>().stunned = true;
                         }
 
                     }
@@ -169,6 +184,10 @@ public class KnightScript : UnitScript
                 {
                     HealDamage((attackPower - target.GetComponent<UnitScript>().damageReduction)/2);
                 }
+                if(unmovableA)
+                {
+                    target.GetComponent<UnitScript>().stunned = true;
+                }
             }
             else
             {
@@ -214,6 +233,10 @@ public class KnightScript : UnitScript
             if (hit.collider.tag == "Enemy")
             {
                 hit.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round((attackPower + slayerDamage) / 2));
+                if (unmovableA)
+                {
+                    hit.collider.gameObject.GetComponent<UnitScript>().stunned = true;
+                }
                 if (domumHalberd)
                 {
                     hit.collider.gameObject.GetComponent<UnitScript>().stunned = true;
@@ -397,6 +420,11 @@ public class KnightScript : UnitScript
                 }
 
             }
+
+            if(unmovable)
+            {
+                unmovableA = true;
+            }
             
             
         }
@@ -429,21 +457,29 @@ public class KnightScript : UnitScript
         ///Righteous
         if(righteousGlory)
         {
-            gloried.Clear();
-            gloryActivated = 2;
+            
             abilitiesCooldown[2] = 4;
             RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, 1.6f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
             foreach (RaycastHit2D hit in targets)
             {
                 if (hit.collider.tag == "team1")
                 {
-                    hit.collider.GetComponent<UnitScript>().damageReduction += 2;
-                    gloried.Add(hit.collider.gameObject);
+                    DRBuff(2, 2);
                 }
             }
             attackAvailable = false;
             riposteCombo = false;
-            
+            if(gloriousWarrior)
+            {
+                foreach (RaycastHit2D hit in targets)
+                {
+                    if (hit.collider.tag == "team1")
+                    {
+                        hit.collider.GetComponent<UnitScript>().DamageBuff(2,2);
+
+                    }
+                }
+            }
             if (combosU[3])
             {
                 if (!combos[3])
@@ -474,23 +510,38 @@ public class KnightScript : UnitScript
     }
 
     public override void TurnOver()
-    {attackAvailable = true;
+    {
         
-        parryActive--;
-        gloryActivated--;
-        if(gloryActivated ==0)
+
+        if(stunned )
         {
-            for(int i = 0; i < gloried.Count; i++)
+            if (!hardened)
             {
-                gloried[i].GetComponent<UnitScript>().damageReduction -= 2;
-            }    
+                attackAvailable = false;
+            }
+            else
+            {
+                attackAvailable = true;
+            }
+
         }
+        else
+        {
+            attackAvailable = true;
+        }
+        parryActive--;
+        
         if (parryActive==0)
         {
             dodgeRating -= baseDodge;
             damageReduction -= baseReduction;
         }
         unstopableWarrior--;
+        if(unstopableWarrior==0)
+        {
+            unmovableA = false;
+        }
+
         litBlade--;
         moveSpeed = maxMoveSpeed;
         for (int i = 0; i < abilitiesCooldown.Length; i++)
@@ -510,6 +561,76 @@ public class KnightScript : UnitScript
                     tile.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
                 }
             }
+        }
+
+        if (burning)
+        {
+            UnitDamage(burnDamage + damageReduction);
+            burnTimer--;
+            if (burnTimer == 0)
+            {
+                burning = false;
+            }
+        }
+
+        if (healing)
+        {
+            HealDamage(heal);
+            healTimer--;
+            if (healTimer <= 0)
+            {
+                healing = false;
+            }
+        }
+
+        if (dodgeBuffed)
+        {
+
+
+            if (dodgeBuffT <= 0)
+            {
+                dodgeBuffed = false;
+                dodgeRating -= dodgeBuffN;
+
+            }
+            dodgeBuffT--;
+        }
+        if (damageBuffed)
+        {
+
+
+            if (damageBuffT <= 0)
+            {
+                damageBuffed = false;
+                attackPower -= dodgeBuffN;
+
+            }
+            damageBuffT--;
+        }
+
+        if (damageBuffed)
+        {
+
+
+            if (damageBuffT <= 0)
+            {
+                damageBuffed = false;
+                attackPower -= damageBuffN;
+                damageBuffN = 0;
+            }
+            damageBuffT--;
+        }
+
+        if (buffed)
+        {
+
+
+            if (buffTimer <= 0)
+            {
+                buffed = false;
+                damageReduction -= dRbuff;
+            }
+            buffTimer--;
         }
 
         if (burning)

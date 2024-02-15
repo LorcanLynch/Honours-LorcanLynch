@@ -31,13 +31,13 @@ public class HuntressScript : UnitScript
 
     public bool longShot;
     public bool TrueShot;
-    int trueShotTimer = 0;
+    public int trueShotTimer = 0;
 
-    bool songCombo;
-    bool songComboA;
+    public bool songCombo;
+    public bool songComboA;
 
-    bool[] abilityCombos = new bool[4];
-    bool[] abilityCombosA = new bool[4];
+    public bool[] abilityCombos = new bool[4];
+    public bool[] abilityCombosA = new bool[4];
     public override void Ability1(GameObject targetUnit)
     {
         ///<summary>

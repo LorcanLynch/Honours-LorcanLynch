@@ -190,7 +190,95 @@ public class WizardUpgrades : Upgrades
         AfterUpgradeApplied();
     }
 
+    void MassFreezeContainer()
+    {
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Fourth Abilty becomes Breath of Cold, a damaging AoE that stuns enemies it strikes.";
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
+        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.onClick.AddListener(delegate { FireballOnClick(attachedButton); });
 
+    }
+    void MassFreezeOnClick(Button targetButton)
+    {
+        upgradeContainers.Remove("BreathOfColdContainer");
+
+
+        GameObject.Find("Wizard").GetComponent<WizardScript>().breathOfCold = true;
+
+        AfterUpgradeApplied();
+    }
+
+    void LightningSurgeContainer()
+    {
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's lightning strike can now combo with power surge, granting lightning strike + 4 damage if surge is used first, and granting the target +4 damage if lightning strike is used first.";
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
+        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.onClick.AddListener(delegate { LightningSurgeOnClick(attachedButton); });
+
+    }
+    void LightningSurgeOnClick(Button targetButton)
+    {
+        upgradeContainers.Remove("LightningSurgeContainer");
+
+
+        GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
+
+        AfterUpgradeApplied();
+    }
+
+    void IncantationSurgeContainer()
+    {
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Incantation can now combo with power surge, Reducing both cooldowns by 1 when comboed";
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
+        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.onClick.AddListener(delegate { IncantationSurgeOnClick(attachedButton); });
+
+    }
+    void IncantationSurgeOnClick(Button targetButton)
+    {
+        upgradeContainers.Remove("IncantationSurgeContainer");
+
+
+        GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
+
+        AfterUpgradeApplied();
+    }
+
+    void LifeDrainComboContainer()
+    {
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Life Drain can now combo with power surge, Granting +5 damage to life drain when comboed, and healing the target for 5 when surge is comboed";
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
+        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.onClick.AddListener(delegate { LifeDrainComboOnClick(attachedButton); });
+
+    }
+    void LifeDrainComboOnClick(Button targetButton)
+    {
+        upgradeContainers.Remove("LifeDrainComboContainer");
+
+
+        GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
+
+        AfterUpgradeApplied();
+    }
+
+    void BombardComboContainer()
+    {
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Life Drain can now combo with Bombardment, Granting +5 damage to Bombardment when comboed, and granting +2 movespeed to the target when surge is comboed";
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
+        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.onClick.AddListener(delegate { BombardComboOnClick(attachedButton); });
+
+    }
+    void BombardComboOnClick(Button targetButton)
+    {
+        upgradeContainers.Remove("BombardComboContainer");
+
+
+        GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
+
+        AfterUpgradeApplied();
+    }
 
 }
 

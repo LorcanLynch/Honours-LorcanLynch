@@ -13,14 +13,14 @@ public class WizardScript : UnitScript
     public bool PowerSurge;
     public bool Bombardment;
     public bool soulDrain;
-    GameObject drained = null;
+  
     public int drainedTimer;
-    GameObject surged;
-    List<GameObject> buffed = new List<GameObject> { };
-    public int incatationed = 0;
+  
+    
+   
     public bool fireLord;
     public bool iceLord;
-
+    public bool breathOfCold = false;
     public override void attack(GameObject target)
     {
 
@@ -82,9 +82,9 @@ public class WizardScript : UnitScript
             targetUnit.GetComponent<UnitScript>().moveSpeed = targetUnit.GetComponent<UnitScript>().maxMoveSpeed;
             if(PowerSurge)
             {
-                surged.GetComponent<UnitScript>().attackPower += 4;
+                targetUnit.GetComponent<UnitScript>().DamageBuff(1, 4);
                 targetUnit.GetComponent<UnitScript>().moveSpeed = targetUnit.GetComponent<UnitScript>().maxMoveSpeed +2;
-                surged = gameObject;
+                
             }
             
         }
@@ -109,27 +109,27 @@ public class WizardScript : UnitScript
                 gameObject.GetComponent<UnitScript>().HealDamage(attackPower - targetUnit.GetComponent<UnitScript>().damageReduction);
                 if(soulDrain)
                 {
-                    drained = targetUnit;
-                    drainedTimer = 4;
+                    targetUnit.GetComponent<UnitScript>().Burn(4,3) ;
+                   
                 }
             }
         }
         if(incantationOfPower)
         {   
-            buffed.Clear();
-            incatationed = 2;
+          
+            
             abilitiesCooldown[2] = 4;
             RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
             foreach (RaycastHit2D hit in targets)
             {
                 if (hit.collider.tag == "team1")
                 {
-                    hit.collider.GetComponent<UnitScript>().attackPower += 2;
+                    hit.collider.GetComponent<UnitScript>().DamageBuff(2, 2);
                     if(greaterInvocation)
                     {
-                        hit.collider.GetComponent<UnitScript>().attackPower += 4;
+                        hit.collider.GetComponent<UnitScript>().DamageBuff(2, 4);
                     }
-                    buffed.Add(hit.collider.gameObject);
+                  
                 }
             }
             
@@ -159,41 +159,39 @@ public class WizardScript : UnitScript
 
 
                 }
-                abilitiesTarget[2] = false;
+                abilitiesTarget[3] = false;
+                abilitiesCooldown[3] = 6;
+            }
+        }
+        if (breathOfCold)
+        {
+            if (map.GenerateAttackPath(gameObject, targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, tileY, tileX).Count - 2 < attackRange)
+            {
+                animator.SetTrigger("attack");
+                abilitiesCooldown[2] = 4;
+                attackAvailable = false;
+                targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);//simple attack
+                RaycastHit2D[] targets = Physics2D.CircleCastAll(targetUnit.transform.position, .8f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                foreach (RaycastHit2D hit in targets)
+                {
+                    if (hit.collider.gameObject.layer == 6)
+                    {
+                        hit.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower/2));
+                        hit.collider.gameObject.GetComponent<UnitScript>().stunned = true;
+                    }
+
+
+                }
+                abilitiesCooldown[3] = 6;
+                abilitiesTarget[3] = false;
             }
         }
     }
     public override void TurnOver()
     {
-        if(surged != null)
-        {
-            surged.GetComponent<UnitScript>().attackPower -= 4;
-            surged = null;
-        }
-
-        incatationed--;
-        if (incatationed == 0)
-        {
-            for (int i = 0; i < buffed.Count; i++)
-            {
-                buffed[i].GetComponent<UnitScript>().attackPower -= 2;
-                if (greaterInvocation)
-                {
-                    buffed[i].GetComponent<UnitScript>().attackPower -= 4;
-                }
-            }
-        }
-        if(drained != null)
-        {
-            drained.GetComponent<UnitScript>().UnitDamage(damageReduction/4 + drained.GetComponent<UnitScript>().damageReduction);
-            drainedTimer--;
-            if(drainedTimer == 0)
-            {
-                drained = null;
-            }
-        }
         
 
+       
         base.TurnOver();
     }
 
