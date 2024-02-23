@@ -34,12 +34,14 @@ public class TileMap : MonoBehaviour
     public TextMeshProUGUI armourText;
     public TextMeshProUGUI accuracyText;
     public TextMeshProUGUI rangeText;
+    public List<GameObject> activeTiles;
     public enum mapType {Fort, Swamp, Desert, Hills, Camp }
     void Awake()
     {
         obj = GetComponent<ObjectiveScript>();
         selectedUnit.transform.position = TileCoordToWorldCoord(selectedUnit.GetComponent<UnitScript>().tileX, selectedUnit.GetComponent<UnitScript>().tileY);
-        GenerateFort();
+        //GenerateFort();
+        GenerateGrove();
         GeneratePathfindingGraph();
         GenerateMap();
         wack = Vector2.Distance(TileCoordToWorldCoord(2, 5), TileCoordToWorldCoord(2, 4));
@@ -92,7 +94,7 @@ public class TileMap : MonoBehaviour
                 GameObject gO = Instantiate(tt.tileVisual, new Vector3(posX, posY, 1), Quaternion.identity);
 
                 ClickableTile ct = gO.GetComponent<ClickableTile>();
-
+              
                 ct.tileX = x;
                 ct.tileY = y;
                 ct.map = this;
@@ -100,6 +102,21 @@ public class TileMap : MonoBehaviour
             }
         }
 
+    }
+
+    public void GenerateSecureZone(int x,int y)
+    {
+        
+        tiles[x, y] = 4;
+        TileType tt = tileTypes[tiles[x,y]];
+        float posX = x % 2 == 0 ? tileSize * 2 * y : tileSize * 2 * y + tileSize;
+
+        float posY = ((tileSize * 3) / Mathf.Sqrt(3)) * x;
+        GameObject gO = Instantiate(tt.tileVisual, new Vector3(posX, posY, .99f), Quaternion.identity);
+        ClickableTile ct = gO.GetComponent<ClickableTile>();
+        ct.tileX = x;
+        ct.tileY = y;
+        ct.map = this;
     }
     public Vector3 TileCoordToWorldCoord(int x, int y)
     {
@@ -605,7 +622,171 @@ public class TileMap : MonoBehaviour
 
 
 
-    }    
+    }
+
+    public void GenerateGrove()
+    {
+        tiles = new int[mapSizeX, mapSizeY];
+        for (int x = 0; x < mapSizeX; x++)
+            for (int y = 0; y < mapSizeY; y++)
+            {
+                tiles[x, y] = 0;
+            }
+
+
+
+        for (int x = 15; x < 16; x++)
+            for (int y = 2; y < 9; y++)
+            {
+                tiles[x, y] = 3;
+            }
+
+        for (int x = 6; x < 12; x++)
+            for (int y = 13; y < 19; y++)
+            {
+                tiles[x, y] = 2;
+            }
+
+        for (int x = 11; x < 20; x++)
+            for (int y = 16; y < 18; y++)
+            {
+                tiles[x, y] = 1;
+            }
+
+
+        for (int x = 7; x < 11; x++)
+            for (int y = 14; y < 18; y++)
+            {
+                tiles[x, y] = 1;
+            }
+
+       
+
+
+        for (int x =9; x < 12; x++)
+            for (int y = 14; y < 18; y++)
+            {
+                tiles[x, y] = 1;
+            }
+        for (int x = 16; x < 17; x++)
+            for (int y = 16; y < 18; y++)
+            {
+                tiles[x, y] = 2;
+            }
+
+        for (int x = 0; x < 20; x++)
+            for (int y = 12; y < 14; y++)
+            {
+                tiles[x, y] = 3;
+            }
+        for (int x = 0; x < 15; x++)
+            for (int y = 2; y < 9; y++)
+            {
+                tiles[x, y] = 3;
+            }
+        for (int x = 2; x < 4; x++)
+            for (int y = 0; y < 20; y++)
+            {
+                tiles[x, y] = 0;
+            }
+        for (int x = 6; x < 12; x++)
+            for (int y = 2; y < 6; y++)
+            {
+                tiles[x, y] = 1;
+            }
+        tiles[12, 3] = 1;
+        tiles[12, 4] = 1;
+        tiles[13, 3] = 1;
+
+       
+
+
+
+
+
+    }
+
+    public void GenerateSwamp()
+    {
+        tiles = new int[mapSizeX, mapSizeY];
+        for (int x = 0; x < mapSizeX; x++)
+            for (int y = 0; y < mapSizeY; y++)
+            {
+                tiles[x, y] = 0;
+            }
+
+
+
+        for (int x = 15; x < 16; x++)
+            for (int y = 2; y < 9; y++)
+            {
+                tiles[x, y] = 3;
+            }
+
+        for (int x = 6; x < 12; x++)
+            for (int y = 13; y < 19; y++)
+            {
+                tiles[x, y] = 2;
+            }
+
+        for (int x = 11; x < 20; x++)
+            for (int y = 16; y < 18; y++)
+            {
+                tiles[x, y] = 1;
+            }
+
+
+        for (int x = 7; x < 11; x++)
+            for (int y = 14; y < 18; y++)
+            {
+                tiles[x, y] = 1;
+            }
+
+
+
+
+        for (int x = 9; x < 12; x++)
+            for (int y = 14; y < 18; y++)
+            {
+                tiles[x, y] = 1;
+            }
+        for (int x = 16; x < 17; x++)
+            for (int y = 16; y < 18; y++)
+            {
+                tiles[x, y] = 2;
+            }
+
+        for (int x = 0; x < 20; x++)
+            for (int y = 12; y < 14; y++)
+            {
+                tiles[x, y] = 3;
+            }
+        for (int x = 0; x < 15; x++)
+            for (int y = 2; y < 9; y++)
+            {
+                tiles[x, y] = 3;
+            }
+        for (int x = 2; x < 4; x++)
+            for (int y = 0; y < 20; y++)
+            {
+                tiles[x, y] = 0;
+            }
+        for (int x = 6; x < 12; x++)
+            for (int y = 2; y < 6; y++)
+            {
+                tiles[x, y] = 1;
+            }
+        tiles[12, 3] = 1;
+        tiles[12, 4] = 1;
+        tiles[13, 3] = 1;
+
+
+
+
+
+
+
+    }
 
     public IEnumerator EndTurnA()
     {
@@ -618,9 +799,13 @@ public class TileMap : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
         {
-            enemy.GetComponent<EnemyScript>().turnStart();
-            yield return new WaitUntil(() => enemy.GetComponent<UnitScript>().currentPath == null);
-            enemy.GetComponent<EnemyScript>().FinishedMove();
+            if (enemy != null)
+            {
+                enemy.GetComponent<EnemyScript>().turnStart();
+                yield return new WaitUntil(() => enemy.GetComponent<UnitScript>().currentPath == null);
+                enemy.GetComponent<EnemyScript>().FinishedMove();
+            }
+           
         }
         canSelect = true;
         panelEnd.SetActive(false);

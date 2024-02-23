@@ -14,12 +14,14 @@ public class KnightUpgrades : Upgrades
     void Start()
     {
         upgradeContainers.Add("HalberdContainer");
-        
+        upgradeContainers.Add("RawGritContainer");
+        upgradeContainers.Add("HardenedWarriorContainer");
         upgradeContainers.Add("ParryStrikebackContainer");
         upgradeContainers.Add("ParryDodgeChanceContainer");
         upgradeContainers.Add("FrenziedContainer");
         upgradeContainers.Add("GloryContainer");
         upgradeContainers.Add("UnstopableContainer");
+        upgradeContainers.Add("RiposteContainer");
         GenerateChoice();
     }
 
@@ -36,7 +38,7 @@ public class KnightUpgrades : Upgrades
     {
        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "+1 range, and cleave now sweeps \n all in range, stunning them for one turn";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-       attachedButton.onClick.RemoveAllListeners();
+   
         attachedButton.onClick.AddListener(delegate { HalberdOnClick(attachedButton); });
        
     }
@@ -45,7 +47,7 @@ public class KnightUpgrades : Upgrades
     void HalberdOnClick(Button targetButton)
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().domumHalberd = true;
-        GameObject.Find("Knight").GetComponent<KnightScript>().attackRange++;
+      //  GameObject.Find("Knight").GetComponent<KnightScript>().attackRange++;
         upgradeContainers.Remove("HalberdContainer");
         AfterUpgradeApplied();
     }
@@ -54,7 +56,7 @@ public class KnightUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Knight gains a flat +10 Hp, and can no longer be stunned";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+    
         attachedButton.onClick.AddListener(delegate { HardenedWarriorOnClick(attachedButton); });
 
     }
@@ -73,7 +75,7 @@ public class KnightUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The first time per map the knight drops below 0hp, he is instead set to 1hp";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        
         attachedButton.onClick.AddListener(delegate { RawGritOnClick(attachedButton); });
 
     }
@@ -92,7 +94,7 @@ public class KnightUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "After Activating Parry, the first time the knight is struck they take no damage and strike all enemies in range";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+
         attachedButton.onClick.AddListener(delegate { ParryStrikeOnClick(attachedButton); });
 
     }
@@ -109,7 +111,7 @@ public class KnightUpgrades : Upgrades
         
         attachedButton.GetComponent<Image>().sprite = abilitySprites[1];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parry now increases dodge by 4x(Previously 2x), and its cooldown is one turn shorter";
-        attachedButton.onClick.RemoveAllListeners();
+     
         attachedButton.onClick.AddListener(delegate { ParryHoldfastOnClick(attachedButton); });
         
 
@@ -119,7 +121,7 @@ public class KnightUpgrades : Upgrades
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().parryHoldfast = true;
         upgradeContainers.Remove("ParryDodgeChanceContainer");
-        targetButton.gameObject.SetActive(false);
+       
         AfterUpgradeApplied();
     }
 
@@ -128,7 +130,7 @@ public class KnightUpgrades : Upgrades
         
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 3rd ability becomes 'Frenzied Strike', which attacks the same target 3 times in quick succession";
-        attachedButton.onClick.RemoveAllListeners();
+    
         attachedButton.onClick.AddListener(delegate { FrenziedOnClick(attachedButton); });
         
     }
@@ -140,6 +142,7 @@ public class KnightUpgrades : Upgrades
         upgradeContainers.Remove("FrenziedContainer");
         upgradeContainers.Remove("UnstopableContainer");
         upgradeContainers.Remove("FlamingContainer");
+        upgradeContainers.Add("FrenzyComboContainer");
         AfterUpgradeApplied();
     }
     void FlamingContainer()
@@ -147,7 +150,7 @@ public class KnightUpgrades : Upgrades
 
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 3rd ability becomes 'Flaming Blade', which grants +4 damage on the knight's attacks";
-        attachedButton.onClick.RemoveAllListeners();
+    
         attachedButton.onClick.AddListener(delegate { FrenziedOnClick(attachedButton); });
 
     }
@@ -160,6 +163,7 @@ public class KnightUpgrades : Upgrades
         upgradeContainers.Remove("UnstopableContainer");
         upgradeContainers.Remove("FlamingContainer");
         upgradeContainers.Add("LingeringFlameContainer");
+        upgradeContainers.Add("FlamingComboContainer");
         AfterUpgradeApplied();
     }
 
@@ -168,7 +172,7 @@ public class KnightUpgrades : Upgrades
 
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Flaming blade now applies a burn to the target on hit";
-        attachedButton.onClick.RemoveAllListeners();
+     
         attachedButton.onClick.AddListener(delegate { FrenziedOnClick(attachedButton); });
 
     }
@@ -186,7 +190,7 @@ public class KnightUpgrades : Upgrades
         
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 3rd ability becomes 'Glory or Death', Granting +2 Damage reduction to all friendly units within 2 tiles";
-        attachedButton.onClick.RemoveAllListeners();
+       
         attachedButton.onClick.AddListener(delegate { GloryOnClick(attachedButton); });
         
     }
@@ -198,6 +202,7 @@ public class KnightUpgrades : Upgrades
         upgradeContainers.Remove("UnstopableContainer");
         upgradeContainers.Remove("FlamingContainer");
         upgradeContainers.Add("GloriousWarriorContainer");
+        upgradeContainers.Add("RighteousComboContainer");
         AfterUpgradeApplied();
     }
 
@@ -206,7 +211,7 @@ public class KnightUpgrades : Upgrades
 
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Glory or Death additionally grants +2 damage for the duration";
-        attachedButton.onClick.RemoveAllListeners();
+       
         attachedButton.onClick.AddListener(delegate { GloriousWarriorOnClick(attachedButton); });
 
     }
@@ -224,7 +229,7 @@ public class KnightUpgrades : Upgrades
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 3rd ability becomes 'Unstopable Force', Causing them to take no damage until their next turn";
 
-        attachedButton.onClick.RemoveAllListeners();
+     
         attachedButton.onClick.AddListener(delegate { UnstopableOnClick(attachedButton); });
     }
     void UnstopableOnClick(Button targetButton)
@@ -235,6 +240,7 @@ public class KnightUpgrades : Upgrades
         upgradeContainers.Remove("UnstopableContainer");
         upgradeContainers.Remove("FlamingContainer");
         upgradeContainers.Add("UnmovableContainer");
+        upgradeContainers.Add("UnstopableContainer");
         AfterUpgradeApplied();
     }
 
@@ -244,7 +250,7 @@ public class KnightUpgrades : Upgrades
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "When Unstopable is active, the knight stuns any target they strike, additionally they gain maximum +5 hp";
 
-        attachedButton.onClick.RemoveAllListeners();
+     
         attachedButton.onClick.AddListener(delegate { UnmovableOnClick(attachedButton); });
     }
     void UnmovableOnClick(Button targetButton)
@@ -262,7 +268,7 @@ public class KnightUpgrades : Upgrades
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 4th ability becomes the passive ability 'Death Knight', causing them to heal a portion of all the damage they deal";
 
-        attachedButton.onClick.RemoveAllListeners();
+      
         attachedButton.onClick.AddListener(delegate { DeathKnightOnClick(attachedButton); });
     }
     void DeathKnightOnClick(Button targetButton)
@@ -278,7 +284,7 @@ public class KnightUpgrades : Upgrades
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 4th ability becomes the passive ability 'Slayer's Wrath', granting them +1 damage each time they are struck(To a maximum of 5)";
 
-        attachedButton.onClick.RemoveAllListeners();
+      
         attachedButton.onClick.AddListener(delegate { SlayerOnClick(attachedButton); });
     }
     void SlayerOnClick(Button targetButton)
@@ -299,7 +305,7 @@ public class KnightUpgrades : Upgrades
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parry can now combo with cleave, reducing the cooldown of both abilities if parry is used first, and granting +3 damage reduction if cleave is used first";
 
-        attachedButton.onClick.RemoveAllListeners();
+     
         attachedButton.onClick.AddListener(delegate { RiposteOnClick(attachedButton); });
     }
     void RiposteOnClick(Button targetButton)
@@ -316,7 +322,7 @@ public class KnightUpgrades : Upgrades
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parry can now combo with Frenzied Strikes, adding and extra attack if parry is used first, and healing for 5hp if frenzied strikes is used first";
 
-        attachedButton.onClick.RemoveAllListeners();
+   
         attachedButton.onClick.AddListener(delegate { FrenzyComboOnClick(attachedButton); });
     }
     void FrenzyComboOnClick(Button targetButton)
@@ -333,7 +339,7 @@ public class KnightUpgrades : Upgrades
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parry can now combo with Unstopable Force, Doubling the duration of the comboed ability";
 
-        attachedButton.onClick.RemoveAllListeners();
+ 
         attachedButton.onClick.AddListener(delegate { UnstopableComboOnClick(attachedButton); });
     }
     void UnstopableComboOnClick(Button targetButton)
@@ -350,7 +356,7 @@ public class KnightUpgrades : Upgrades
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parry can now combo with Righteous Glory, healing all nearby allies when using the comboed ability";
 
-        attachedButton.onClick.RemoveAllListeners();
+        
         attachedButton.onClick.AddListener(delegate { RighteousComboOnClick(attachedButton); });
     }
     void RighteousComboOnClick(Button targetButton)
@@ -367,7 +373,7 @@ public class KnightUpgrades : Upgrades
         attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parry can now combo with Flaming blade, granting +1 duration if Parry is used first, and an exploding AoE when struck if flaming blade is used first";
 
-        attachedButton.onClick.RemoveAllListeners();
+      
         attachedButton.onClick.AddListener(delegate { FlamingComboOnClick(attachedButton); });
     }
     void FlamingComboOnClick(Button targetButton)

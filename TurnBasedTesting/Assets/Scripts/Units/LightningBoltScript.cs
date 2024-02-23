@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LightningBoltScript : MonoBehaviour
 {
+    public int damage = 5;
     // Start is called before the first frame update
     public Vector3 target = Vector2.zero;
     void Start()
@@ -24,7 +25,7 @@ public class LightningBoltScript : MonoBehaviour
     {
         if (collision.gameObject != gameObject)
         {
-            collision.gameObject.GetComponent<UnitScript>().UnitDamage(100);
+            collision.gameObject.GetComponent<UnitScript>().UnitDamage(damage);
         }
     }
 }

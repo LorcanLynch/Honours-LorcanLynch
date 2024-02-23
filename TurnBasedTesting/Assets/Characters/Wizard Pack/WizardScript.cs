@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class WizardScript : UnitScript
 {
@@ -12,15 +14,21 @@ public class WizardScript : UnitScript
     public bool greaterInvocation;
     public bool PowerSurge;
     public bool Bombardment;
+    public bool massBombardment;
     public bool soulDrain;
   
     public int drainedTimer;
-  
-    
-   
+
+    public bool lightningSurgeCombo;
+    public bool lightningSurgeComboA;
+
+
     public bool fireLord;
     public bool iceLord;
     public bool breathOfCold = false;
+
+    public bool[] combos = new bool[3];
+    public bool[] combosA = new bool[3];
     public override void attack(GameObject target)
     {
 
@@ -66,6 +74,19 @@ public class WizardScript : UnitScript
         //RaycastHit2D[] unitsHit = Physics2D.LinecastAll(gameObject.transform.position, targetUnit.transform.position);
         GameObject bolt = Instantiate(lightningBolt, Vector3.MoveTowards(gameObject.transform.position, targetUnit.transform.position, .4f), Quaternion.FromToRotation(transform.position, -targetUnit.transform.position));
         bolt.GetComponent<LightningBoltScript>().target = targetUnit.transform.position;
+        if(lightningSurgeComboA)
+        {
+            bolt.GetComponent<LightningBoltScript>().damage += 4;
+            lightningSurgeComboA = false;
+        }
+        else
+        {
+            if(lightningSurgeCombo)
+            {
+                lightningSurgeComboA = true;
+            }
+        }
+        abilitiesCooldown[0] = 4;
         attackAvailable = false;
 
         abilitiesTarget[0] = false;
@@ -86,7 +107,68 @@ public class WizardScript : UnitScript
                 targetUnit.GetComponent<UnitScript>().moveSpeed = targetUnit.GetComponent<UnitScript>().maxMoveSpeed +2;
                 
             }
-            
+            if (lightningSurgeComboA)
+            {
+                if(PowerSurge)
+                {
+                    targetUnit.GetComponent<UnitScript>().DamageBuff(1, 8);
+
+                }
+                else
+                {
+                    targetUnit.GetComponent<UnitScript>().DamageBuff(1, 4);
+                }
+                lightningSurgeComboA = false;
+            }
+            else
+            {
+                if (lightningSurgeCombo)
+                {
+                    lightningSurgeComboA = true;
+                }
+            }
+
+            if (combosA[0])
+            {
+                targetUnit.GetComponent<UnitScript>().moveSpeed = targetUnit.GetComponent<UnitScript>().moveSpeed += 2;
+                combosA[0] = false;
+            }
+            else
+            {
+                if (combos[0])
+                {
+                    combosA[0] = true;
+                }
+            }
+
+
+            if (combosA[1])
+            {
+                targetUnit.GetComponent<UnitScript>().HealDamage(5);
+                combosA[1] = false;
+            }
+            else
+            {
+                if (combos[1])
+                {
+                    combosA[1] = true;
+                }
+            }
+
+            if (combosA[2])
+            {
+                abilitiesCooldown[1]--;
+                abilitiesCooldown[2]--;
+                combosA[2] = false;
+            }
+            else
+            {
+                if (combos[2])
+                {
+                    combosA[2] = true;
+                }
+            }
+
         }
         abilitiesTarget[1] = false;
     }
@@ -94,13 +176,44 @@ public class WizardScript : UnitScript
 
     public override void Ability3(GameObject targetUnit)
     {
-        
-        if (targetUnit.tag != gameObject.tag && map.GenerateAttackPath(gameObject, targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, tileY, tileX).Count - 2 < 10 && Bombardment)
+        if (Bombardment)
         {
-            targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower/2);
-           
-        }
+            abilitiesCooldown[2] = 5;
+            if (targetUnit.tag != gameObject.tag && CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY,10))
+            {
+                targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower / 2); 
+                if (massBombardment)
+                {
+                    RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                    foreach (RaycastHit2D hit in targets)
+                    {
 
+                        if (hit.collider.tag == "team1")
+                        {
+                            targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower / 2);
+                            if (combosA[0])
+                            {
+                                targetUnit.GetComponent<UnitScript>().UnitDamage(5 + targetUnit.GetComponent<UnitScript>().damageReduction);
+                            }
+                        }
+                    }
+                }
+                if (combosA[0])
+                {
+                    targetUnit.GetComponent<UnitScript>().UnitDamage(5 +  targetUnit.GetComponent<UnitScript>().damageReduction);
+                    combosA[0] = false;
+                }
+                else
+                {
+                    if (combos[0])
+                    {
+                        combosA[0] = true;
+                    }
+                }
+                
+            }
+            
+        }
         if (lifeDrain)
         {
             if(gameObject.tag != targetUnit.tag)
@@ -111,6 +224,19 @@ public class WizardScript : UnitScript
                 {
                     targetUnit.GetComponent<UnitScript>().Burn(4,3) ;
                    
+                }
+                if (combosA[1])
+                {
+                    targetUnit.GetComponent<UnitScript>().UnitDamage(5 + targetUnit.GetComponent<UnitScript>().damageReduction);
+                    gameObject.GetComponent<UnitScript>().HealDamage(5);
+                    combosA[1] = false;
+                }
+                else
+                {
+                    if (combos[1])
+                    {
+                        combosA[1] = true;
+                    }
                 }
             }
         }
@@ -127,12 +253,24 @@ public class WizardScript : UnitScript
                     hit.collider.GetComponent<UnitScript>().DamageBuff(2, 2);
                     if(greaterInvocation)
                     {
-                        hit.collider.GetComponent<UnitScript>().DamageBuff(2, 4);
+                        hit.collider.GetComponent<UnitScript>().attackAvailable = true;
                     }
                   
                 }
             }
-            
+            if (combosA[2])
+            {
+                abilitiesCooldown[2]--;
+                abilitiesCooldown[1]--;
+                combosA[2] = false;
+            }
+            else
+            {
+                if (combos[2])
+                {
+                    combosA[2] = true;
+                }
+            }
         }
         attackAvailable = false;
         abilitiesTarget[2] = false;

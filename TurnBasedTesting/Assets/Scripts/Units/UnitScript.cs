@@ -270,7 +270,7 @@ public class UnitScript : MonoBehaviour
             abilitiesTarget[0] = !abilitiesTarget[0];
             abilitiesTarget[2] = false;
             abilitiesTarget[1] = false;
-
+            map.GenerateSecureZone(1,1);
             map.UpdateIconSelection(0);
 
         }

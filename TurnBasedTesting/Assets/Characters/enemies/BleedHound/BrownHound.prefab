@@ -90,9 +90,7 @@ GameObject:
   - component: {fileID: 5867294158332244318}
   - component: {fileID: 6071818931402530729}
   - component: {fileID: 7238179729285534144}
-  - component: {fileID: 6797955929920317287}
   - component: {fileID: 4533893307819747135}
-  - component: {fileID: 7526677029284402642}
   m_Layer: 6
   m_Name: BrownHound
   m_TagString: Enemy
@@ -315,8 +313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a203ee662d91a6548b83c0919a1c21d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileY: 0
-  tileX: 0
+  tileY: 5
+  tileX: 2
   selected: 0
   unitClass: 0
   attackAvailable: 1
@@ -356,27 +354,18 @@ MonoBehaviour:
   text: {fileID: 0}
   lineRenderer: {fileID: 0}
   speedFloatVal: 4
---- !u!50 &6797955929920317287
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5867294158332244319}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  healing: 0
+  healTimer: 0
+  heal: 0
+  buffTimer: 0
+  buffed: 0
+  dRbuff: 0
+  dodgeBuffT: 0
+  dodgeBuffed: 0
+  dodgeBuffN: 0
+  damageBuffT: 0
+  damageBuffed: 0
+  damageBuffN: 0
 --- !u!114 &4533893307819747135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,59 +381,6 @@ MonoBehaviour:
   map: {fileID: 0}
   unitTarget: {fileID: 0}
   aggroRange: 5
---- !u!114 &7526677029284402642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5867294158332244319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1bfd2f8b31fefc41a280d876b9f181e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileY: 0
-  tileX: 0
-  selected: 0
-  unitClass: 0
-  attackAvailable: 1
-  map: {fileID: 0}
-  move: 0
-  target: {x: 0, y: 0, z: 0}
-  targetX: 0
-  targetY: 0
-  baseDodge: 0
-  baseReduction: 0
-  abilityIcons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  abilitiesTarget: 00000000
-  abilitiesCooldown: 00000000000000000000000000000000
-  attacking: 0
-  animator: {fileID: 0}
-  UnitName: Dark Hound
-  stunned: 0
-  burning: 0
-  burnTimer: 0
-  burnDamage: 0
-  maxMoveSpeed: 4
-  moveSpeed: 4
-  maxhealth: 1
-  health: 1
-  attackPower: 4
-  attackRange: 2
-  claveHb: {fileID: 0}
-  lightningBolt: {fileID: 0}
-  accuracy: 80
-  visibility: 0
-  dodgeRating: 30
-  damageReduction: 0
-  text: {fileID: 5517868421793766852}
-  lineRenderer: {fileID: 0}
-  speedFloatVal: 2
 --- !u!1 &6797955929553506891
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,17 +885,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 425ad0d35c597354592b1086fb197849, type: 3}
---- !u!114 &5517868421793766852 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6028430921467857965, guid: 425ad0d35c597354592b1086fb197849, type: 3}
-  m_PrefabInstance: {fileID: 2250148225171214825}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &5517868421793766854 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6028430921467857967, guid: 425ad0d35c597354592b1086fb197849, type: 3}

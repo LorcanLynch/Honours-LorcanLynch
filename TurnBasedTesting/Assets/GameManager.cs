@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     GameObject previousUnit;
     Node[,] graph;
     public GameObject unitPrefab;
-    
+    public List<GameObject> unitsSpawnable;
     List<Node> spawnableTiles = new List<Node> { };   
     // Start is called before the first frame update
     void Start()
@@ -60,7 +60,9 @@ public class GameManager : MonoBehaviour
         int spawnLoc = UnityEngine.Random.Range(0, spawnableTiles.Count);
         if(tileMap.graph[spawnableTiles[spawnLoc].x, spawnableTiles[spawnLoc].y].containsUnit == false)
         {
-            GameObject unit = Instantiate(unitPrefab);
+            unitsSpawnable = tileMap.GetComponent<ObjectiveScript>().spawningPool;
+            int spawned = UnityEngine.Random.Range(0, unitsSpawnable.Count) ;
+            GameObject unit = Instantiate(unitsSpawnable[spawned]);
             tileMap.graph[spawnableTiles[spawnLoc].x, spawnableTiles[spawnLoc].y].containsUnit = true;
             unit.GetComponent<UnitScript>().tileX = spawnableTiles[spawnLoc].x;
             unit.GetComponent<UnitScript>().tileY = spawnableTiles[spawnLoc].y;
@@ -101,10 +103,16 @@ public class GameManager : MonoBehaviour
        
         if (tileMap.graph[tileX,tileY].containsUnit == false && tileMap.tiles[tileX, tileY] == 0)
         {
-            GameObject unit = Instantiate(unitPrefab);
+            unitsSpawnable = tileMap.GetComponent<ObjectiveScript>().spawningPool;
+            int spawned = UnityEngine.Random.Range(0, unitsSpawnable.Count);
+            GameObject unit = Instantiate(unitsSpawnable[spawned]);
+           
             tileMap.graph[tileX,tileY].containsUnit = true;
+           
+           
             unit.GetComponent<UnitScript>().tileX = tileX;
             unit.GetComponent<UnitScript>().tileY = tileY;
+            unit.transform.position = tileMap.TileCoordToWorldCoord(tileX, tileY);
 
 
         }
@@ -130,6 +138,67 @@ public class GameManager : MonoBehaviour
                 
             }
            
+        }
+
+
+
+    }
+
+    public void SpawnUnit(int tileX, int tileY, bool survive)
+    {
+        if (tileX < 0 || tileY < 0 || tileX > tileMap.mapSizeX || tileY > tileMap.mapSizeY)
+        {
+            return;
+        }
+        spawnableTiles.Clear();
+        for (int x = 0; x < tileMap.mapSizeX; x++)
+        {
+            for (int y = 0; y < tileMap.mapSizeY; y++)
+            {
+
+                if (tileMap.tiles[x, y] == 0)
+                {
+                    spawnableTiles.Add(tileMap.graph[x, y]);
+                }
+
+            }
+        }
+        //print(spawnableTiles.Count);
+
+
+        if (tileMap.graph[tileX, tileY].containsUnit == false && tileMap.tiles[tileX, tileY] == 0)
+        {
+            unitsSpawnable = tileMap.GetComponent<ObjectiveScript>().spawningPool;
+            int spawned = UnityEngine.Random.Range(0, unitsSpawnable.Count);
+            GameObject unit = Instantiate(unitsSpawnable[spawned]);
+            unit.GetComponent<UnitScript>().tileX = tileX;
+            unit.GetComponent<UnitScript>().tileY = tileY;
+            unit.GetComponent<EnemyScript>().aggroRange = 200;
+
+
+        }
+        else
+        {
+            print("happened");
+            int i = 0;
+            foreach (Node neighbour in tileMap.graph[tileX, tileY].connections)
+            {
+                i++;
+                if (neighbour.containsUnit == false && tileMap.tiles[neighbour.x, neighbour.y] == 0)
+                {
+                    SpawnUnit(neighbour.x, neighbour.y);
+                    break;
+                }
+                if (i > 5)
+                {
+
+                    SpawnUnit(tileX, tileY + 1);
+
+                }
+
+
+            }
+
         }
 
 

@@ -32,6 +32,9 @@ public class SamuraiScript : UnitScript
     public bool swiftExe;
     public bool swiftExeA;
 
+    public bool harmony;
+
+    public bool endlessWind;
     public bool[] abilityCombos = new bool[3];
     public bool[] abilityCombosA = new bool[3];
 
@@ -217,17 +220,28 @@ public class SamuraiScript : UnitScript
                 abilityCombosA[1] = true;
             }
         }
+
+        if(endlessWind)
+        {
+            DodgeBuff(2, 40);
+        }
     }
 
     public override void Ability3(GameObject targetUnit)
     {
         if(focus)
         {
-            accuracy += 10;
-            attackPower += 2;
-            damageReduction += 1;
-            dodgeRating += 10;
-            focusT = 3;
+            if(harmony)
+            {
+                health = maxhealth;
+                attackAvailable = false;
+            }
+            
+            DamageBuff(3, 2);
+            DRBuff(3, 1);
+            DodgeBuff(3, 10);
+
+           
             if (!bloodThirstA)
             {
                 attackAvailable = false;
@@ -236,6 +250,9 @@ public class SamuraiScript : UnitScript
 
             if (abilityCombosA[0])
             {
+                DamageBuff(4, 2);
+                DRBuff(4, 1);
+                DodgeBuff(4, 10);
                 focusT++;
                 abilityCombosA[0] = false;
             }

@@ -17,9 +17,12 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Add("BombardmentContainer");
         upgradeContainers.Add("PowerSurgeContainer");
         upgradeContainers.Add("LifeDrainContainer");
-        upgradeContainers.Add("SoulDrainContainer");
+      
         upgradeContainers.Add("IncantationContainer");
         upgradeContainers.Add("FireballContainer");
+        upgradeContainers.Add("LightningSurgeContainer");
+       
+
         GenerateChoice();
     }
 
@@ -34,8 +37,8 @@ public class WizardUpgrades : Upgrades
     public void SeekingBlastContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The wizard can no longer miss, but his damage is halved";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
+
         attachedButton.onClick.AddListener(delegate { SeekingBlastOnClick(attachedButton); });
 
     }
@@ -52,9 +55,9 @@ public class WizardUpgrades : Upgrades
 
     void FireLordContainer()
     {
-        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The wizard's basic attacks now deal +2 damage and apply a 4 Turn Burn, dealing damage over time \n but accuracy is reduced by 10";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The wizard's basic attacks now deal an extra 8 damage over 4 turns, but accuracy is reduced by 10";
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[6];
+   
         attachedButton.onClick.AddListener(delegate { FireLordOnClick(attachedButton); });
 
     }
@@ -62,7 +65,7 @@ public class WizardUpgrades : Upgrades
     {
         GameObject.Find("Wizard").GetComponent<WizardScript>().accuracy -=10;
         GameObject.Find("Wizard").GetComponent<WizardScript>().fireLord= true;
-        upgradeContainers.Remove("FirelordContainer");
+        upgradeContainers.Remove("FireLordContainer");
       
         AfterUpgradeApplied();
     }
@@ -70,8 +73,8 @@ public class WizardUpgrades : Upgrades
     void IceLordContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard now has a chance to freeze enemies with his basic attacks, stunning them";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[5];
+   
         attachedButton.onClick.AddListener(delegate { IceLordOnClick(attachedButton); });
 
     }
@@ -86,8 +89,8 @@ public class WizardUpgrades : Upgrades
     void BombardmentContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Third Abilty becomes Bombardment, a low damage ability but with extreme range";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[4];
+ 
         attachedButton.onClick.AddListener(delegate { BombardmentOnClick(attachedButton); });
 
     }
@@ -99,13 +102,34 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Remove("BombardmentContainer");
         upgradeContainers.Remove("LifeDrainContainer");
         upgradeContainers.Remove("IncantationContainer");
+        upgradeContainers.Add("MassBombardmentContainer");
+        upgradeContainers.Add("BombardComboContainer");
+     
+        AfterUpgradeApplied();
+    }
+
+    void MassBombardmentContainer()
+    {
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Bombardment now hits in a small area around the target, dealing the same damage to all in the area";
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[4];
+
+        attachedButton.onClick.AddListener(delegate { BombardmentOnClick(attachedButton); });
+
+    }
+    void MassBombardmentOnClick(Button targetButton)
+    {
+
+        GameObject.Find("Wizard").GetComponent<WizardScript>().massBombardment = true;
+
+        upgradeContainers.Remove("MassBombardmentContainer");
+        
         AfterUpgradeApplied();
     }
     void PowerSurgeContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Surge now also grants +4 damage, and 2 additional move speed \n (This exceeds a character's max move speed)";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[1];
+
         attachedButton.onClick.AddListener(delegate { PowerSurgeOnClick(attachedButton); });
 
     }
@@ -119,8 +143,8 @@ public class WizardUpgrades : Upgrades
     void LifeDrainContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Third Abilty becomes life drain, a standard attack that heals \n the wizard for the damage done";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[3];
+ 
         attachedButton.onClick.AddListener(delegate { LifeDrainOnClick(attachedButton); });
 
     }
@@ -130,6 +154,8 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Remove("LifeDrainContainer");
         upgradeContainers.Remove("IncantationContainer");
         upgradeContainers.Add("SoulDrainContainer");
+        upgradeContainers.Add("LifeDrainComboContainer");
+        
         GameObject.Find("Wizard").GetComponent<WizardScript>().lifeDrain = true;
        
         AfterUpgradeApplied();
@@ -138,9 +164,9 @@ public class WizardUpgrades : Upgrades
     void SoulDrainContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Life drain applies a damage over time affect, dealing 100% of the abilities damage over 4 turns";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
-        attachedButton.onClick.AddListener(delegate { LifeDrainOnClick(attachedButton); });
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[3];
+
+        attachedButton.onClick.AddListener(delegate { SoulDrainOnClick(attachedButton); });
 
     }
     void SoulDrainOnClick(Button targetButton)
@@ -156,8 +182,8 @@ public class WizardUpgrades : Upgrades
     void IncantationContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Third Abilty becomes Incantation of Power, an AoE buff that increases damage done \n of all nearby allies";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
+     
         attachedButton.onClick.AddListener(delegate { IncantationOnClick(attachedButton); });
 
     }
@@ -166,8 +192,27 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Remove("BombardmentContainer");
         upgradeContainers.Remove("LifeDrainContainer");
         upgradeContainers.Remove("IncantationContainer");
-       
+        upgradeContainers.Add("SurgeIncantationContainer");
+        upgradeContainers.Add("IncantationSurgeContainer");
         GameObject.Find("Wizard").GetComponent<WizardScript>().incantationOfPower = true;
+
+        AfterUpgradeApplied();
+    }
+
+    void SurgeIncantationContainer()
+    {
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Incantation of Power now resets all allies attacks";
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
+
+        attachedButton.onClick.AddListener(delegate { SurgeIncantationOnClick(attachedButton); });
+
+    }
+    void SurgeIncantationOnClick(Button targetButton)
+    {
+       
+        upgradeContainers.Remove("SurgeIncantationContainer");
+
+        GameObject.Find("Wizard").GetComponent<WizardScript>().greaterInvocation = true;
 
         AfterUpgradeApplied();
     }
@@ -175,16 +220,16 @@ public class WizardUpgrades : Upgrades
     void FireballContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Fourth Abilty becomes Fireball, a large damage AoE.";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[6];
+   
         attachedButton.onClick.AddListener(delegate { FireballOnClick(attachedButton); });
 
     }
     void FireballOnClick(Button targetButton)
     {
         upgradeContainers.Remove("FireballContainer");
-        
 
+        upgradeContainers.Remove("MassFreezeContainer");
         GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
 
         AfterUpgradeApplied();
@@ -193,15 +238,15 @@ public class WizardUpgrades : Upgrades
     void MassFreezeContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Fourth Abilty becomes Breath of Cold, a damaging AoE that stuns enemies it strikes.";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
-        attachedButton.onClick.AddListener(delegate { FireballOnClick(attachedButton); });
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[5];
+
+        attachedButton.onClick.AddListener(delegate { MassFreezeOnClick(attachedButton); });
 
     }
     void MassFreezeOnClick(Button targetButton)
     {
-        upgradeContainers.Remove("BreathOfColdContainer");
-
+        upgradeContainers.Remove("MassFreezeContainer");
+        upgradeContainers.Remove("FireballContainer");
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().breathOfCold = true;
 
@@ -210,9 +255,9 @@ public class WizardUpgrades : Upgrades
 
     void LightningSurgeContainer()
     {
-        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's lightning strike can now combo with power surge, granting lightning strike + 4 damage if surge is used first, and granting the target +4 damage if lightning strike is used first.";
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's lightning strike can now combo with power surge, granting lightning strike + 4 damage if surge is used first, and granting the target +4 damage that turn if lightning strike is used first.";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+       
         attachedButton.onClick.AddListener(delegate { LightningSurgeOnClick(attachedButton); });
 
     }
@@ -221,7 +266,7 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Remove("LightningSurgeContainer");
 
 
-        GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
+        GameObject.Find("Wizard").GetComponent<WizardScript>().lightningSurgeCombo = true;
 
         AfterUpgradeApplied();
     }
@@ -229,8 +274,8 @@ public class WizardUpgrades : Upgrades
     void IncantationSurgeContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Incantation can now combo with power surge, Reducing both cooldowns by 1 when comboed";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[2];
+      
         attachedButton.onClick.AddListener(delegate { IncantationSurgeOnClick(attachedButton); });
 
     }
@@ -239,7 +284,7 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Remove("IncantationSurgeContainer");
 
 
-        GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
+        GameObject.Find("Wizard").GetComponent<WizardScript>().combos[2] = true;
 
         AfterUpgradeApplied();
     }
@@ -247,8 +292,9 @@ public class WizardUpgrades : Upgrades
     void LifeDrainComboContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Life Drain can now combo with power surge, Granting +5 damage to life drain when comboed, and healing the target for 5 when surge is comboed";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[3];
+    
         attachedButton.onClick.AddListener(delegate { LifeDrainComboOnClick(attachedButton); });
 
     }
@@ -257,7 +303,7 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Remove("LifeDrainComboContainer");
 
 
-        GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
+        GameObject.Find("Wizard").GetComponent<WizardScript>().combos[1] = true;
 
         AfterUpgradeApplied();
     }
@@ -265,8 +311,8 @@ public class WizardUpgrades : Upgrades
     void BombardComboContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Life Drain can now combo with Bombardment, Granting +5 damage to Bombardment when comboed, and granting +2 movespeed to the target when surge is comboed";
-        attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        attachedButton.GetComponent<Image>().sprite = abilitySprites[4];
+     
         attachedButton.onClick.AddListener(delegate { BombardComboOnClick(attachedButton); });
 
     }
@@ -275,7 +321,7 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Remove("BombardComboContainer");
 
 
-        GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
+        GameObject.Find("Wizard").GetComponent<WizardScript>().combos[0] = true;
 
         AfterUpgradeApplied();
     }

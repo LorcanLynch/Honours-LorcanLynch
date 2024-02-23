@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,6 +14,15 @@ public class HuntressUpgrades : Upgrades
     void Start()
     {
         upgradeContainers.Add("LastingInfluenceContainer");
+        upgradeContainers.Add("BetweenTheEyesContainer");
+        upgradeContainers.Add("WordsOfPowerContainer");
+        upgradeContainers.Add("ThirdCharmContainer");
+        upgradeContainers.Add("MarkPreyContainer");
+        upgradeContainers.Add("FieldMedicineContainer");
+        upgradeContainers.Add("PiercingSongContainer");
+        
+        upgradeContainers.Add("ExudingWarmthContainer");
+        upgradeContainers.Add("TrueshotContainer");
         GenerateChoice();
 
 
@@ -27,7 +36,7 @@ public class HuntressUpgrades : Upgrades
     {
        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' soothe ability now grants an extra two health each turn for 3 turns";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-       attachedButton.onClick.RemoveAllListeners();
+    
         attachedButton.onClick.AddListener(delegate { LastingInfluenceOnClick(attachedButton); });
        
     }
@@ -45,7 +54,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Grant huntress a 10% chance to critically strike, causing the attack to deal double damage";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+      
         attachedButton.onClick.AddListener(delegate { BetweenTheEyesOnClick(attachedButton); });
 
     }
@@ -62,7 +71,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Every 3 Attacks the huntress deals double damage";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+   
         attachedButton.onClick.AddListener(delegate { ThirdCharmOnClick(attachedButton); });
 
     }
@@ -80,7 +89,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The huntress soothe ability grants allies affected by it a buff, granting +20 dodge for two turns";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+  
         attachedButton.onClick.AddListener(delegate { WordsOfPowerOnClick(attachedButton); });
 
     }
@@ -99,7 +108,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' 3rd ability becomes mark prey, which marks an enemy unit causing it to take +3 damage for three turns(Does not cost an action)";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+   
         attachedButton.onClick.AddListener(delegate { MarkPreyOnClick(attachedButton); });
 
     }
@@ -113,6 +122,7 @@ public class HuntressUpgrades : Upgrades
         upgradeContainers.Remove("MarkPreyContainer");
         upgradeContainers.Remove("SnipeContainer");
         upgradeContainers.Add("TrainedSurgeonContainer");
+        upgradeContainers.Add("MarkSootheContainer");
         AfterUpgradeApplied();
     }
 
@@ -122,7 +132,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' 3rd ability becomes field medicine, a single target heal with 3 charges, healing 3 health per charge";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+    
         attachedButton.onClick.AddListener(delegate { FieldMedicineOnClick(attachedButton); });
 
     }
@@ -138,6 +148,8 @@ public class HuntressUpgrades : Upgrades
         upgradeContainers.Remove("FieldMedicineContainer");
         upgradeContainers.Remove("MarkPreyContainer");
         upgradeContainers.Remove("SnipeContainer");
+        upgradeContainers.Add("MedicineSootheContainer");
+        upgradeContainers.Add("TrainedSurgeonContainer");
         AfterUpgradeApplied();
     }
 
@@ -145,7 +157,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Field medicine heals for +1 additional health and has one additional charge";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+      
         attachedButton.onClick.AddListener(delegate { TrainedSurgeonOnClick(attachedButton); });
 
     }
@@ -163,7 +175,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' 3rd ability becomes snipe, a high damage ability that cannot miss";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+ 
         attachedButton.onClick.AddListener(delegate { SnipeOnClick(attachedButton); });
 
     }
@@ -177,6 +189,7 @@ public class HuntressUpgrades : Upgrades
         upgradeContainers.Remove("MarkPreyContainer");
         upgradeContainers.Remove("SnipeContainer");
         upgradeContainers.Add("LongshotContainer");
+        upgradeContainers.Add("SnipeSootheContainer");
         AfterUpgradeApplied();
     }
 
@@ -184,7 +197,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Grant snipe +3 range, additionally gain +3 damage";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+   
         attachedButton.onClick.AddListener(delegate { LongShotOnClick(attachedButton); });
 
     }
@@ -201,7 +214,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' 4th ability becomes Exuding Warmth, a buff lasting 4 rounds, healing those around the huntress at the end of each turn";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+ 
         attachedButton.onClick.AddListener(delegate {  ExudingWarmthOnClick(attachedButton); });
 
     }
@@ -212,7 +225,7 @@ public class HuntressUpgrades : Upgrades
         GameObject.Find("Huntress").GetComponent<HuntressScript>().snipe = true;
 
         upgradeContainers.Remove("ExudingWarmthContainer");
-       upgradeContainers.Remove("TrueshotContainer");
+        upgradeContainers.Remove("TrueshotContainer");
         AfterUpgradeApplied();
     }
 
@@ -220,7 +233,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' 4th ability becomes True Shot, a buff lasting 4 rounds, granting her +200 Accuracy and +20 dodge chance";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+  
         attachedButton.onClick.AddListener(delegate { TrueShotOnClick(attachedButton); });
 
     }
@@ -241,7 +254,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Piercing shot can now combo with soothe, dealing double damage versus low armour targets if soothe is used first, and granting +2 movement to the soothed taraget if piercing shot is used first";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+     
         attachedButton.onClick.AddListener(delegate { PiercingSongOnClick(attachedButton); });
 
     }
@@ -258,7 +271,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Mark Prey can now combo with soothe, Burning the target for 4 damage over two turns if soothe is used first, and giving the abilty for soothe to overheal if mark prey is used first";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        
         attachedButton.onClick.AddListener(delegate { MarkSootheOnClick(attachedButton); });
 
     }
@@ -275,7 +288,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Field medicine can now combo with soothe, granting both the ability to overheal if comboed";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        
         attachedButton.onClick.AddListener(delegate { MedicineOnClick(attachedButton); });
 
     }
@@ -292,7 +305,7 @@ public class HuntressUpgrades : Upgrades
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Snipe can now combo with soothe, Granting snipe +5 damage if soothe is used first, and granting soothe the ability to overheal";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[0];
-        attachedButton.onClick.RemoveAllListeners();
+        
         attachedButton.onClick.AddListener(delegate { SnipeSootheOnClick(attachedButton); });
 
     }
