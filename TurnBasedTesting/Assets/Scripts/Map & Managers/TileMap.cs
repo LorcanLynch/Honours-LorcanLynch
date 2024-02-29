@@ -41,12 +41,35 @@ public class TileMap : MonoBehaviour
         obj = GetComponent<ObjectiveScript>();
         selectedUnit.transform.position = TileCoordToWorldCoord(selectedUnit.GetComponent<UnitScript>().tileX, selectedUnit.GetComponent<UnitScript>().tileY);
         //GenerateFort();
-        GenerateGrove();
+        ChooseMap();
         GeneratePathfindingGraph();
         GenerateMap();
-        wack = Vector2.Distance(TileCoordToWorldCoord(2, 5), TileCoordToWorldCoord(2, 4));
-        print(wack);
+     
+        
         healthText = GameObject.Find("HealthText").GetComponent<TextMeshProUGUI>();
+    }
+
+    public void ChooseMap()
+    {
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("tile");
+        for(int i = 0; i < tiles.Length; i++)
+        {
+            Destroy(tiles[i]);
+        }
+        int j = Random.Range(0, 2);
+        if(j == 0)
+        {
+            GenerateFort();
+
+        }
+        else
+        {
+            GenerateGrove();
+        }
+
+        GeneratePathfindingGraph();
+        GenerateMap();
+
     }
 
     private void Update()
@@ -104,10 +127,10 @@ public class TileMap : MonoBehaviour
 
     }
 
-    public void GenerateSecureZone(int x,int y)
+    public GameObject GenerateSecureZone(int x,int y)
     {
         
-        tiles[x, y] = 4;
+        tiles[x, y] =4;
         TileType tt = tileTypes[tiles[x,y]];
         float posX = x % 2 == 0 ? tileSize * 2 * y : tileSize * 2 * y + tileSize;
 
@@ -117,6 +140,7 @@ public class TileMap : MonoBehaviour
         ct.tileX = x;
         ct.tileY = y;
         ct.map = this;
+        return gO;
     }
     public Vector3 TileCoordToWorldCoord(int x, int y)
     {

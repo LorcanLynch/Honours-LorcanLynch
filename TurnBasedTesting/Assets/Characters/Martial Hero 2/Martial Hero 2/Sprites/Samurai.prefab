@@ -306,6 +306,7 @@ GameObject:
   - component: {fileID: 6777011672565598523}
   - component: {fileID: 6567224499875456972}
   - component: {fileID: 1165274163}
+  - component: {fileID: -5744224130760228567}
   m_Layer: 6
   m_Name: Samurai
   m_TagString: team1
@@ -541,7 +542,7 @@ MonoBehaviour:
   baseDodge: 0
   baseReduction: 0
   abilityIcons:
-  - {fileID: 1657321233761505796, guid: 91dd83b6d907c4c42a86d84fa5ff52cd, type: 3}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -551,6 +552,12 @@ MonoBehaviour:
   animator: {fileID: 0}
   UnitName: Samurai
   stunned: 0
+  burning: 0
+  burnTimer: 0
+  burnDamage: 0
+  aSource: {fileID: 0}
+  hitEffect: {fileID: 0}
+  missEffect: {fileID: 0}
   maxMoveSpeed: 4
   moveSpeed: 4
   maxhealth: 10
@@ -566,6 +573,135 @@ MonoBehaviour:
   text: {fileID: 8932544620317522456}
   lineRenderer: {fileID: 0}
   speedFloatVal: 2
+  healing: 0
+  healTimer: 0
+  heal: 0
+  buffTimer: 0
+  buffed: 0
+  dRbuff: 0
+  dodgeBuffT: 0
+  dodgeBuffed: 0
+  dodgeBuffN: 0
+  damageBuffT: 0
+  damageBuffed: 0
+  damageBuffN: 0
+  thrill: 0
+  agileX: 0
+  exploit: 0
+  exploitT: 0
+  exploitA: 0
+  focus: 0
+  focusT: 0
+  bloodThirst: 0
+  bloodThirstA: 0
+  clearMind: 0
+  shuriken: 0
+  shreddingShuriken: 0
+  agileA: 0
+  trueStrike: 0
+  trueStrikeR: 0
+  swiftExe: 0
+  swiftExeA: 0
+  harmony: 0
+  endlessWind: 0
+  abilityCombos: 000000
+  abilityCombosA: 000000
+--- !u!82 &-5744224130760228567
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6777011672565598522}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8366628875703594245
 GameObject:
   m_ObjectHideFlags: 0

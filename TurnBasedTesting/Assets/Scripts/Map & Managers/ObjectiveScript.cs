@@ -28,6 +28,7 @@ public class ObjectiveScript : MonoBehaviour
     private int captureY;
     public List<GameObject> spawningPool;
     int levelsDone = 0;
+    GameObject fortG;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,13 +71,21 @@ public class ObjectiveScript : MonoBehaviour
         if (levelsDone == 6)
         {
 
-            objective = Random.Range(0, 3);
+            objective = 3;
         }
         else
         {
             levelsDone++;
 
             objective = Random.Range(0, 3);
+            
+        }
+        
+        map.ClearEnemies();
+        map.ChooseMap();
+        foreach(GameObject unit in playerUnits)
+        {
+            unit.GetComponent<UnitScript>().NewMap();
             
         }
         switch (objective)
@@ -97,9 +106,8 @@ public class ObjectiveScript : MonoBehaviour
                 MapObjective = ObjectiveScript.objective.Assassinate;
                 SpawnBoss();
                 break;
-           
+
         }
-        map.ClearEnemies();
     }
 
 
@@ -262,13 +270,13 @@ public class ObjectiveScript : MonoBehaviour
             {
                     case 0:
                         captureX = 9;
-                captureY = 16;
+                captureY = 17;
                 break;
 
 
             case 1:
                 captureX = 9;
-                captureY = 16;
+                captureY = 17;
                 break;
             case 2:
                 captureX = 1;
@@ -279,9 +287,56 @@ public class ObjectiveScript : MonoBehaviour
                 captureY = 1;
                 break;
         }
-        map.GenerateSecureZone(captureX, captureY);
+        int enemiesToSpawn = Random.Range(2, 5);
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            gm.SpawnUnit(2, 2, true);
+        }
+        enemiesToSpawn = Random.Range(2, 4);
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            gm.SpawnUnit(map.mapSizeX - 2, map.mapSizeY - 2, true);
+        }
+        enemiesToSpawn = Random.Range(2, 5);
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            gm.SpawnUnit(map.mapSizeX - 2, 2, true);
+        }
+        enemiesToSpawn = Random.Range(2, 4);
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            gm.SpawnUnit(2, map.mapSizeY - 2, true);
+        }
+        enemiesToSpawn = Random.Range(2, 5);
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            gm.SpawnUnit(2 + Random.Range(-2, 2), map.mapSizeY / 2 + Random.Range(-2, 2), true);
+        }
+        enemiesToSpawn = Random.Range(2, 5);
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            gm.SpawnUnit(map.mapSizeX - 2 + Random.Range(-2, 2), map.mapSizeY / 2 + Random.Range(-2, 2), true);
+        }
+        enemiesToSpawn = Random.Range(2, 5);
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            gm.SpawnUnit(map.mapSizeX / 2 + Random.Range(-2, 2), 2 + Random.Range(-2, 2), true);
+        }
+        enemiesToSpawn = Random.Range(2, 5);
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            gm.SpawnUnit(map.mapSizeX / 2 + Random.Range(-2, 2), map.mapSizeY - 2 + Random.Range(-2, 2), true);
+        }
+        foreach (GameObject enemy in map.Units)
+        {
+            if (enemy.tag == "Enemy")
+            {
+                enemy.GetComponent<EnemyScript>().aggroRange = 200;
+            }
+        }
+        fortG = map.GenerateSecureZone(captureX, captureY);
         captureTimer = 10;
-        
+     
     }
 
     void CaptureTurnEnd()
@@ -292,6 +347,7 @@ public class ObjectiveScript : MonoBehaviour
             {
                 captureTimer--;
                 print(captureTimer);
+              
             }
         }
     }

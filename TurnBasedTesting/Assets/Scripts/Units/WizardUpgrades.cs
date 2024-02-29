@@ -98,7 +98,7 @@ public class WizardUpgrades : Upgrades
     {
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().Bombardment = true;
-       
+        GameObject.Find("Wizard").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
         upgradeContainers.Remove("BombardmentContainer");
         upgradeContainers.Remove("LifeDrainContainer");
         upgradeContainers.Remove("IncantationContainer");
@@ -157,7 +157,7 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Add("LifeDrainComboContainer");
         
         GameObject.Find("Wizard").GetComponent<WizardScript>().lifeDrain = true;
-       
+        GameObject.Find("Wizard").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
         AfterUpgradeApplied();
     }
 
@@ -195,7 +195,7 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Add("SurgeIncantationContainer");
         upgradeContainers.Add("IncantationSurgeContainer");
         GameObject.Find("Wizard").GetComponent<WizardScript>().incantationOfPower = true;
-
+        GameObject.Find("Wizard").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
         AfterUpgradeApplied();
     }
 
@@ -228,7 +228,7 @@ public class WizardUpgrades : Upgrades
     void FireballOnClick(Button targetButton)
     {
         upgradeContainers.Remove("FireballContainer");
-
+        GameObject.Find("Wizard").GetComponent<UnitScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
         upgradeContainers.Remove("MassFreezeContainer");
         GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
 
@@ -247,7 +247,7 @@ public class WizardUpgrades : Upgrades
     {
         upgradeContainers.Remove("MassFreezeContainer");
         upgradeContainers.Remove("FireballContainer");
-
+        GameObject.Find("Wizard").GetComponent<UnitScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
         GameObject.Find("Wizard").GetComponent<WizardScript>().breathOfCold = true;
 
         AfterUpgradeApplied();

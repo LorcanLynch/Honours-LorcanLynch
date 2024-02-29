@@ -668,7 +668,7 @@ MonoBehaviour:
   abilityIcons:
   - {fileID: 5439716230811955900, guid: 8421950ca4d605f44b2bf0015580a89b, type: 3}
   - {fileID: 6454450380039570995, guid: 6fd914f4ef9f32b45981f7d561cca654, type: 3}
-  - {fileID: 5439864689834727816, guid: b7ae1853167056c4e8aa67d8edfbeb49, type: 3}
+  - {fileID: 0}
   - {fileID: 0}
   abilitiesTarget: 00000000
   abilitiesCooldown: 00000000000000000000000000000000
@@ -676,6 +676,9 @@ MonoBehaviour:
   animator: {fileID: 0}
   UnitName: Knight
   stunned: 0
+  burning: 0
+  burnTimer: 0
+  burnDamage: 0
   maxMoveSpeed: 3
   moveSpeed: 3
   maxhealth: 10
@@ -688,23 +691,51 @@ MonoBehaviour:
   visibility: 0
   dodgeRating: 5
   damageReduction: 5
+  text: {fileID: 6028430921463453494}
   lineRenderer: {fileID: 0}
   speedFloatVal: 2
+  healing: 0
+  healTimer: 0
+  heal: 0
+  buffTimer: 0
+  buffed: 0
+  dRbuff: 0
+  dodgeBuffT: 0
+  dodgeBuffed: 0
+  dodgeBuffN: 0
+  damageBuffT: 0
+  damageBuffed: 0
+  damageBuffN: 0
   parryStrikeback: 0
   parryDamage: 0
   parryHoldfast: 0
+  parryStrikebackF: 0
   lordlyGreatsword: 0
-  domumHalberd: 0
+  domumHalberd: 1
   frenziedStrike: 0
   flamingBlade: 0
   righteousGlory: 0
   unstopableForce: 0
+  deathKnight: 0
+  slayer: 0
+  slayerDamage: 0
   litBlade: 0
+  lingeringFlame: 0
+  gloriousWarrior: 0
   gloryActivated: 0
   unstopableWarrior: 0
   parryActive: 0
   gloried: []
-  text: {fileID: 6028430921463453494}
+  riposte: 0
+  riposteCombo: 0
+  rawGrit: 0
+  rawGritUsed: 0
+  adrenalineRush: 0
+  combos: 00000000
+  combosU: 00000000
+  hardened: 0
+  unmovable: 0
+  unmovableA: 0
 --- !u!1 &7700022161010682661
 GameObject:
   m_ObjectHideFlags: 0

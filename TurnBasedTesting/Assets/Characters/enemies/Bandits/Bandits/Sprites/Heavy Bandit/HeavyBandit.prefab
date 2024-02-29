@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 6162157700741856342}
   - component: {fileID: 6886072019326305432}
   - component: {fileID: 4552172834927363264}
+  - component: {fileID: -2655368125587225249}
   m_Layer: 6
   m_Name: HeavyBandit
   m_TagString: Enemy
@@ -192,10 +193,10 @@ MonoBehaviour:
   baseDodge: 0
   baseReduction: 0
   abilityIcons:
-  - {fileID: 5439716230811955900, guid: 4ee2579046a92df478b3e3c1de36394f, type: 3}
-  - {fileID: 6454450380039570995, guid: 6fd914f4ef9f32b45981f7d561cca654, type: 3}
-  - {fileID: 512875283980194088, guid: 8e1c6ee0f5f301843a288bf9ff074acf, type: 3}
-  - {fileID: 512875283980194088, guid: 8e1c6ee0f5f301843a288bf9ff074acf, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   abilitiesTarget: 00000000
   abilitiesCooldown: 00000000000000000000000000000000
   attacking: 0
@@ -205,6 +206,9 @@ MonoBehaviour:
   burning: 0
   burnTimer: 0
   burnDamage: 0
+  aSource: {fileID: 0}
+  hitEffect: {fileID: 8300000, guid: 4d3b90bc8f6907c44ad7e855d3b2b4c0, type: 3}
+  missEffect: {fileID: 8300000, guid: 51d0e27d390f1fd49af123b049900b85, type: 3}
   maxMoveSpeed: 3
   moveSpeed: 3
   maxhealth: 6
@@ -220,6 +224,18 @@ MonoBehaviour:
   text: {fileID: 5572191863131504187}
   lineRenderer: {fileID: 0}
   speedFloatVal: 3
+  healing: 0
+  healTimer: 0
+  heal: 0
+  buffTimer: 0
+  buffed: 0
+  dRbuff: 0
+  dodgeBuffT: 0
+  dodgeBuffed: 0
+  dodgeBuffN: 0
+  damageBuffT: 0
+  damageBuffed: 0
+  damageBuffN: 0
 --- !u!120 &5812983910057153190
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -391,6 +407,102 @@ MonoBehaviour:
   map: {fileID: 0}
   unitTarget: {fileID: 0}
   aggroRange: 5
+--- !u!82 &-2655368125587225249
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5812983910057153184}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6886072019527344374
 GameObject:
   m_ObjectHideFlags: 0

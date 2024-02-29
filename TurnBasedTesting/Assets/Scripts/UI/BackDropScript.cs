@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Net.Sockets;
+using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.UI;
 public class BackDropScript : MonoBehaviour
@@ -61,14 +62,14 @@ public class BackDropScript : MonoBehaviour
         }
 
     }
-    public void newUnit(Image[] newIcons, int[] cooldown)
+    public void newUnit(Sprite[] newIcons, int[] cooldown)
     {
         
         for(int i = 0; i < baseIcons.Length; i++)
         {
             if (newIcons[i] != null)
             {
-                baseIcons[i].GetComponent<Image>().sprite = newIcons[i].sprite;
+                baseIcons[i].GetComponent<Image>().sprite = newIcons[i];
                 baseIcons[i].GetComponent<AbilityIconScript>().cooldownPanel(cooldown[i]);
                 
                 

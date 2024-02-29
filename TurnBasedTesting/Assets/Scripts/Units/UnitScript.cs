@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 using UnityEngine.UI;
+using UnityEngine.WSA;
 
 
 public class UnitScript : MonoBehaviour
@@ -32,7 +33,7 @@ public class UnitScript : MonoBehaviour
     public int targetY;
     public float baseDodge;
     public int baseReduction;
-    public Image[] abilityIcons = { null, null, null, null };
+    public Sprite[] abilityIcons = { null, null, null, null };
     public bool[] abilitiesTarget = new bool[4] { false, false, false, false };
     public int[] abilitiesCooldown = new int[4] { 0, 0, 0, 0 };
     public bool attacking;
@@ -42,6 +43,10 @@ public class UnitScript : MonoBehaviour
     public bool burning;
     public int burnTimer;
     public int burnDamage = 0;
+
+    public AudioSource aSource;
+    public AudioClip hitEffect;
+    public AudioClip missEffect;
     //**UNIT STATS**//
 
     public float maxMoveSpeed = 2;
@@ -59,20 +64,20 @@ public class UnitScript : MonoBehaviour
     public int damageReduction;
     public TextMeshProUGUI text;
     public LineRenderer lineRenderer;
-    
+
     public float speedFloatVal = 2;
 
     public bool healing = false;
     public int healTimer = 0;
     public int heal = 0;
 
-    public int buffTimer = 0   ;
+    public int buffTimer = 0;
     public bool buffed;
     public int dRbuff;
 
     public int dodgeBuffT = 0;
     public bool dodgeBuffed;
-    public int dodgeBuffN= 0;
+    public int dodgeBuffN = 0;
 
     public int damageBuffT = 0;
     public bool damageBuffed;
@@ -84,7 +89,7 @@ public class UnitScript : MonoBehaviour
         map = GameObject.Find("Map").GetComponent<TileMap>();
         map.AddUnit(gameObject);
         target = map.TileCoordToWorldCoord(tileX, tileY);
-        
+        aSource = GetComponent<AudioSource>();
         moveSpeed = maxMoveSpeed;
         if (animator == null) { animator = GetComponent<Animator>(); }
         baseDodge = dodgeRating;
@@ -94,6 +99,8 @@ public class UnitScript : MonoBehaviour
 
     private void OnMouseUp()
     {
+
+
         if (map.selectedUnit != null)
         {
             RaycastHit2D[] wack = Physics2D.CircleCastAll(map.selectedUnit.transform.position, (.8f * map.selectedUnit.GetComponent<UnitScript>().attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
@@ -113,46 +120,46 @@ public class UnitScript : MonoBehaviour
             map.UnitSelected(gameObject);
             return;
         }
-        
 
-            //Again a mess but it simply checks what ability the unit should use(1-4), then what ability that corelates to on the selected Unit's class and calls the
-            //related function, this should definitly be its own script and **Should be** refactored later
-            if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[0] && map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY) && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[0] <= 0 && map.selectedUnit.tag != gameObject.tag && map.selectedUnit.GetComponent<UnitScript>().attackAvailable)
-            {
 
-                map.selectedUnit.GetComponent<UnitScript>().Ability1(gameObject);
+        //Again a mess but it simply checks what ability the unit should use(1-4), then what ability that corelates to on the selected Unit's class and calls the
+        //related function, this should definitly be its own script and **Should be** refactored later
+        if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[0] && map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY) && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[0] <= 0 && map.selectedUnit.tag != gameObject.tag && map.selectedUnit.GetComponent<UnitScript>().attackAvailable)
+        {
 
-            }
-            else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[1] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[1] <= 0)
-            {
+            map.selectedUnit.GetComponent<UnitScript>().Ability1(gameObject);
 
-                map.selectedUnit.GetComponent<UnitScript>().Ability2(gameObject);
-            }
-            else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[2] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[2] <= 0)
-            {
+        }
+        else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[1] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[1] <= 0)
+        {
 
-                map.selectedUnit.GetComponent<UnitScript>().Ability3(gameObject);
-            }
-            else if (map.selectedUnit.GetComponent<UnitScript>().attacking && gameObject.tag != map.selectedUnit.tag)
-            // if the unit can attack but isnt trying to use an ability then we simply attack with their basic ability
-            {
+            map.selectedUnit.GetComponent<UnitScript>().Ability2(gameObject);
+        }
+        else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[2] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[2] <= 0)
+        {
+
+            map.selectedUnit.GetComponent<UnitScript>().Ability3(gameObject);
+        }
+        else if (map.selectedUnit.GetComponent<UnitScript>().attacking && gameObject.tag != map.selectedUnit.tag)
+        // if the unit can attack but isnt trying to use an ability then we simply attack with their basic ability
+        {
             if (map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY))
             {
-                
-                    map.selectedUnit.GetComponent<UnitScript>().attack(gameObject);
-                
-            }
-            }
-            else
-            {
-                map.UnitSelected(gameObject);
-                map.ClearIconSelection();
-            }
 
-        
-       
-        
-        
+                map.selectedUnit.GetComponent<UnitScript>().attack(gameObject);
+
+            }
+        }
+        else
+        {
+            map.UnitSelected(gameObject);
+            map.ClearIconSelection();
+        }
+
+
+
+
+
         //If the selected unit isnt trying to attack or any of the paramaters arent met like range or team then we simply select this unit instead
 
 
@@ -173,14 +180,16 @@ public class UnitScript : MonoBehaviour
 
         {
             target.GetComponent<UnitScript>().UnitDamage(attackPower);
+            aSource.PlayOneShot(hitEffect);
 
         }
         else
         {
+            aSource.PlayOneShot(missEffect);
             text.GetComponent<DamageTextScript>().UpdateText("Miss");
         }
         attacking = false;
-        
+
     }
     private void Awake()
     {
@@ -198,9 +207,9 @@ public class UnitScript : MonoBehaviour
         /// Then if it's health is below 0 it kills the unit by destroying it
         /// otherwise we simply play the hit animation.
         /// </summary>
-        
+
         health -= Mathf.Clamp(AP - damageReduction, 1, 100);
-        
+
 
         text.GetComponent<DamageTextScript>().UpdateText(Mathf.RoundToInt((AP - damageReduction) * -1).ToString());
         if (health <= 0)
@@ -217,7 +226,7 @@ public class UnitScript : MonoBehaviour
         }
     }
 
-    
+
     public void HealDamage(float AP)
     {
         /// <summary>
@@ -270,7 +279,7 @@ public class UnitScript : MonoBehaviour
             abilitiesTarget[0] = !abilitiesTarget[0];
             abilitiesTarget[2] = false;
             abilitiesTarget[1] = false;
-            map.GenerateSecureZone(1,1);
+            map.GenerateSecureZone(1, 1);
             map.UpdateIconSelection(0);
 
         }
@@ -310,7 +319,10 @@ public class UnitScript : MonoBehaviour
 
 
         //
-
+        if (map.selectedUnit == gameObject)
+        {
+            map.UpdateCooldowns(gameObject);
+        }
 
 
         //Rudimentary version of the movement script, this is really innefecient but it does the job for now, preferably this  should be moved to a coroutine
@@ -462,12 +474,12 @@ public class UnitScript : MonoBehaviour
         ///</summary>
 
         List<Node> possiblePath = map.GenerateAttackPath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, y, x);
-        if(possiblePath == null)
+        if (possiblePath == null)
         {
             return true;
         }
 
-        if (possiblePath.Count - 1 <= attackRange )
+        if (possiblePath.Count - 1 <= attackRange)
         {
             print(possiblePath.Count);
             return true;
@@ -477,13 +489,13 @@ public class UnitScript : MonoBehaviour
             print("Miss?");
             return false;
         }
-       
+
 
 
 
 
     }
-    public bool CheckAttackDistance(int x, int y,int rng)
+    public bool CheckAttackDistance(int x, int y, int rng)
     {
         ///<summary>
         ///Really simple function that checks if the range we need to attack across is within the unit's range
@@ -554,7 +566,7 @@ public class UnitScript : MonoBehaviour
     public virtual void TurnOver()
     {
         moveSpeed = maxMoveSpeed;
-        if(!stunned)
+        if (!stunned)
         {
             attackAvailable = true;
         }
@@ -583,7 +595,7 @@ public class UnitScript : MonoBehaviour
         if (healing)
         {
             HealDamage(heal);
-             
+
             if (healTimer <= 0)
             {
                 healing = false;
@@ -594,11 +606,11 @@ public class UnitScript : MonoBehaviour
 
         if (dodgeBuffed)
         {
-            
-            
+
+
             if (dodgeBuffT <= 0)
             {
-                dodgeBuffed= false;
+                dodgeBuffed = false;
                 dodgeRating -= dodgeBuffN;
                 dodgeBuffN = 0;
             }
@@ -620,12 +632,12 @@ public class UnitScript : MonoBehaviour
 
         if (buffed)
         {
-           
-            
+
+
             if (buffTimer <= 0)
             {
                 buffed = false;
-                damageReduction -= dRbuff ;
+                damageReduction -= dRbuff;
                 dRbuff = 0;
             }
             buffTimer--;
@@ -635,12 +647,12 @@ public class UnitScript : MonoBehaviour
         {
             UnitDamage(burnDamage + damageReduction);
             burnTimer--;
-            if(burnTimer == 0)
+            if (burnTimer == 0)
             {
                 burning = false;
             }
         }
-        
+
 
     }
 
@@ -663,6 +675,52 @@ public class UnitScript : MonoBehaviour
     public void OnMouseOver()
     {
         map.ShowStats(gameObject);
+    }
+
+    public void  NewMap()
+        {
+        health = maxhealth;
+        moveSpeed = maxMoveSpeed;
+        lineRenderer.positionCount = 0;
+        
+        buffTimer = 0;
+        if (buffTimer <= 0)
+        {
+            buffed = false;
+            damageReduction -= dRbuff;
+            dRbuff = 0;
+        }
+        burnTimer = 0;
+        if (burnTimer == 0)
+        {
+            burning = false;
+        }
+        damageBuffT = 0;
+        if (damageBuffT <= 0)
+        {
+            damageBuffed = false;
+            attackPower -= damageBuffN;
+            damageBuffN = 0;
+        }
+
+        dodgeBuffT = 0;
+        if (dodgeBuffT <= 0)
+        {
+            dodgeBuffed = false;
+            dodgeRating -= dodgeBuffN;
+            dodgeBuffN = 0;
+        }
+        
+          ;
+        healTimer = 0;
+            if (healTimer <= 0)
+            {
+                healing = false;
+                heal = 0;
+            }
+            
+        
+
     }
 }
 

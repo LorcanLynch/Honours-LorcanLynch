@@ -54,6 +54,7 @@ public class KnightScript : UnitScript
     public bool unmovable;
     public bool unmovableA;
 
+
     public override void UnitDamage(float AP)
     {
         if (unstopableWarrior < 1)
@@ -164,6 +165,7 @@ public class KnightScript : UnitScript
             if (hitChance < accuracy - target.GetComponent<UnitScript>().dodgeRating)
 
             {
+                aSource.PlayOneShot(hitEffect);
                 target.GetComponent<UnitScript>().UnitDamage(attackPower +slayerDamage);
                 if (litBlade > 0)
                 {
@@ -192,6 +194,7 @@ public class KnightScript : UnitScript
             else
             {
                 text.GetComponent<DamageTextScript>().UpdateText("Miss");
+                aSource.PlayOneShot(missEffect);
             }
 
             for (int i = 0; i < combos.Length; i++)

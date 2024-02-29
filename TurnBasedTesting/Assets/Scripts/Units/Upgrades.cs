@@ -16,6 +16,7 @@ public class Upgrades : MonoBehaviour
     public ObjectiveScript tileMapObj;
     public TextMeshProUGUI enemyText;
     public GameObject[] allUnits;
+    public bool upgrading = false;
     void Start()
     {
         tileMapObj = GameObject.Find("Map").GetComponent<ObjectiveScript>();
@@ -63,7 +64,7 @@ public class Upgrades : MonoBehaviour
     public void OnEnable()
     {
         GenerateChoice();
-
+        upgrading = true;
 
     }
     public virtual void GenerateChoice()
@@ -80,6 +81,7 @@ public class Upgrades : MonoBehaviour
     public void upgradesCancelled()
     {
         upgradeScreen.SetActive(false);
+        upgrading = false;
         tileMapObj.StartNewLevel();
     }
 }

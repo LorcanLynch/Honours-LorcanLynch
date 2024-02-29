@@ -3,7 +3,16 @@ guid: a356487888309744e822259972c901f7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - map: {instanceID: 0}
+  - animator: {instanceID: 0}
+  - aSource: {instanceID: 0}
+  - hitEffect: {fileID: 8300000, guid: 4d3b90bc8f6907c44ad7e855d3b2b4c0, type: 3}
+  - missEffect: {fileID: 8300000, guid: 51d0e27d390f1fd49af123b049900b85, type: 3}
+  - claveHb: {instanceID: 0}
+  - lightningBolt: {instanceID: 0}
+  - text: {instanceID: 0}
+  - lineRenderer: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

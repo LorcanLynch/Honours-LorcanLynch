@@ -511,10 +511,10 @@ MonoBehaviour:
   baseDodge: 0
   baseReduction: 0
   abilityIcons:
-  - {fileID: 5439716230811955900, guid: 4ee2579046a92df478b3e3c1de36394f, type: 3}
-  - {fileID: 6454450380039570995, guid: 6fd914f4ef9f32b45981f7d561cca654, type: 3}
-  - {fileID: 512875283980194088, guid: 8e1c6ee0f5f301843a288bf9ff074acf, type: 3}
-  - {fileID: 512875283980194088, guid: 8e1c6ee0f5f301843a288bf9ff074acf, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   abilitiesTarget: 00000000
   abilitiesCooldown: 00000000000000000000000000000000
   attacking: 0
@@ -524,6 +524,9 @@ MonoBehaviour:
   burning: 0
   burnTimer: 0
   burnDamage: 0
+  aSource: {fileID: 0}
+  hitEffect: {fileID: 8300000, guid: 4d3b90bc8f6907c44ad7e855d3b2b4c0, type: 3}
+  missEffect: {fileID: 8300000, guid: 51d0e27d390f1fd49af123b049900b85, type: 3}
   maxMoveSpeed: 3
   moveSpeed: 3
   maxhealth: 6
@@ -539,6 +542,18 @@ MonoBehaviour:
   text: {fileID: 1352303638216423341}
   lineRenderer: {fileID: 0}
   speedFloatVal: 3
+  healing: 0
+  healTimer: 0
+  heal: 0
+  buffTimer: 0
+  buffed: 0
+  dRbuff: 0
+  dodgeBuffT: 0
+  dodgeBuffed: 0
+  dodgeBuffN: 0
+  damageBuffT: 0
+  damageBuffed: 0
+  damageBuffN: 0
 --- !u!120 &1097717318652877616
 LineRenderer:
   m_ObjectHideFlags: 0

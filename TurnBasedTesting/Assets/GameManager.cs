@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
             for (int y = 0; y < tileMap.mapSizeY; y++)
             {
 
-                if (tileMap.tiles[x, y] == 0)
+                if (tileMap.tiles[x, y] == 0 || tileMap.tiles[x, y] == 2 || tileMap.tiles[x, y] == 3)
                 {
                     spawnableTiles.Add(tileMap.graph[x, y]);
                 }
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
             for (int y = 0; y < tileMap.mapSizeY; y++)
             {
 
-                if (tileMap.tiles[x, y] == 0)
+                if (tileMap.tiles[x, y] == 0 || tileMap.tiles[x, y] == 2 || tileMap.tiles[x, y] == 3)
                 {
                     spawnableTiles.Add(tileMap.graph[x, y]);
                 }
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
         //print(spawnableTiles.Count);
 
        
-        if (tileMap.graph[tileX,tileY].containsUnit == false && tileMap.tiles[tileX, tileY] == 0)
+        if (tileMap.graph[tileX,tileY].containsUnit == false && (tileMap.tiles[tileX, tileY] == 0|| tileMap.tiles[tileX, tileY] == 2|| tileMap.tiles[tileX, tileY] == 3))
         {
             unitsSpawnable = tileMap.GetComponent<ObjectiveScript>().spawningPool;
             int spawned = UnityEngine.Random.Range(0, unitsSpawnable.Count);
@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
             foreach(Node neighbour in tileMap.graph[tileX,tileY].connections)
             {
                 i++;
-                if (neighbour.containsUnit == false && tileMap.tiles[neighbour.x,neighbour.y] == 0)
+                if (neighbour.containsUnit == false && (tileMap.tiles[neighbour.x, neighbour.y] == 0 || tileMap.tiles[neighbour.x, neighbour.y] == 2 || tileMap.tiles[neighbour.x, neighbour.y] == 3))
                 {
                     SpawnUnit(neighbour.x, neighbour.y);
                     break;
@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
             for (int y = 0; y < tileMap.mapSizeY; y++)
             {
 
-                if (tileMap.tiles[x, y] == 0)
+                if (tileMap.tiles[x, y] == 0 || tileMap.tiles[x, y] == 1 || tileMap.tiles[x, y] == 3)
                 {
                     spawnableTiles.Add(tileMap.graph[x, y]);
                 }
@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
         //print(spawnableTiles.Count);
 
 
-        if (tileMap.graph[tileX, tileY].containsUnit == false && tileMap.tiles[tileX, tileY] == 0)
+        if (tileMap.graph[tileX, tileY].containsUnit == false && (tileMap.tiles[tileX, tileY] == 0 || tileMap.tiles[tileX, tileY] == 2 || tileMap.tiles[tileX, tileY] == 3))
         {
             unitsSpawnable = tileMap.GetComponent<ObjectiveScript>().spawningPool;
             int spawned = UnityEngine.Random.Range(0, unitsSpawnable.Count);
@@ -184,7 +184,7 @@ public class GameManager : MonoBehaviour
             foreach (Node neighbour in tileMap.graph[tileX, tileY].connections)
             {
                 i++;
-                if (neighbour.containsUnit == false && tileMap.tiles[neighbour.x, neighbour.y] == 0)
+                if (neighbour.containsUnit == false && (tileMap.tiles[neighbour.x, neighbour.y] == 0 || tileMap.tiles[neighbour.x, neighbour.y] == 2  || tileMap.tiles[neighbour.x, neighbour.y] == 3))
                 {
                     SpawnUnit(neighbour.x, neighbour.y);
                     break;
