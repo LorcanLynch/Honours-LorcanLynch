@@ -392,7 +392,7 @@ MonoBehaviour:
   visibility: 0
   dodgeRating: 30
   damageReduction: 0
-  text: {fileID: 0}
+  text: {fileID: 8695757670483064471}
   lineRenderer: {fileID: 0}
   speedFloatVal: 4
   healing: 0
@@ -407,6 +407,7 @@ MonoBehaviour:
   damageBuffT: 0
   damageBuffed: 0
   damageBuffN: 0
+  gm: {fileID: 0}
 --- !u!82 &1008673950194826820
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1012,3 +1013,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6028430921467857967, guid: 425ad0d35c597354592b1086fb197849, type: 3}
   m_PrefabInstance: {fileID: 3099814085854231226}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8695757670483064471 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6028430921467857965, guid: 425ad0d35c597354592b1086fb197849, type: 3}
+  m_PrefabInstance: {fileID: 3099814085854231226}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

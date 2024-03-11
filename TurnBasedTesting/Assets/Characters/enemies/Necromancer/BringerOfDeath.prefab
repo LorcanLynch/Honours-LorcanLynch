@@ -544,7 +544,7 @@ MonoBehaviour:
   abilitiesCooldown: 00000000000000000000000000000000
   attacking: 0
   animator: {fileID: 0}
-  UnitName: Skeleton Lord
+  UnitName: Bringer Of  Death
   stunned: 0
   burning: 0
   burnTimer: 0
@@ -554,9 +554,9 @@ MonoBehaviour:
   missEffect: {fileID: 8300000, guid: 51d0e27d390f1fd49af123b049900b85, type: 3}
   maxMoveSpeed: 3
   moveSpeed: 3
-  maxhealth: 5
-  health: 5
-  attackPower: 3
+  maxhealth: 20
+  health: 20
+  attackPower: 5
   attackRange: 2
   claveHb: {fileID: 0}
   lightningBolt: {fileID: 0}
@@ -579,6 +579,7 @@ MonoBehaviour:
   damageBuffT: 0
   damageBuffed: 0
   damageBuffN: 0
+  gm: {fileID: 0}
 --- !u!120 &7633715993744104515
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -733,6 +734,8 @@ MonoBehaviour:
   bodiesCD: 0
   bonesCD: 0
   expulsionCD: 0
+  endPanel: {fileID: 0}
+  spell: {fileID: 2109993116053861569, guid: 177e783003da9f74cad8712e490544dc, type: 3}
 --- !u!212 &5826501932576148336
 SpriteRenderer:
   m_ObjectHideFlags: 0

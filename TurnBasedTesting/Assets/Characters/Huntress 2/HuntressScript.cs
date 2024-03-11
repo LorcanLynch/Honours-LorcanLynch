@@ -74,6 +74,7 @@ public class HuntressScript : UnitScript
         }
         thirdCharmC++;
         abilitiesTarget[0] = false;
+        abilitiesCooldown[0] = 2;
         if (!songCombo)
         {
             songComboA = true;
@@ -146,78 +147,82 @@ public class HuntressScript : UnitScript
 
     public override void Ability2(GameObject targetUnit)
     {
-        map.UpdateCooldowns(gameObject);
-        attackAvailable = false;
-        RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, 1, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-        foreach (RaycastHit2D wacked in wack)
+        if (attackAvailable)
         {
-            if (wacked.collider.tag == "team1")
+            abilitiesCooldown[1] = 4;
+            map.UpdateCooldowns(gameObject);
+            attackAvailable = false;
+            RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, 1, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+            foreach (RaycastHit2D wacked in wack)
             {
-                int j = 0;
-                for(int i = 0; i < 4; i++)
+                if (wacked.collider.tag == "team1")
                 {
-                    
-                    if (abilityCombos[i])
+                    int j = 0;
+                    for (int i = 0; i < 4; i++)
                     {
-                        if(abilityCombosA[i])
+
+                        if (abilityCombos[i])
                         {
-                            wacked.collider.gameObject.GetComponent<UnitScript>().health += 3;
-                            j++;
+                            if (abilityCombosA[i])
+                            {
+                                wacked.collider.gameObject.GetComponent<UnitScript>().health += 3;
+                                j++;
+                            }
                         }
                     }
-                }
-                if(j == 0)
-                {
-                    wacked.collider.gameObject.GetComponent<UnitScript>().HealDamage(3);
-                }
-                
-                if (lastingInfluence)
-                {
-                    wacked.collider.gameObject.GetComponent<UnitScript>().HealOverTime(2, 3);
-                  
+                    if (j == 0)
+                    {
+                        wacked.collider.gameObject.GetComponent<UnitScript>().HealDamage(3);
+                    }
+
+                    if (lastingInfluence)
+                    {
+                        wacked.collider.gameObject.GetComponent<UnitScript>().HealOverTime(2, 3);
+
+
+                    }
+
+                    if (warding)
+                    {
+                        wacked.collider.gameObject.GetComponent<UnitScript>().DRBuff(2, 3);
+                    }
+
+                    if (songComboA)
+                    {
+                        wacked.collider.gameObject.GetComponent<UnitScript>().moveSpeed += 2;
+                    }
 
                 }
-
-                if(warding)
-                {
-                    wacked.collider.gameObject.GetComponent<UnitScript>().DRBuff(2, 3);
-                }
-
-                if(songComboA)
-                {
-                    wacked.collider.gameObject.GetComponent<UnitScript>().moveSpeed += 2;
-                }
-
             }
-        }
-        abilitiesTarget[1] = false;
+            abilitiesTarget[1] = false;
 
-        if (!songCombo)
-        {
-            songComboA = true;
-        }
-        else
-        {
-            if (songCombo)
+            if (!songCombo)
             {
-                songComboA = false;
+                songComboA = true;
             }
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            if (abilityCombos[i] == true)
+            else
             {
-                if (abilityCombosA[i] == false)
+                if (songCombo)
                 {
-                    abilityCombosA[i] = true;
+                    songComboA = false;
                 }
             }
-            else 
+
+            for (int i = 0; i < 3; i++)
             {
-                abilityCombosA[i] = false;
+                if (abilityCombos[i] == true)
+                {
+                    if (abilityCombosA[i] == false)
+                    {
+                        abilityCombosA[i] = true;
+                    }
+                }
+                else
+                {
+                    abilityCombosA[i] = false;
+                }
+
             }
-            
         }
     }
 
@@ -283,8 +288,10 @@ public class HuntressScript : UnitScript
         }
         if (snipe && targetUnit.tag != gameObject.tag)
         {
+            abilitiesCooldown[2] = 5;
             if(!longShot)
             {
+                
                 if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, attackRange))
                 {
                     targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower + 10);

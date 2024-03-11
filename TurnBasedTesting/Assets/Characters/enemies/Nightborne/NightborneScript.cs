@@ -25,7 +25,7 @@ public class NightborneScript : UnitScript
                 RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
                 foreach (RaycastHit2D hit in targets)
                 {
-                    if (hit.collider.tag == "Enemy")
+                    if (hit.collider.tag == "team1")
                     {
                         hit.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(4));
 

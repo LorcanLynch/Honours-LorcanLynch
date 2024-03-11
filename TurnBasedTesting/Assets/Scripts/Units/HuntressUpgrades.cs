@@ -222,7 +222,7 @@ public class HuntressUpgrades : Upgrades
 
     void ExudingWarmthOnClick(Button targetButton)
     {
-        GameObject.Find("Huntress").GetComponent<HuntressScript>().snipe = true;
+        GameObject.Find("Huntress").GetComponent<HuntressScript>().exudeWarmth = true;
         GameObject.Find("Huntress").GetComponent<UnitScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
         upgradeContainers.Remove("ExudingWarmthContainer");
         upgradeContainers.Remove("TrueshotContainer");
@@ -241,7 +241,7 @@ public class HuntressUpgrades : Upgrades
 
     void TrueShotOnClick(Button targetButton)
     {
-        GameObject.Find("Huntress").GetComponent<HuntressScript>().snipe = true;
+        GameObject.Find("Huntress").GetComponent<HuntressScript>().TrueShot = true;
         GameObject.Find("Huntress").GetComponent<UnitScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
         upgradeContainers.Remove("ExudingWarmthContainer");
         upgradeContainers.Remove("TrueshotContainer");

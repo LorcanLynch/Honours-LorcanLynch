@@ -11,7 +11,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 using UnityEngine.UI;
-using UnityEngine.WSA;
+
 
 
 public class UnitScript : MonoBehaviour
@@ -82,6 +82,8 @@ public class UnitScript : MonoBehaviour
     public int damageBuffT = 0;
     public bool damageBuffed;
     public int damageBuffN = 0;
+
+    public GameManager gm;
     public void Start()
     {
         //This sets all the various initial values needed for a unit
@@ -95,70 +97,80 @@ public class UnitScript : MonoBehaviour
         baseDodge = dodgeRating;
         baseReduction = damageReduction;
         gameObject.transform.position = target;
+        gm = map.gm;
+        abilitiesCooldown = new int[4] { 0, 0, 0, 0 };
     }
 
     private void OnMouseUp()
     {
 
-
-        if (map.selectedUnit != null)
+        if (gm.paused == false)
         {
-            RaycastHit2D[] wack = Physics2D.CircleCastAll(map.selectedUnit.transform.position, (.8f * map.selectedUnit.GetComponent<UnitScript>().attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-            foreach (RaycastHit2D wacked in wack)
+            if (map.selectedUnit != null)
             {
-                if (wacked.collider.gameObject.layer == 8)
+                RaycastHit2D[] wack = Physics2D.CircleCastAll(map.selectedUnit.transform.position, (.8f * map.selectedUnit.GetComponent<UnitScript>().attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                foreach (RaycastHit2D wacked in wack)
                 {
-                    wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                    if (wacked.collider.gameObject.layer == 8)
+                    {
+                        wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                    }
                 }
             }
-        }
 
-        if (map.selectedUnit == null)
-        {
-
-            map.ClearIconSelection();
-            map.UnitSelected(gameObject);
-            return;
-        }
-
-
-        //Again a mess but it simply checks what ability the unit should use(1-4), then what ability that corelates to on the selected Unit's class and calls the
-        //related function, this should definitly be its own script and **Should be** refactored later
-        if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[0] && map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY) && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[0] <= 0 && map.selectedUnit.tag != gameObject.tag && map.selectedUnit.GetComponent<UnitScript>().attackAvailable)
-        {
-
-            map.selectedUnit.GetComponent<UnitScript>().Ability1(gameObject);
-
-        }
-        else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[1] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[1] <= 0)
-        {
-
-            map.selectedUnit.GetComponent<UnitScript>().Ability2(gameObject);
-        }
-        else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[2] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[2] <= 0)
-        {
-
-            map.selectedUnit.GetComponent<UnitScript>().Ability3(gameObject);
-        }
-        else if (map.selectedUnit.GetComponent<UnitScript>().attacking && gameObject.tag != map.selectedUnit.tag)
-        // if the unit can attack but isnt trying to use an ability then we simply attack with their basic ability
-        {
-            if (map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY))
+            if (map.selectedUnit == null)
             {
 
-                map.selectedUnit.GetComponent<UnitScript>().attack(gameObject);
+               
+                map.UnitSelected(gameObject);
+                map.ClearIconSelection();
+                return;
+            }
+
+
+            //Again a mess but it simply checks what ability the unit should use(1-4), then what ability that corelates to on the selected Unit's class and calls the
+            //related function, this should definitly be its own script and **Should be** refactored later
+            if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[0] && map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY) && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[0] <= 0 && map.selectedUnit.tag != gameObject.tag && map.selectedUnit.GetComponent<UnitScript>().attackAvailable)
+            {
+
+                map.selectedUnit.GetComponent<UnitScript>().Ability1(gameObject);
 
             }
+            else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[1] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[1] <= 0)
+            {
+
+                map.selectedUnit.GetComponent<UnitScript>().Ability2(gameObject);
+            }
+            else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[2] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[2] <= 0)
+            {
+
+                map.selectedUnit.GetComponent<UnitScript>().Ability3(gameObject);
+            }
+            else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[3] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[3] <= 0)
+            {
+
+                map.selectedUnit.GetComponent<UnitScript>().Ability4(gameObject);
+            }
+           
+            else if (map.selectedUnit.GetComponent<UnitScript>().attacking && gameObject.tag != map.selectedUnit.tag)
+            // if the unit can attack but isnt trying to use an ability then we simply attack with their basic ability
+            {
+                if (map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY))
+                {
+
+                    map.selectedUnit.GetComponent<UnitScript>().attack(gameObject);
+
+                }
+            }
+            else
+            {
+                map.UnitSelected(gameObject);
+                map.ClearIconSelection();
+            }
+
+
+
         }
-        else
-        {
-            map.UnitSelected(gameObject);
-            map.ClearIconSelection();
-        }
-
-
-
-
 
         //If the selected unit isnt trying to attack or any of the paramaters arent met like range or team then we simply select this unit instead
 
@@ -189,7 +201,7 @@ public class UnitScript : MonoBehaviour
             text.GetComponent<DamageTextScript>().UpdateText("Miss");
         }
         attacking = false;
-
+       
     }
     private void Awake()
     {
@@ -214,6 +226,7 @@ public class UnitScript : MonoBehaviour
         text.GetComponent<DamageTextScript>().UpdateText(Mathf.RoundToInt((AP - damageReduction) * -1).ToString());
         if (health <= 0)
         {
+            
             animator.SetTrigger("death");
             map.GetComponent<TileMap>().RemoveUnit(gameObject);
             Destroy(gameObject, 1.2f);
@@ -245,147 +258,159 @@ public class UnitScript : MonoBehaviour
     }
     void Update()
     {
-        //First 2 if statements here are testers for final controls, start the attack and set ability one to be active.
-        if (Input.GetKeyDown(KeyCode.Space) && map.selectedUnit == gameObject)
+        if (gm.paused == false)
         {
-            if (attacking)
+            //First 2 if statements here are testers for final controls, start the attack and set ability one to be active.
+            if (Input.GetKeyDown(KeyCode.Space) && map.selectedUnit == gameObject)
             {
-                RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (.8f * attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-                foreach (RaycastHit2D wacked in wack)
+                if (attacking)
                 {
-                    if (wacked.collider.gameObject.layer == 8)
+                    RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (.8f * attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                    foreach (RaycastHit2D wacked in wack)
                     {
-                        wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                        if (wacked.collider.gameObject.layer == 8)
+                        {
+                            wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                        }
                     }
                 }
-            }
-            if (!attacking)
-            {
-                RaycastHit2D[] wack = Physics2D.CircleCastAll(map.TileCoordToWorldCoord(tileX, tileY), (.8f * attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-                foreach (RaycastHit2D wacked in wack)
+                if (!attacking)
                 {
-                    if (wacked.collider.gameObject.layer == 8)
+                    RaycastHit2D[] wack = Physics2D.CircleCastAll(map.TileCoordToWorldCoord(tileX, tileY), (.8f * attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                    foreach (RaycastHit2D wacked in wack)
                     {
-                        wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                        if (wacked.collider.gameObject.layer == 8)
+                        {
+                            wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                        }
                     }
                 }
+                attacking = !attacking;
+
+
             }
-            attacking = !attacking;
+            if (Input.GetKeyDown(KeyCode.Alpha1) && map.selectedUnit == gameObject)
+            {
+                abilitiesTarget[0] = !abilitiesTarget[0];
+                abilitiesTarget[2] = false;
+                abilitiesTarget[1] = false;
+                abilitiesTarget[3] = false;
+                map.GenerateSecureZone(1, 1);
+                map.UpdateIconSelection(0);
 
-
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1) && map.selectedUnit == gameObject)
-        {
-            abilitiesTarget[0] = !abilitiesTarget[0];
-            abilitiesTarget[2] = false;
-            abilitiesTarget[1] = false;
-            map.GenerateSecureZone(1, 1);
-            map.UpdateIconSelection(0);
-
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && map.selectedUnit == gameObject)
-        {
-
-            abilitiesTarget[0] = false;
-            abilitiesTarget[2] = false;
-            abilitiesTarget[1] = !abilitiesTarget[1];
-
-            map.UpdateIconSelection(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && map.selectedUnit == gameObject)
-        {
-
-            abilitiesTarget[0] = false;
-            abilitiesTarget[1] = false;
-            abilitiesTarget[2] = !abilitiesTarget[2];
-
-            map.UpdateIconSelection(2);
-        }
-        //if(currentPath != null)
-        //    {
-        //    int currNode = 0;
-        //    while(currNode < currentPath.Count -1)
-        //    {
-        //        Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x,currentPath[currNode].y) + new Vector3(0,0,-2)  ;
-        //        Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode+1].x, currentPath[currNode+1].y ) + new Vector3(0, 0, -2);
-
-
-        //        Debug.DrawLine(start, end, Color.black);
-
-        //        currNode++;
-        //    }
-        //}
-
-
-
-        //
-        if (map.selectedUnit == gameObject)
-        {
-            map.UpdateCooldowns(gameObject);
-        }
-
-
-        //Rudimentary version of the movement script, this is really innefecient but it does the job for now, preferably this  should be moved to a coroutine
-        if (currentPath != null)// Checks if there is a path to follow 
-        {
-            if (gameObject.transform.position == target)
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && map.selectedUnit == gameObject)
             {
 
-                if (currentPath != null && moveSpeed >= map.costToEnter(currentPath[1].x, currentPath[1].y))// We check if we have enough movement speed to move into the next tile
+                abilitiesTarget[0] = false;
+                abilitiesTarget[2] = false;
+                abilitiesTarget[1] = !abilitiesTarget[1];
+                abilitiesTarget[3] = false;
+                map.UpdateIconSelection(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && map.selectedUnit == gameObject)
+            {
+
+                abilitiesTarget[0] = false;
+                abilitiesTarget[1] = false;
+                abilitiesTarget[2] = !abilitiesTarget[2];
+                abilitiesTarget[3] = false;
+                map.UpdateIconSelection(2);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4) && map.selectedUnit == gameObject)
+            {
+
+                abilitiesTarget[0] = false;
+                abilitiesTarget[1] = false;
+                abilitiesTarget[2] = false;
+                abilitiesTarget[3] = !abilitiesTarget[3];
+                map.UpdateIconSelection(3);
+            }
+            //if(currentPath != null)
+            //    {
+            //    int currNode = 0;
+            //    while(currNode < currentPath.Count -1)
+            //    {
+            //        Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x,currentPath[currNode].y) + new Vector3(0,0,-2)  ;
+            //        Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode+1].x, currentPath[currNode+1].y ) + new Vector3(0, 0, -2);
+
+
+            //        Debug.DrawLine(start, end, Color.black);
+
+            //        currNode++;
+            //    }
+            //}
+
+
+
+            //
+            if (map.selectedUnit == gameObject)
+            {
+                map.UpdateCooldowns(gameObject);
+            }
+
+
+            //Rudimentary version of the movement script, this is really innefecient but it does the job for now, preferably this  should be moved to a coroutine
+            if (currentPath != null)// Checks if there is a path to follow 
+            {
+                if (gameObject.transform.position == target)
                 {
-                    moveSpeed -= map.costToEnter(currentPath[1].x, currentPath[1].y);//if we do we reduce our movement speed by the cost to enter the next tile
 
-                    target = map.TileCoordToWorldCoord(currentPath[1].x, currentPath[1].y);// We set our target to the next tile
-
-                    map.UnitMoving(gameObject);
-                    tileX = currentPath[1].x;//once were moving we set our current tile to the target tile
-                    tileY = currentPath[1].y;
-
-                    currentPath.RemoveAt(0);//we remove the current tile from the path
-
-                    if (currentPath.Count == 1)//Once the path is finished we set the path to null and stop moving
+                    if (currentPath != null && moveSpeed >= map.costToEnter(currentPath[1].x, currentPath[1].y))// We check if we have enough movement speed to move into the next tile
                     {
+                        moveSpeed -= map.costToEnter(currentPath[1].x, currentPath[1].y);//if we do we reduce our movement speed by the cost to enter the next tile
 
-                        move = false;
+                        target = map.TileCoordToWorldCoord(currentPath[1].x, currentPath[1].y);// We set our target to the next tile
+
+                        map.UnitMoving(gameObject);
+                        tileX = currentPath[1].x;//once were moving we set our current tile to the target tile
+                        tileY = currentPath[1].y;
+
+                        currentPath.RemoveAt(0);//we remove the current tile from the path
+
+                        if (currentPath.Count == 1)//Once the path is finished we set the path to null and stop moving
+                        {
+
+                            move = false;
+                            currentPath = null;
+
+
+                        }
+
+
+
+                    }
+                    else// if we dont have enough movement or the path is empty we clear out the relevant data
+                    {
+                        map.UnitStopped(gameObject);
+                        target = map.TileCoordToWorldCoord(tileX, tileY);//set our target to the current tile
+                        tileX = currentPath[0].x;//we set our current tile to this tile
+                        tileY = currentPath[0].y;
+                        targetX = tileX;
+                        targetY = tileY;
                         currentPath = null;
+                        move = false;
+                        animator.SetBool("moving", false);
 
 
                     }
-
-
-
-                }
-                else// if we dont have enough movement or the path is empty we clear out the relevant data
-                {
-                    map.UnitStopped(gameObject);
-                    target = map.TileCoordToWorldCoord(tileX, tileY);//set our target to the current tile
-                    tileX = currentPath[0].x;//we set our current tile to this tile
-                    tileY = currentPath[0].y;
-                    targetX = tileX;
-                    targetY = tileY;
-                    currentPath = null;
-                    move = false;
-                    animator.SetBool("moving", false);
-
 
                 }
 
             }
 
+
+
+
+
+            if (currentPath == null && target == gameObject.transform.position)
+            {
+                animator.SetBool("moving", false);// simply stops the moving animation once we stop
+
+
+            }
+            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, target, speedFloatVal * Time.deltaTime);//We are constantly moving towards the target, this is why this should be in a coroutine
         }
-
-
-
-
-
-        if (currentPath == null && target == gameObject.transform.position)
-        {
-            animator.SetBool("moving", false);// simply stops the moving animation once we stop
-
-
-        }
-        gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, target, speedFloatVal * Time.deltaTime);//We are constantly moving towards the target, this is why this should be in a coroutine
-
 
     }
 
@@ -719,7 +744,10 @@ public class UnitScript : MonoBehaviour
                 heal = 0;
             }
             
-        
+        for(int i = 0; i < abilitiesCooldown.Length; i++)
+        {
+            abilitiesCooldown[i] = 0;
+        }
 
     }
 }

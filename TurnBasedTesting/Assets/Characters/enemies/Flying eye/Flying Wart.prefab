@@ -530,8 +530,8 @@ MonoBehaviour:
   missEffect: {fileID: 8300000, guid: 51d0e27d390f1fd49af123b049900b85, type: 3}
   maxMoveSpeed: 3
   moveSpeed: 3
-  maxhealth: 6
-  health: 6
+  maxhealth: 3
+  health: 3
   attackPower: 3
   attackRange: 4
   claveHb: {fileID: 0}
@@ -555,6 +555,7 @@ MonoBehaviour:
   damageBuffT: 0
   damageBuffed: 0
   damageBuffN: 0
+  gm: {fileID: 0}
 --- !u!120 &1097717318652877616
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -726,7 +727,7 @@ MonoBehaviour:
   map: {fileID: 0}
   unitTarget: {fileID: 0}
   aggroRange: 5
-  projectile_: {fileID: 0}
+  projectile_: {fileID: 8738502188829704346, guid: fcdd23b42d03bb14a9ced68653d6a8ed, type: 3}
 --- !u!82 &-1808054651161750058
 AudioSource:
   m_ObjectHideFlags: 0

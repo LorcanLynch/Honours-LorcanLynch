@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using TMPro;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -21,14 +22,18 @@ public class ObjectiveScript : MonoBehaviour
      GameObject boss;
     public GameObject[] bosses;
     GameObject[] playerUnits = new GameObject[4] ;
+    public GameObject[] clones = new GameObject[4];
     public GameObject vicPanel; 
     public GameObject[] upgradePanels  = new GameObject[4];
+    public GameObject defeatPanel;
     private int captureTimer;
     private int captureX;
     private int captureY;
+   
     public List<GameObject> spawningPool;
     int levelsDone = 0;
     GameObject fortG;
+    public GameObject endPanel;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,15 +49,18 @@ public class ObjectiveScript : MonoBehaviour
         {
             case 0:
                 MapObjective = ObjectiveScript.objective.Survive;
+                print("Survive");
                 SurviveStart();
                 break;
             case 1:
                 MapObjective = ObjectiveScript.objective.Secure;
                 SecureStart();
+                print("Secure");
                 break;
             case 2:
                 MapObjective = ObjectiveScript.objective.Capture;
                 CreateCaptureZone();
+                print("Capture");
                 break;
             case 3:
                 MapObjective = ObjectiveScript.objective.Assassinate;
@@ -83,24 +91,30 @@ public class ObjectiveScript : MonoBehaviour
         
         map.ClearEnemies();
         map.ChooseMap();
+        
         foreach(GameObject unit in playerUnits)
         {
-            unit.GetComponent<UnitScript>().NewMap();
-            
+            if (unit != null)
+            {
+                unit.GetComponent<UnitScript>().NewMap();
+            }
         }
         switch (objective)
         {
             case 0:
                 MapObjective = ObjectiveScript.objective.Survive;
+                print("Survive");
                 SurviveStart();
                 break;
             case 1:
                 MapObjective = ObjectiveScript.objective.Secure;
                 SecureStart();
+                
                 break;
             case 2:
                 MapObjective = ObjectiveScript.objective.Capture;
                 CreateCaptureZone();
+                print("Capture");
                 break;
             case 3:
                 MapObjective = ObjectiveScript.objective.Assassinate;
@@ -130,9 +144,9 @@ public class ObjectiveScript : MonoBehaviour
         playerUnits[0].GetComponent<UnitScript>().target = map.TileCoordToWorldCoord(10, 10);
         playerUnits[0].GetComponent<UnitScript>().transform.position = map.TileCoordToWorldCoord(10, 10);
         turnsRemaining = 10;
-        objText.text =  "Control The Fort for: " + turnsRemaining + " Turns ";
+
         //Spawn A whole chunk of enemies at each corner
-        
+        objText.text = "Survive for: " + turnsRemaining + " Turns ";
         int enemiesToSpawn = Random.Range(2, 5);
         for(int  i = 0; i < enemiesToSpawn; i++)
         {
@@ -265,6 +279,22 @@ public class ObjectiveScript : MonoBehaviour
 
     void CreateCaptureZone()
     {
+        playerUnits[1].GetComponent<UnitScript>().tileX = 9;
+        playerUnits[1].GetComponent<UnitScript>().tileY = 9;
+        playerUnits[1].GetComponent<UnitScript>().target = map.TileCoordToWorldCoord(9, 9);
+        playerUnits[1].GetComponent<UnitScript>().transform.position = map.TileCoordToWorldCoord(9, 9);
+        playerUnits[2].GetComponent<UnitScript>().tileX = 9;
+        playerUnits[2].GetComponent<UnitScript>().tileY = 10;
+        playerUnits[2].GetComponent<UnitScript>().target = map.TileCoordToWorldCoord(9, 10);
+        playerUnits[2].GetComponent<UnitScript>().transform.position = map.TileCoordToWorldCoord(9, 10);
+        playerUnits[3].GetComponent<UnitScript>().tileX = 10;
+        playerUnits[3].GetComponent<UnitScript>().tileY = 9;
+        playerUnits[3].GetComponent<UnitScript>().target = map.TileCoordToWorldCoord(10, 9);
+        playerUnits[3].GetComponent<UnitScript>().transform.position = map.TileCoordToWorldCoord(10, 9);
+        playerUnits[0].GetComponent<UnitScript>().tileX = 10;
+        playerUnits[0].GetComponent<UnitScript>().tileY = 10;
+        playerUnits[0].GetComponent<UnitScript>().target = map.TileCoordToWorldCoord(10, 10);
+        playerUnits[0].GetComponent<UnitScript>().transform.position = map.TileCoordToWorldCoord(10, 10);
         int fort = Random.Range(0, 4);
         switch(fort)
             {
@@ -334,20 +364,96 @@ public class ObjectiveScript : MonoBehaviour
                 enemy.GetComponent<EnemyScript>().aggroRange = 200;
             }
         }
+       
         fortG = map.GenerateSecureZone(captureX, captureY);
-        captureTimer = 10;
-     
+        captureTimer = 3;
+        objText.text = "Control The Fort for: " + captureTimer + " Turns ";
     }
 
     void CaptureTurnEnd()
     {
-        foreach(GameObject player in playerUnits)
+        if (map.turnCounter % 5 == 0)
         {
-            if(player.GetComponent<UnitScript>().tileX == captureX && player.GetComponent<UnitScript>().tileY == captureY)
+            int spawnLoc = Random.Range(1, 5);
+            int xCorner = 0;
+            int xMulti = 0;
+            int yMulti = 0;
+            int yCorner = 0;
+            switch (spawnLoc)
             {
-                captureTimer--;
-                print(captureTimer);
-              
+                case 1:
+                    xCorner = map.mapSizeX;
+                    yCorner = map.mapSizeY;
+                    xMulti = -1;
+                    yMulti = -1;
+                    break;
+                case 2:
+                    xCorner = 0;
+                    yCorner = map.mapSizeY;
+                    xMulti = 1;
+                    yMulti = -1;
+                    break;
+                case 3:
+                    xCorner = 0;
+                    yCorner = 0;
+                    xMulti = 1;
+                    yMulti = 1;
+                    break;
+                case 4:
+                    xCorner = map.mapSizeX;
+                    yCorner = 0;
+                    xMulti = -1;
+                    yMulti = 1;
+                    break;
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                int spawner = Random.Range(1, 3);
+                gm.SpawnUnit(xCorner + (spawner * xMulti), yCorner + (yMulti * spawner), true);
+            }
+        }
+
+            foreach (GameObject player in playerUnits)
+        {
+            if (player != null)
+            {
+                if (player.GetComponent<UnitScript>().tileX == captureX && player.GetComponent<UnitScript>().tileY == captureY)
+                {
+                    captureTimer--;
+
+                    objText.text = "Control The Fort for: " + captureTimer + " Turns ";
+                }
+                if (captureTimer <= 0)
+                {
+                    for (int i = 0; i < playerUnits.Length; i++)
+                    {
+
+                        if (playerUnits[i] == null)
+                        {
+                            playerUnits[i] = Instantiate(clones[i]);
+                            switch (i)
+                            {
+                                case 0:
+                                    playerUnits[i].name = "Huntress";
+                                    break;
+                                case 1:
+                                    playerUnits[i].name = "Knight";
+                                    break;
+                                case 2:
+                                    playerUnits[i].name = "Samurai";
+                                    break;
+                                case 3:
+                                    playerUnits[i].name = "Wizard";
+                                    break;
+                            }
+                        }
+                    }
+                    vicPanel.SetActive(true);
+                    for (int i = 0; i < upgradePanels.Length; i++)
+                    {
+                        upgradePanels[i].SetActive(true);
+                    }
+                }
             }
         }
     }
@@ -472,9 +578,34 @@ public class ObjectiveScript : MonoBehaviour
         objText.text = "Turns Remaining: " + turnsRemaining;
         if (turnsRemaining <= 0)
         {
-            print("You win");
-            for(int i = 0;i< upgradePanels.Length; i++)
+            for (int i = 0; i < playerUnits.Length; i++)
             {
+
+                if (playerUnits[i] == null)
+                {
+                    playerUnits[i] = Instantiate(clones[i]);
+                    switch(i)
+                    {
+                        case 0:
+                            playerUnits[i].name = "Huntress";
+                            break;
+                        case 1:
+                            playerUnits[i].name = "Knight";
+                            break;
+                        case 2:
+                            playerUnits[i].name = "Samurai";
+                            break;
+                        case 3:
+                            playerUnits[i].name = "Wizard";
+                            break;
+                    }
+                }
+            }
+            print("You win");
+            vicPanel.SetActive(true);
+            for (int i = 0;i< upgradePanels.Length; i++)
+            {
+
                 upgradePanels[i].SetActive(true);
             }
         } 
@@ -489,28 +620,61 @@ public class ObjectiveScript : MonoBehaviour
             objText.text = "Enemies Remaining: " + numOfEnemies;
             if (numOfEnemies <= 0)
             {
+                for (int i = 0; i < playerUnits.Length; i++)
+                {
+
+                    if (playerUnits[i] == null)
+                    {
+                        playerUnits[i] = Instantiate(clones[i]);
+                        switch (i)
+                        {
+                            case 0:
+                                playerUnits[i].name = "Huntress";
+                                break;
+                            case 1:
+                                playerUnits[i].name = "Knight";
+                                break;
+                            case 2:
+                                playerUnits[i].name = "Samurai";
+                                break;
+                            case 3:
+                                playerUnits[i].name = "Wizard";
+                                break;
+                        }
+                    }
+                }
                 print("You Win!");
                 vicPanel.SetActive(true);
                 for (int i = 0; i < upgradePanels.Length; i++)
                 {
                     upgradePanels[i].SetActive(true);
                 }
+                
             }
         }
         
     }
 
+    public void End()
+    {
+        gm.paused = true;
+        Time.timeScale = 1;
+        endPanel.SetActive(true);
+    }
+    public void GameOver()
+    {
+       
+        Time.timeScale = 0;
+        gm.paused = true;
+        defeatPanel.SetActive(true);
+    }
     // Update is called once per frame
     void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Tab))
+    {if(playerUnits[0] == null && playerUnits[1] == null && playerUnits[2] == null && playerUnits[3] == null)
         {
-            for (int i = 0; i < upgradePanels.Length; i++)
-            {
-                upgradePanels[i].SetActive(true);
-            }
-            vicPanel.SetActive(true);
-            
+            GameOver();
         }
+        
+
     }
 }

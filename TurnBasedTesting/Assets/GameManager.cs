@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
+
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
@@ -12,8 +13,9 @@ public class GameManager : MonoBehaviour
     public TileMap tileMap;
     GameObject previousUnit;
     Node[,] graph;
-    public GameObject unitPrefab;
+    public GameObject pauseMenu;
     public List<GameObject> unitsSpawnable;
+    public bool paused = false;
     List<Node> spawnableTiles = new List<Node> { };   
     // Start is called before the first frame update
     void Start()
@@ -31,14 +33,42 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     if(Input.GetKeyUp(KeyCode.Y))
+     if(Input.GetKeyDown(KeyCode.Escape))
         {
-            
-                SpawnUnit(1, 3);
-            
-         
+            Pause();
         }
     }
+
+    public void Restart()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+       
+    }
+   public void Pause()
+    {
+        if (!paused)
+        {
+            Time.timeScale = 0;
+            paused = true;
+           pauseMenu.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            paused = false;
+            pauseMenu.SetActive(false);
+        }
+
+    }
+
+    public void Quit()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
+    }
+
+    
 
     void SpawnUnit()
     {
@@ -100,33 +130,37 @@ public class GameManager : MonoBehaviour
         }
         //print(spawnableTiles.Count);
 
-       
-        if (tileMap.graph[tileX,tileY].containsUnit == false && (tileMap.tiles[tileX, tileY] == 0|| tileMap.tiles[tileX, tileY] == 2|| tileMap.tiles[tileX, tileY] == 3))
+
+        if (tileMap.graph[tileX, tileY].containsUnit == false)
         {
-            unitsSpawnable = tileMap.GetComponent<ObjectiveScript>().spawningPool;
-            int spawned = UnityEngine.Random.Range(0, unitsSpawnable.Count);
-            GameObject unit = Instantiate(unitsSpawnable[spawned]);
            
-            tileMap.graph[tileX,tileY].containsUnit = true;
-           
-           
-            unit.GetComponent<UnitScript>().tileX = tileX;
-            unit.GetComponent<UnitScript>().tileY = tileY;
-            unit.transform.position = tileMap.TileCoordToWorldCoord(tileX, tileY);
+            if ((tileMap.tiles[tileX, tileY] == 0 || tileMap.tiles[tileX, tileY] == 2 || tileMap.tiles[tileX, tileY] == 3))
+            {
+                unitsSpawnable = tileMap.GetComponent<ObjectiveScript>().spawningPool;
+                int spawned = UnityEngine.Random.Range(0, unitsSpawnable.Count);
+                GameObject unit = Instantiate(unitsSpawnable[spawned]);
+                unit.GetComponent<UnitScript>().tileX = tileX;
+                unit.GetComponent<UnitScript>().tileY = tileY;
+                unit.GetComponent<EnemyScript>().aggroRange = 200;
+                tileMap.graph[tileX, tileY].containsUnit = true;
 
-
+            }
         }
         else
         {
+            
             print("happened");
             int i = 0;
-            foreach(Node neighbour in tileMap.graph[tileX,tileY].connections)
+            foreach (Node neighbour in tileMap.graph[tileX, tileY].connections)
             {
                 i++;
-                if (neighbour.containsUnit == false && (tileMap.tiles[neighbour.x, neighbour.y] == 0 || tileMap.tiles[neighbour.x, neighbour.y] == 2 || tileMap.tiles[neighbour.x, neighbour.y] == 3))
-                {
-                    SpawnUnit(neighbour.x, neighbour.y);
-                    break;
+                if (neighbour.containsUnit == false)
+                { 
+                    if (  tileMap.tiles[neighbour.x, neighbour.y] == 0 || tileMap.tiles[neighbour.x, neighbour.y] == 2 || tileMap.tiles[neighbour.x, neighbour.y] == 3)
+                    {
+                        SpawnUnit(neighbour.x, neighbour.y);
+                        break;
+                    }
                 }
                 if(i>5)
                 {
@@ -165,29 +199,35 @@ public class GameManager : MonoBehaviour
         }
         //print(spawnableTiles.Count);
 
-
-        if (tileMap.graph[tileX, tileY].containsUnit == false && (tileMap.tiles[tileX, tileY] == 0 || tileMap.tiles[tileX, tileY] == 2 || tileMap.tiles[tileX, tileY] == 3))
+        if (tileMap.graph[tileX, tileY].containsUnit == false)
         {
-            unitsSpawnable = tileMap.GetComponent<ObjectiveScript>().spawningPool;
-            int spawned = UnityEngine.Random.Range(0, unitsSpawnable.Count);
-            GameObject unit = Instantiate(unitsSpawnable[spawned]);
-            unit.GetComponent<UnitScript>().tileX = tileX;
-            unit.GetComponent<UnitScript>().tileY = tileY;
-            unit.GetComponent<EnemyScript>().aggroRange = 200;
+           
+            if ((tileMap.tiles[tileX, tileY] == 0 || tileMap.tiles[tileX, tileY] == 2 || tileMap.tiles[tileX, tileY] == 3))
+            {
+                unitsSpawnable = tileMap.GetComponent<ObjectiveScript>().spawningPool;
+                int spawned = UnityEngine.Random.Range(0, unitsSpawnable.Count);
+                GameObject unit = Instantiate(unitsSpawnable[spawned]);
+                unit.GetComponent<UnitScript>().tileX = tileX;
+                unit.GetComponent<UnitScript>().tileY = tileY;
+                unit.GetComponent<EnemyScript>().aggroRange = 200;
 
-
+                tileMap.graph[tileX, tileY].containsUnit = true;
+            }
         }
         else
         {
+           
             print("happened");
             int i = 0;
             foreach (Node neighbour in tileMap.graph[tileX, tileY].connections)
             {
-                i++;
-                if (neighbour.containsUnit == false && (tileMap.tiles[neighbour.x, neighbour.y] == 0 || tileMap.tiles[neighbour.x, neighbour.y] == 2  || tileMap.tiles[neighbour.x, neighbour.y] == 3))
+                if (neighbour.containsUnit == false)
                 {
-                    SpawnUnit(neighbour.x, neighbour.y);
-                    break;
+                    if (tileMap.tiles[neighbour.x, neighbour.y] == 0 || tileMap.tiles[neighbour.x, neighbour.y] == 2 || tileMap.tiles[neighbour.x, neighbour.y] == 3)
+                    {
+                        SpawnUnit(neighbour.x, neighbour.y);
+                        break;
+                    }
                 }
                 if (i > 5)
                 {

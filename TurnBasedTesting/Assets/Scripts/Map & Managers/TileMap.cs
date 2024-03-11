@@ -23,7 +23,7 @@ public class TileMap : MonoBehaviour
     public GameObject panelEnd;
     public GameObject panelBackdrop;
     private bool targetting;
-    float wack = 0;
+    
     public int turnCounter = 0;
    public GameManager gm;
     public int numOfEnemies;
@@ -84,8 +84,10 @@ public class TileMap : MonoBehaviour
         foreach (GameObject unit in Units)
         {
             //unit.GetComponent<UnitScript>().
-            
-            graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].containsUnit = true;
+            if (unit != null)
+            {
+                graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].containsUnit = true;
+            }
         }
     }
 
@@ -152,9 +154,101 @@ public class TileMap : MonoBehaviour
     // Update is called once per frame
     public void GeneratePathTo(int x, int y, bool move)
     {
-        if (selectedUnit != null)
+        if (gm.paused == false)
         {
-            selectedUnit.GetComponent<UnitScript>().map = this;
+
+
+            if (selectedUnit != null)
+            {
+                selectedUnit.GetComponent<UnitScript>().map = this;
+                currentPath = null;
+
+                Dictionary<Node, float> dist = new Dictionary<Node, float>();
+                Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
+
+                List<Node> unvisited = new List<Node>();
+
+                Node source = graph[selectedUnit.GetComponent<UnitScript>().tileX,
+                                     selectedUnit.GetComponent<UnitScript>().tileY
+                                     ];
+
+                Node target = graph[y, x];
+                //if(target.containsUnit)
+
+                dist[source] = 0;
+                prev[source] = null;
+
+                foreach (Node v in graph)
+                {
+                    if (v != source)
+                    {
+                        dist[v] = Mathf.Infinity;
+                        prev[v] = null;
+                    }
+                    unvisited.Add(v);
+                }
+
+                while (unvisited.Count > 0)
+                {
+                    Node u = null;
+                    foreach (Node possibleU in unvisited)
+                    {
+                        if (u == null || dist[possibleU] < dist[u]) //&& !graph[possibleU.y, possibleU.x].containsUnit)
+                        {
+
+                            u = possibleU;
+                        }
+                    }
+                    if (u.containsUnit)
+                    {
+                        unvisited.Remove(u);
+                    }
+
+                    if (u == target)
+                    {
+
+                        break;
+                    }
+                    unvisited.Remove(u);
+                    foreach (Node v in u.connections)
+                    {
+                        float alt = dist[u] + costToEnter(v.x, v.y);
+                        if (alt < dist[v])
+                        {
+                            dist[v] = alt;
+                            prev[v] = u;
+                        }
+                    }
+                }
+
+                if (prev[target] == null)
+                {
+                    return;
+                }
+                currentPath = new List<Node>();
+                Node curr = target;
+                while (curr != null)
+                {
+                    currentPath.Add(curr);
+                    curr = prev[curr];
+                }
+                currentPath.Reverse();
+                if (move)
+                {
+                    selectedUnit.GetComponent<UnitScript>().EnterCourse(x, y, currentPath);
+                }
+            }
+
+
+        }
+
+    }
+
+    public List<Node> GenerateMovePath(GameObject unitRequesting,int startX, int startY,int x, int y)
+    {
+        if (gm.paused == false)
+        {
+            unitRequesting.GetComponent<UnitScript>().map = this;
             currentPath = null;
 
             Dictionary<Node, float> dist = new Dictionary<Node, float>();
@@ -162,8 +256,8 @@ public class TileMap : MonoBehaviour
 
             List<Node> unvisited = new List<Node>();
 
-            Node source = graph[selectedUnit.GetComponent<UnitScript>().tileX,
-                                 selectedUnit.GetComponent<UnitScript>().tileY
+            Node source = graph[startX,
+                                 startY
                                  ];
 
             Node target = graph[y, x];
@@ -189,14 +283,10 @@ public class TileMap : MonoBehaviour
                 {
                     if (u == null || dist[possibleU] < dist[u]) //&& !graph[possibleU.y, possibleU.x].containsUnit)
                     {
-
                         u = possibleU;
                     }
                 }
-                if (u.containsUnit)
-                {
-                    unvisited.Remove(u);
-                }
+
 
                 if (u == target)
                 {
@@ -207,7 +297,7 @@ public class TileMap : MonoBehaviour
                 foreach (Node v in u.connections)
                 {
                     float alt = dist[u] + costToEnter(v.x, v.y);
-                    if (alt < dist[v])
+                    if ((alt < dist[v]))
                     {
                         dist[v] = alt;
                         prev[v] = u;
@@ -217,7 +307,7 @@ public class TileMap : MonoBehaviour
 
             if (prev[target] == null)
             {
-                return;
+                return null;
             }
             currentPath = new List<Node>();
             Node curr = target;
@@ -226,103 +316,22 @@ public class TileMap : MonoBehaviour
                 currentPath.Add(curr);
                 curr = prev[curr];
             }
-            currentPath.Reverse();
-            if (move)
+            if (currentPath[0].containsUnit)
             {
-                selectedUnit.GetComponent<UnitScript>().EnterCourse(x, y, currentPath);
-            }
-        }
-        
-        
-
-
-    }
-
-    public List<Node> GenerateMovePath(GameObject unitRequesting,int startX, int startY,int x, int y)
-    {
-        unitRequesting.GetComponent<UnitScript>().map = this;
-        currentPath = null;
-
-        Dictionary<Node, float> dist = new Dictionary<Node, float>();
-        Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
-
-        List<Node> unvisited = new List<Node>();
-
-        Node source = graph[startX,
-                             startY
-                             ];
-
-        Node target = graph[y, x];
-        //if(target.containsUnit)
-
-        dist[source] = 0;
-        prev[source] = null;
-
-        foreach (Node v in graph)
-        {
-            if (v != source)
-            {
-                dist[v] = Mathf.Infinity;
-                prev[v] = null;
-            }
-            unvisited.Add(v);
-        }
-
-        while (unvisited.Count > 0)
-        {
-            Node u = null;
-            foreach (Node possibleU in unvisited)
-            {
-                if (u == null || dist[possibleU] < dist[u]) //&& !graph[possibleU.y, possibleU.x].containsUnit)
+                currentPath.RemoveAt(0);
+                if (currentPath.Count == 1)
                 {
-                    u = possibleU;
-                }
-            }
-            
-
-            if (u == target)
-            {
-
-                break;
-            }
-            unvisited.Remove(u);
-            foreach (Node v in u.connections)
-            {
-                float alt = dist[u] + costToEnter(v.x, v.y);
-                if ((alt < dist[v]))
-                {
-                    dist[v] = alt;
-                    prev[v] = u;
-                }
-            }
-        }
-        
-        if (prev[target] == null)
-        {
-            return null;
-        }
-        currentPath = new List<Node>();
-        Node curr = target;
-        while (curr != null)
-        {
-            currentPath.Add(curr);
-            curr = prev[curr];
-        }
-        if (currentPath[0].containsUnit)
-        {
-            currentPath.RemoveAt(0);
-            if (currentPath.Count == 1)
-            { 
 
                     return null;
-             }
+                }
+            }
+            currentPath.Reverse();
+
+            return currentPath;
+
+
         }
-        currentPath.Reverse();
-       
-           return currentPath;
-       
-
-
+        else { return null; }
 
 
 
@@ -559,7 +568,7 @@ public class TileMap : MonoBehaviour
         {
             unit_.GetComponent<SpriteRenderer>().color = Color.white;
         }
-        obj.TurnEnd();
+        
             StartCoroutine("EndTurnA");
         turnCounter++;
         
@@ -815,9 +824,11 @@ public class TileMap : MonoBehaviour
     public IEnumerator EndTurnA()
     {
         panelEnd.SetActive(true);
-        foreach (GameObject unit in Units)
+        for(int i = 0; i < Units.Count;i++)
         {
-            unit.GetComponent<UnitScript>().TurnOver();
+            if (Units[i]!= null)
+            Units[i].GetComponent<UnitScript>().TurnOver();
+           
             
         }
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -826,11 +837,14 @@ public class TileMap : MonoBehaviour
             if (enemy != null)
             {
                 enemy.GetComponent<EnemyScript>().turnStart();
-                yield return new WaitUntil(() => enemy.GetComponent<UnitScript>().currentPath == null);
+                
+                yield return new WaitUntil(() => enemy.GetComponent<UnitScript>().currentPath == null || enemy == null);
                 enemy.GetComponent<EnemyScript>().FinishedMove();
+                
             }
            
         }
+        obj.TurnEnd();
         canSelect = true;
         panelEnd.SetActive(false);
         yield return null;
@@ -851,14 +865,14 @@ public class TileMap : MonoBehaviour
               
 
             }
-            panelBackdrop.GetComponent<BackDropScript>().newUnit(unit.GetComponent<UnitScript>().abilityIcons, unit.GetComponent<UnitScript>().abilitiesCooldown);
+            panelBackdrop.GetComponent<BackDropScript>().newUnit(unit.GetComponent<UnitScript>().abilityIcons, unit.GetComponent<UnitScript>().abilitiesCooldown,unit.GetComponent<UnitScript>().attackAvailable);
             unit.GetComponent<SpriteRenderer>().color = Color.red;
             selectedUnit = unit;
         }
     }
     public void UpdateCooldowns(GameObject unit)
     {
-        panelBackdrop.GetComponent<BackDropScript>().newUnit(unit.GetComponent<UnitScript>().abilityIcons, unit.GetComponent<UnitScript>().abilitiesCooldown) ;
+        panelBackdrop.GetComponent<BackDropScript>().newUnit(unit.GetComponent<UnitScript>().abilityIcons, unit.GetComponent<UnitScript>().abilitiesCooldown, unit.GetComponent<UnitScript>().attackAvailable) ;
     }
 
     public void UpdateIconSelection(int index) 

@@ -1,4 +1,5 @@
 
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,7 +105,7 @@ public class KnightScript : UnitScript
                         slayerDamage++;
                     }
                 }
-                text.GetComponent<DamageTextScript>().UpdateText(Mathf.RoundToInt((AP - damageReduction) * -1).ToString());
+                text.GetComponent<DamageTextScript>().UpdateText(Mathf.RoundToInt(Mathf.Clamp(AP - damageReduction, 1, 100) * -1).ToString());
                 if (health <= 0)
                 {
                     if(rawGrit)
@@ -216,7 +217,7 @@ public class KnightScript : UnitScript
         abilitiesCooldown[0] = 4;
         attackAvailable = false;
         targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);//simple attack
-        RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+        RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, 1f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
         if (riposte)
         {
             if (!riposteCombo)
@@ -262,110 +263,110 @@ public class KnightScript : UnitScript
 
     public override void Ability2(GameObject targetUnit)
     {
-        
-        parryActive = 2;
-        attackAvailable = false;
-        baseDodge = dodgeRating;
-        baseReduction = damageReduction;
-        abilitiesCooldown[1] = 4;
-        damageReduction += 3;
-        dodgeRating = dodgeRating * 2;
-        if (parryDamage)
+        if (attackAvailable)
         {
-            parryStrikeback = true;
-        }
-        if (parryHoldfast)
-        {
-            dodgeRating *= 2;
-            abilitiesCooldown[1] = 3;
-        }
-        if (riposte)
-        {
-            if (!riposteCombo)
+            attackAvailable = false;
+
+            abilitiesCooldown[1] = 5;
+            DRBuff(3, 3);
+            DodgeBuff(3,(int)dodgeRating);
+            if (parryDamage)
             {
-                riposteCombo = true;
+                parryStrikeback = true;
             }
-            else
+            if (parryHoldfast)
             {
-                riposteCombo = false;
-                damageReduction += 3;
+                DodgeBuff(3, (int)dodgeRating * 3);
+                abilitiesCooldown[1] = 5;
             }
-        }
-        if (combosU[3])
-        {
-            if (combos[3])
+            if (riposte)
             {
-                RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-                foreach (RaycastHit2D hit in targets)
+                if (!riposteCombo)
                 {
-                    if (hit.collider.tag == "Team1")
-                    {
-                        hit.collider.gameObject.GetComponent<UnitScript>().HealDamage(5);
-
-                    }
+                    riposteCombo = true;
                 }
-                combos[3] = false;
-            }
-            else
-            {
-                combos[3] = true;
-            }
-        }
-        if (combosU[0])
-        {
-            if (combos[0])
-            {
-                RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-                foreach (RaycastHit2D hit in targets)
+                else
                 {
-                    if (hit.collider.tag == "Team1")
-                    {
-                        hit.collider.gameObject.GetComponent<UnitScript>().HealDamage(5);
-
-                    }
+                    riposteCombo = false;
+                    DRBuff(3,6);
                 }
-                combos[0] = false;
             }
-            else
+            if (combosU[3])
             {
-                combos[0] = true;
+                if (combos[3])
+                {
+                    RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                    foreach (RaycastHit2D hit in targets)
+                    {
+                        if (hit.collider.tag == "Team1")
+                        {
+                            hit.collider.gameObject.GetComponent<UnitScript>().HealDamage(5);
+
+                        }
+                    }
+                    combos[3] = false;
+                }
+                else
+                {
+                    combos[3] = true;
+                }
             }
+            if (combosU[0])
+            {
+                if (combos[0])
+                {
+                    RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                    foreach (RaycastHit2D hit in targets)
+                    {
+                        if (hit.collider.tag == "Team1")
+                        {
+                            hit.collider.gameObject.GetComponent<UnitScript>().HealDamage(5);
+
+                        }
+                    }
+                    combos[0] = false;
+                }
+                else
+                {
+                    combos[0] = true;
+                }
+            }
+
+            if (combosU[1])
+            {
+                if (combos[1])
+                {
+                    buffTimer++;
+                    dodgeBuffT++;
+                    combos[1] = false;
+                }
+                else
+                {
+                    combos[1] = true;
+                }
+            }
+
+
+            if (combosU[2])
+            {
+                if (combos[2])
+                {
+                    parryStrikebackF = true;
+                    combos[2] = false;
+                }
+                else
+                {
+                    combos[2] = true;
+                }
+            }
+
+
+
+
+            
+            map.UpdateCooldowns(gameObject);
+            abilitiesTarget[1] = false;
         }
-
-        if (combosU[1])
-        {
-            if (combos[1])
-            {
-                parryActive++;
-                combos[1] = false;
-            }
-            else
-            {
-                combos[1] = true;
-            }
-        }
-
-
-        if (combosU[2])
-        {
-            if (combos[2])
-            {
-                parryStrikebackF = true;
-                combos[2] = false;
-            }
-            else
-            {
-                combos[2] = true;
-            }
-        }
-
-
-        
-        
-        baseDodge = dodgeRating - baseDodge;
-        baseReduction = damageReduction - baseReduction;
-        map.UpdateCooldowns(gameObject);
-        abilitiesTarget[1] = false;
     }
 
     public override void Ability3(GameObject targetUnit)
@@ -374,28 +375,36 @@ public class KnightScript : UnitScript
         
         if(frenziedStrike)
         {
-            if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY) && targetUnit.tag == "Enemy")
+            if (attackAvailable)
             {
-                attack(targetUnit);
-                attack(targetUnit);
-                attack(targetUnit);
-                abilitiesCooldown[2] = 4;
-                attackAvailable = false;
-                riposteCombo = false;
-                if (combosU[0])
+                if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY) && targetUnit.tag == "Enemy")
                 {
-                    if (!combos[0])
+                    attack(targetUnit);
+                    attackAvailable = true;
+                    attack(targetUnit);
+                    attackAvailable = true;
+                    attack(targetUnit);
+                    attackAvailable = true;
+                    abilitiesCooldown[2] = 4;
+                    attackAvailable = false;
+                    riposteCombo = false;
+                    if (combosU[0])
                     {
-                        combos[0] = true;
-                    }
-                    else
-                    {
-                        combos[0] = false;
-                        attack(targetUnit);
+                        if (!combos[0])
+                        {
+                            combos[0] = true;
+                        }
+                        else
+                        {
+                            combos[0] = false;
+                            attackAvailable = true;
+                            attack(targetUnit);
+                            
+                        }
+
                     }
 
                 }
-               
             }
         }    
 

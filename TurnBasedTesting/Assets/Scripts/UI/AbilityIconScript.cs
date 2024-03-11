@@ -29,6 +29,7 @@ public class AbilityIconScript : MonoBehaviour
         else
         {
             panel.SetActive(false);
+            text.text = "";
         }
     }
 }

@@ -666,8 +666,8 @@ MonoBehaviour:
   baseDodge: 0
   baseReduction: 0
   abilityIcons:
-  - {fileID: 5439716230811955900, guid: 8421950ca4d605f44b2bf0015580a89b, type: 3}
-  - {fileID: 6454450380039570995, guid: 6fd914f4ef9f32b45981f7d561cca654, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   abilitiesTarget: 00000000
@@ -679,6 +679,9 @@ MonoBehaviour:
   burning: 0
   burnTimer: 0
   burnDamage: 0
+  aSource: {fileID: 0}
+  hitEffect: {fileID: 0}
+  missEffect: {fileID: 0}
   maxMoveSpeed: 3
   moveSpeed: 3
   maxhealth: 10
@@ -706,12 +709,13 @@ MonoBehaviour:
   damageBuffT: 0
   damageBuffed: 0
   damageBuffN: 0
+  gm: {fileID: 0}
   parryStrikeback: 0
   parryDamage: 0
   parryHoldfast: 0
   parryStrikebackF: 0
   lordlyGreatsword: 0
-  domumHalberd: 1
+  domumHalberd: 0
   frenziedStrike: 0
   flamingBlade: 0
   righteousGlory: 0

@@ -59,9 +59,11 @@ public class WizardScript : UnitScript
                 }
 
 
-                attackAvailable = false;
-                attacking = false;
+               
+              
             }
+            attackAvailable = false;
+            attacking = false;
         }
 
         
@@ -171,6 +173,7 @@ public class WizardScript : UnitScript
 
         }
         abilitiesTarget[1] = false;
+        abilitiesCooldown[1] = 5;
     }
     
 
@@ -218,34 +221,38 @@ public class WizardScript : UnitScript
         {
             if(gameObject.tag != targetUnit.tag)
             {
-                targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);
-                gameObject.GetComponent<UnitScript>().HealDamage(attackPower - targetUnit.GetComponent<UnitScript>().damageReduction);
-                if(soulDrain)
+                if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, attackRange))
                 {
-                    targetUnit.GetComponent<UnitScript>().Burn(4,3) ;
-                   
-                }
-                if (combosA[1])
-                {
-                    targetUnit.GetComponent<UnitScript>().UnitDamage(5 + targetUnit.GetComponent<UnitScript>().damageReduction);
-                    gameObject.GetComponent<UnitScript>().HealDamage(5);
-                    combosA[1] = false;
-                }
-                else
-                {
-                    if (combos[1])
+                    abilitiesCooldown[2] = 5;
+                    targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);
+                    gameObject.GetComponent<UnitScript>().HealDamage(attackPower - targetUnit.GetComponent<UnitScript>().damageReduction);
+                    if (soulDrain)
                     {
-                        combosA[1] = true;
+                        targetUnit.GetComponent<UnitScript>().Burn(4, 3);
+
+                    }
+                    if (combosA[1])
+                    {
+                        targetUnit.GetComponent<UnitScript>().UnitDamage(5 + targetUnit.GetComponent<UnitScript>().damageReduction);
+                        gameObject.GetComponent<UnitScript>().HealDamage(5);
+                        combosA[1] = false;
+                    }
+                    else
+                    {
+                        if (combos[1])
+                        {
+                            combosA[1] = true;
+                        }
                     }
                 }
             }
         }
         if(incantationOfPower)
-        {   
-          
-            
-            abilitiesCooldown[2] = 4;
-            RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+        {
+
+
+            abilitiesCooldown[2] = 7;
+            RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, 1f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
             foreach (RaycastHit2D hit in targets)
             {
                 if (hit.collider.tag == "team1")
@@ -287,10 +294,10 @@ public class WizardScript : UnitScript
                 abilitiesCooldown[2] = 4;
                 attackAvailable = false;
                 targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);//simple attack
-                RaycastHit2D[] targets = Physics2D.CircleCastAll(targetUnit.transform.position, .8f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                RaycastHit2D[] targets = Physics2D.CircleCastAll(targetUnit.transform.position, 1f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
                 foreach (RaycastHit2D hit in targets)
                 {
-                    if (hit.collider.gameObject.layer == 6)
+                    if (hit.collider.gameObject.tag == "Enemy")
                     {
                         hit.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower));
                     }
@@ -309,10 +316,10 @@ public class WizardScript : UnitScript
                 abilitiesCooldown[2] = 4;
                 attackAvailable = false;
                 targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);//simple attack
-                RaycastHit2D[] targets = Physics2D.CircleCastAll(targetUnit.transform.position, .8f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                RaycastHit2D[] targets = Physics2D.CircleCastAll(targetUnit.transform.position, 1f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
                 foreach (RaycastHit2D hit in targets)
                 {
-                    if (hit.collider.gameObject.layer == 6)
+                    if (hit.collider.gameObject.tag == "Enemy")
                     {
                         hit.collider.gameObject.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower/2));
                         hit.collider.gameObject.GetComponent<UnitScript>().stunned = true;

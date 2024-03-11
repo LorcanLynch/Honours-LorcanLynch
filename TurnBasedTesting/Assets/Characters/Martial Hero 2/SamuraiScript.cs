@@ -82,10 +82,9 @@ public class SamuraiScript : UnitScript
             }
 
             attacking = false;
-            if (!bloodThirstA)
-            {
-                attackAvailable = false;
-            }
+           
+            attackAvailable = false;
+            
             if (target.GetComponent<UnitScript>().health <= 0)
             {
                 if (bloodThirstA)
@@ -104,10 +103,9 @@ public class SamuraiScript : UnitScript
     {
         if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY))
         {
-            if (!bloodThirstA)
-            {
+           
                 attackAvailable = false;
-            }
+            
             ///<summary>
             ///Allows the Samurai to use execute
             ///</summary>
@@ -148,7 +146,7 @@ public class SamuraiScript : UnitScript
                 }
                 if (targetUnit.GetComponent<UnitScript>().health <= 0)
                 {
-                    if (bloodThirstA)
+                    if (thrill || bloodThirstA)
                     {
                         attackAvailable = true;
                     }
@@ -351,7 +349,7 @@ public class SamuraiScript : UnitScript
         {
             abilityCombosA[i] = false;
         }
-        base.Ability4(targetUnit);  
+        
     }
 
     public override void TurnOver()

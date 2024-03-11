@@ -355,7 +355,7 @@ MonoBehaviour:
   visibility: 0
   dodgeRating: 20
   damageReduction: 0
-  text: {fileID: 0}
+  text: {fileID: 5517868421793766852}
   lineRenderer: {fileID: 0}
   speedFloatVal: 4
   healing: 0
@@ -985,6 +985,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 425ad0d35c597354592b1086fb197849, type: 3}
+--- !u!114 &5517868421793766852 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6028430921467857965, guid: 425ad0d35c597354592b1086fb197849, type: 3}
+  m_PrefabInstance: {fileID: 2250148225171214825}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5517868421793766854 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6028430921467857967, guid: 425ad0d35c597354592b1086fb197849, type: 3}

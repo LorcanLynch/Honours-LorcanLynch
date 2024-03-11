@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6799306731893376105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6799306731893376107}
+  - component: {fileID: 6799306731893376106}
+  - component: {fileID: 6799306731893376100}
+  m_Layer: 0
+  m_Name: Map
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6799306731893376107
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6799306731893376105}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6799306731893376106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6799306731893376105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14c5d3db561aaf7429ab8418fb8286aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileTypes:
+  - name: Grass
+    tileVisual: {fileID: 1536956834979822529, guid: ee7759c9f08b67749b189be5aa456364, type: 3}
+    isWalkable: 1
+    moveCost: 1
+  - name: Water
+    tileVisual: {fileID: 1753595375382221456, guid: f627d417959f0fe41b7eecabbe1d1fce, type: 3}
+    isWalkable: 0
+    moveCost: 20
+  - name: Difficult
+    tileVisual: {fileID: 7686070059801280984, guid: 37b6acd5dc1782d499de97864f044d73, type: 3}
+    isWalkable: 1
+    moveCost: 2
+  - name: Forest
+    tileVisual: {fileID: 1536956834979822529, guid: 3f4ba9e71d541e842a66f63666a92359, type: 3}
+    isWalkable: 1
+    moveCost: 2
+  - name: Fort
+    tileVisual: {fileID: 3719307399883663581, guid: 2672e05b04818ba4b925c564b76aaec5, type: 3}
+    isWalkable: 1
+    moveCost: 1
+  tile: {fileID: 1536956834979822529, guid: ee7759c9f08b67749b189be5aa456364, type: 3}
+  mapSizeX: 20
+  mapSizeY: 20
+  selectedUnit: {fileID: 0}
+  Units: []
+  canSelect: 1
+  panelEnd: {fileID: 0}
+  panelBackdrop: {fileID: 0}
+  turnCounter: 0
+  gm: {fileID: 0}
+  numOfEnemies: 1
+  obj: {fileID: 0}
+  nameText: {fileID: 0}
+  healthText: {fileID: 0}
+  dodgeText: {fileID: 0}
+  armourText: {fileID: 0}
+  accuracyText: {fileID: 0}
+  rangeText: {fileID: 0}
+  activeTiles: []
+--- !u!114 &6799306731893376100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6799306731893376105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b55eaa4c6ac38540ac33c2d2a417ccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objPanel: {fileID: 0}
+  objText: {fileID: 0}
+  numOfEnemies: 10
+  turnsRemaining: 5
+  bosses:
+  - {fileID: 7633715993744104517, guid: b48c9574bd3efe542be2e5aae2019264, type: 3}
+  clones:
+  - {fileID: 373728223162344294, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
+  - {fileID: 1097717318652877622, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
+  - {fileID: 6777011672565598522, guid: 6c8c7e93caf7aef4eb1fe793022e5527, type: 3}
+  - {fileID: 373728223162344294, guid: e072ee0e89f0e8d4a899d7a0aaeb51d2, type: 3}
+  vicPanel: {fileID: 0}
+  upgradePanels: []
+  defeatPanel: {fileID: 0}
+  spawningPool:
+  - {fileID: 1097717318652877622, guid: 500a562fd332cc84dac8d3c143e92d01, type: 3}
+  - {fileID: 7300952286388787724, guid: 6cd873bcbae1ac94b89c18cbe27b268d, type: 3}
+  - {fileID: 2026199850045485330, guid: c430d8837122acd4a9c3f3dd009c2bd2, type: 3}
+  - {fileID: 1097717318652877622, guid: 7f75230f117f5564a897025fbde6dd49, type: 3}
+  - {fileID: 4065940741035012576, guid: 2aba13ae411588f45bb42b48f7fb3c29, type: 3}
+  - {fileID: 1097717318652877622, guid: 830f7b90dbf75044497dfdf28f7f1e0c, type: 3}
+  - {fileID: 5867294158332244319, guid: 7ce70b42e47a99f40b8cc13bed1cf2eb, type: 3}

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -9,12 +11,20 @@ public class SkeletonLord : EnemyScript
     public int bodiesCD = 0;
     public int bonesCD = 0;
     public int expulsionCD = 0;
-    GameObject targetUnit;
+   public GameObject targetUnit;
+   public GameObject endPanel;
+    public GameObject spell;
     // Start is called before the first frame update
-    
+
 
     // Update is called once per frame
-   
+    private void FixedUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            NecromanticExpulsion();
+        } 
+    }
     public override bool turnStart()
     {
         if(bonesCD <= 0)
@@ -105,6 +115,7 @@ public class SkeletonLord : EnemyScript
         }
         if(map.GenerateAttackPath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, targetUnit.GetComponent<UnitScript>().tileY, targetUnit.GetComponent<UnitScript>().tileX).Count  < 7)
         {
+            Instantiate(spell,targetUnit.transform.position,Quaternion.identity);
             RaycastHit2D[] blast = Physics2D.CircleCastAll(targetUnit.transform.position, 1.6f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
             foreach (RaycastHit2D hits in blast)
             {
@@ -113,12 +124,18 @@ public class SkeletonLord : EnemyScript
                     hits.collider.GetComponent<UnitScript>().UnitDamage(10);
                 }
             }
+            
 
         }
         gameObject.GetComponentInChildren<Animator>().SetTrigger("spell");
         expulsionCD = 5;
     }
 
+
+    private void OnDestroy()
+    {
+        map.GetComponent<ObjectiveScript>().End();
+    }
 
 
 }

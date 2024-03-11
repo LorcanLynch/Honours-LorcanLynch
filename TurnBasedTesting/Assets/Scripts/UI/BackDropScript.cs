@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Net.Sockets;
-using UnityEditor.U2D;
+
 using UnityEngine;
 using UnityEngine.UI;
 public class BackDropScript : MonoBehaviour
 {
 
     public Image[] baseIcons = { null, null, null, null };
-    GameObject attackReadyIcon = null;
+    public GameObject attackReadyIcon;
     public Image LockIcon;
     public Image[] newIcons = { null, null, null, null };
     // Start is called before the first frame update
@@ -62,7 +62,7 @@ public class BackDropScript : MonoBehaviour
         }
 
     }
-    public void newUnit(Sprite[] newIcons, int[] cooldown)
+    public void newUnit(Sprite[] newIcons, int[] cooldown,bool attackReady)
     {
         
         for(int i = 0; i < baseIcons.Length; i++)
@@ -70,6 +70,7 @@ public class BackDropScript : MonoBehaviour
             if (newIcons[i] != null)
             {
                 baseIcons[i].GetComponent<Image>().sprite = newIcons[i];
+                
                 baseIcons[i].GetComponent<AbilityIconScript>().cooldownPanel(cooldown[i]);
                 
                 
@@ -77,8 +78,18 @@ public class BackDropScript : MonoBehaviour
             else
             {
                 baseIcons[i].GetComponent<Image>().sprite = LockIcon.sprite;
+                baseIcons[i].GetComponent<AbilityIconScript>().cooldownPanel(cooldown[i]);
             }
         }
+        if (attackReady)
+        {
+            attackReadyIcon.GetComponent<Image>().color = Color.red;
+        }
+        else
+        {
+            attackReadyIcon.GetComponent<Image>().color = Color.gray;
+        }
+
 
        
         

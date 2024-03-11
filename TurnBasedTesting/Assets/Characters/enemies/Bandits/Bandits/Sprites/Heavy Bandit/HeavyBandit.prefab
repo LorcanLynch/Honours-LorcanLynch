@@ -201,7 +201,7 @@ MonoBehaviour:
   abilitiesCooldown: 00000000000000000000000000000000
   attacking: 0
   animator: {fileID: 0}
-  UnitName: Skeleton
+  UnitName: Bandit
   stunned: 0
   burning: 0
   burnTimer: 0
@@ -211,16 +211,16 @@ MonoBehaviour:
   missEffect: {fileID: 8300000, guid: 51d0e27d390f1fd49af123b049900b85, type: 3}
   maxMoveSpeed: 3
   moveSpeed: 3
-  maxhealth: 6
-  health: 6
+  maxhealth: 10
+  health: 10
   attackPower: 6
   attackRange: 2
   claveHb: {fileID: 0}
   lightningBolt: {fileID: 0}
-  accuracy: 90
+  accuracy: 70
   visibility: 0
-  dodgeRating: 5
-  damageReduction: 6
+  dodgeRating: 0
+  damageReduction: 3
   text: {fileID: 5572191863131504187}
   lineRenderer: {fileID: 0}
   speedFloatVal: 3
@@ -236,6 +236,7 @@ MonoBehaviour:
   damageBuffT: 0
   damageBuffed: 0
   damageBuffN: 0
+  gm: {fileID: 0}
 --- !u!120 &5812983910057153190
 LineRenderer:
   m_ObjectHideFlags: 0
