@@ -34,6 +34,7 @@ public class UnitScript : MonoBehaviour
     public float baseDodge;
     public int baseReduction;
     public Sprite[] abilityIcons = { null, null, null, null };
+    public string[] abilityDesc = { "", "", "", ""};
     public bool[] abilitiesTarget = new bool[4] { false, false, false, false };
     public int[] abilitiesCooldown = new int[4] { 0, 0, 0, 0 };
     public bool attacking;
@@ -43,7 +44,7 @@ public class UnitScript : MonoBehaviour
     public bool burning;
     public int burnTimer;
     public int burnDamage = 0;
-
+    public bool targettingA;
     public AudioSource aSource;
     public AudioClip hitEffect;
     public AudioClip missEffect;
@@ -108,7 +109,7 @@ public class UnitScript : MonoBehaviour
         {
             if (map.selectedUnit != null)
             {
-                RaycastHit2D[] wack = Physics2D.CircleCastAll(map.selectedUnit.transform.position, (.8f * map.selectedUnit.GetComponent<UnitScript>().attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                RaycastHit2D[] wack = Physics2D.CircleCastAll(map.selectedUnit.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
                 foreach (RaycastHit2D wacked in wack)
                 {
                     if (wacked.collider.gameObject.layer == 8)
@@ -177,6 +178,69 @@ public class UnitScript : MonoBehaviour
 
     }
 
+    public void targetting()
+    {
+        if(targettingA)
+        {
+         
+
+            RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+            foreach (RaycastHit2D wacked in wack)
+            {
+                if (wacked.collider.gameObject.layer == 8)
+                {
+                    wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                }
+            }
+            targettingA = !targettingA;
+        }
+        else
+        {
+            RaycastHit2D[] wack = Physics2D.CircleCastAll(map.TileCoordToWorldCoord(tileX, tileY), (.8f * attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+            foreach (RaycastHit2D wacked in wack)
+            {
+                if (wacked.collider.gameObject.layer == 8)
+                {
+                    wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                }
+            }
+
+            targettingA = !targettingA;
+        }
+        
+        
+    }
+
+    public void targetting(int range)
+    {
+        if (targettingA)
+        {
+
+
+            RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+            foreach (RaycastHit2D wacked in wack)
+            {
+                if (wacked.collider.gameObject.layer == 8)
+                {
+                    wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                }
+            }
+            targettingA = !targettingA;
+        }
+        else
+        {
+            RaycastHit2D[] wack = Physics2D.CircleCastAll(map.TileCoordToWorldCoord(tileX, tileY), (.8f *range), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+            foreach (RaycastHit2D wacked in wack)
+            {
+                if (wacked.collider.gameObject.layer == 8)
+                {
+                    wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                }
+            }
+
+            targettingA = !targettingA;
+        }
+    }
     public virtual void attack(GameObject target)
     {
         ///<summary>
@@ -256,35 +320,14 @@ public class UnitScript : MonoBehaviour
 
 
     }
-    void Update()
+    public virtual void Update()
     {
         if (gm.paused == false)
         {
             //First 2 if statements here are testers for final controls, start the attack and set ability one to be active.
             if (Input.GetKeyDown(KeyCode.Space) && map.selectedUnit == gameObject)
             {
-                if (attacking)
-                {
-                    RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (.8f * attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-                    foreach (RaycastHit2D wacked in wack)
-                    {
-                        if (wacked.collider.gameObject.layer == 8)
-                        {
-                            wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                        }
-                    }
-                }
-                if (!attacking)
-                {
-                    RaycastHit2D[] wack = Physics2D.CircleCastAll(map.TileCoordToWorldCoord(tileX, tileY), (.8f * attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-                    foreach (RaycastHit2D wacked in wack)
-                    {
-                        if (wacked.collider.gameObject.layer == 8)
-                        {
-                            wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-                        }
-                    }
-                }
+                targetting();
                 attacking = !attacking;
 
 
@@ -295,7 +338,7 @@ public class UnitScript : MonoBehaviour
                 abilitiesTarget[2] = false;
                 abilitiesTarget[1] = false;
                 abilitiesTarget[3] = false;
-                map.GenerateSecureZone(1, 1);
+                targetting();
                 map.UpdateIconSelection(0);
 
             }
@@ -306,6 +349,7 @@ public class UnitScript : MonoBehaviour
                 abilitiesTarget[2] = false;
                 abilitiesTarget[1] = !abilitiesTarget[1];
                 abilitiesTarget[3] = false;
+                targetting();
                 map.UpdateIconSelection(1);
             }
             if (Input.GetKeyDown(KeyCode.Alpha3) && map.selectedUnit == gameObject)
@@ -315,6 +359,7 @@ public class UnitScript : MonoBehaviour
                 abilitiesTarget[1] = false;
                 abilitiesTarget[2] = !abilitiesTarget[2];
                 abilitiesTarget[3] = false;
+                targetting();
                 map.UpdateIconSelection(2);
             }
             if (Input.GetKeyDown(KeyCode.Alpha4) && map.selectedUnit == gameObject)
@@ -324,6 +369,7 @@ public class UnitScript : MonoBehaviour
                 abilitiesTarget[1] = false;
                 abilitiesTarget[2] = false;
                 abilitiesTarget[3] = !abilitiesTarget[3];
+                targetting();
                 map.UpdateIconSelection(3);
             }
             //if(currentPath != null)
@@ -439,7 +485,7 @@ public class UnitScript : MonoBehaviour
                 attacking = false;
                 print("yep");
 
-                RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (.8f * attackRange), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+                RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
                 foreach (RaycastHit2D wacked in wack)
                 {
                     if (wacked.collider.gameObject.layer == 8)

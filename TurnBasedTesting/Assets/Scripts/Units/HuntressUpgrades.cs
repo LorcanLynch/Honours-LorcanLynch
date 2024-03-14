@@ -35,6 +35,7 @@ public class HuntressUpgrades : Upgrades
     public void LastingInfluenceContainer()
     {
        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' soothe ability now grants an extra two health each turn for 3 turns";
+        
         attachedButton.GetComponent<Image>().sprite = abilitySprites[1];
     
         attachedButton.onClick.AddListener(delegate { LastingInfluenceOnClick(attachedButton); });
@@ -47,7 +48,7 @@ public class HuntressUpgrades : Upgrades
         GameObject.Find("Huntress").GetComponent<HuntressScript>().lastingInfluence = true;
        
         upgradeContainers.Remove("LastingInfluenceContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Huntress' soothe ability now grants an extra two health each turn for 3 turns");
     }
 
     public void BetweenTheEyesContainer()
@@ -64,7 +65,7 @@ public class HuntressUpgrades : Upgrades
 
         upgradeContainers.Remove("BetweenTheEyesContainer");
         
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Grant huntress a 10% chance to critically strike, causing the attack to deal double damage");
     }
 
     public void ThirdCharmContainer()
@@ -82,7 +83,7 @@ public class HuntressUpgrades : Upgrades
         GameObject.Find("Huntress").GetComponent<HuntressScript>().thirdCharm = true;
 
         upgradeContainers.Remove("ThirdCharmContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Every 3 Attacks the huntress deals double damage");
     }
 
     public void WordsOfPowerContainer()
@@ -99,7 +100,7 @@ public class HuntressUpgrades : Upgrades
         GameObject.Find("Huntress").GetComponent<HuntressScript>().warding = true;
 
         upgradeContainers.Remove("WordsOfPowerContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The huntress soothe ability grants allies affected by it a buff, granting +20 dodge for two turns");
     }
 
 
@@ -118,12 +119,13 @@ public class HuntressUpgrades : Upgrades
     {
         GameObject.Find("Huntress").GetComponent<HuntressScript>().markPrey = true;
         GameObject.Find("Huntress").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Huntress").GetComponent<HuntressScript>().abilityDesc[2] = "Free action ability that marks the chosen target, causing them to take +3 damage from the huntress";
         upgradeContainers.Remove("FieldMedicineContainer");
         upgradeContainers.Remove("MarkPreyContainer");
         upgradeContainers.Remove("SnipeContainer");
         upgradeContainers.Add("TrainedSurgeonContainer");
         upgradeContainers.Add("MarkSootheContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Huntress' 3rd ability becomes mark prey, which marks an enemy unit causing it to take +3 damage for three turns(Does not cost an action)");
     }
 
 
@@ -145,12 +147,13 @@ public class HuntressUpgrades : Upgrades
     {
         GameObject.Find("Huntress").GetComponent<HuntressScript>().fieldMedicine = true;
         GameObject.Find("Huntress").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Huntress").GetComponent<HuntressScript>().abilityDesc[2] = "Free action heal that has 3 charges, but no cooldown";
         upgradeContainers.Remove("FieldMedicineContainer");
         upgradeContainers.Remove("MarkPreyContainer");
         upgradeContainers.Remove("SnipeContainer");
         upgradeContainers.Add("MedicineSootheContainer");
         upgradeContainers.Add("TrainedSurgeonContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Huntress' 3rd ability becomes field medicine, a single target heal with 3 charges, healing 3 health per charge");
     }
 
     public void TrainedSurgeonContainer()
@@ -167,7 +170,7 @@ public class HuntressUpgrades : Upgrades
 
         upgradeContainers.Remove("TrainedSurgeonContainer");
         
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Field medicine heals for +1 additional health and has one additional charge");
     }
 
 
@@ -185,12 +188,13 @@ public class HuntressUpgrades : Upgrades
     {
         GameObject.Find("Huntress").GetComponent<HuntressScript>().snipe = true;
         GameObject.Find("Huntress").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Huntress").GetComponent<HuntressScript>().abilityDesc[2] = "High damage ability that can't miss";
         upgradeContainers.Remove("FieldMedicineContainer");
         upgradeContainers.Remove("MarkPreyContainer");
         upgradeContainers.Remove("SnipeContainer");
         upgradeContainers.Add("LongshotContainer");
         upgradeContainers.Add("SnipeSootheContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Huntress' 3rd ability becomes snipe, a high damage ability that cannot miss");
     }
 
     public void LongshotContainer()
@@ -207,14 +211,14 @@ public class HuntressUpgrades : Upgrades
         GameObject.Find("Huntress").GetComponent<HuntressScript>().attackPower += 3;
 
        upgradeContainers.Remove("LongshotContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Grant snipe +3 range, additionally gain +3 damage");
     }
 
     public void ExudingWarmthContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Huntress' 4th ability becomes Exuding Warmth, a buff lasting 4 rounds, healing those around the huntress at the end of each turn";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[6];
- 
+        
         attachedButton.onClick.AddListener(delegate {  ExudingWarmthOnClick(attachedButton); });
 
     }
@@ -224,9 +228,10 @@ public class HuntressUpgrades : Upgrades
     {
         GameObject.Find("Huntress").GetComponent<HuntressScript>().exudeWarmth = true;
         GameObject.Find("Huntress").GetComponent<UnitScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Huntress").GetComponent<HuntressScript>().abilityDesc[3] = "Buff lasting 4 turns that heals allies at the end of each turn";
         upgradeContainers.Remove("ExudingWarmthContainer");
         upgradeContainers.Remove("TrueshotContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Huntress' 4th ability becomes Exuding Warmth, a buff lasting 4 rounds, healing those around the huntress at the end of each turn");
     }
 
     public void TrueshotContainer()
@@ -243,9 +248,10 @@ public class HuntressUpgrades : Upgrades
     {
         GameObject.Find("Huntress").GetComponent<HuntressScript>().TrueShot = true;
         GameObject.Find("Huntress").GetComponent<UnitScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Huntress").GetComponent<HuntressScript>().abilityDesc[3] = "Buff lasting 4 turns that grants +200 accuracy and 20 dodge chance to the huntress";
         upgradeContainers.Remove("ExudingWarmthContainer");
         upgradeContainers.Remove("TrueshotContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Huntress' 4th ability becomes True Shot, a buff lasting 4 rounds, granting her +200 Accuracy and +20 dodge chance");
     }
 
 
@@ -264,7 +270,7 @@ public class HuntressUpgrades : Upgrades
 
         upgradeContainers.Remove("PiercingSongContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Piercing shot can now combo with soothe, dealing double damage versus low armour targets if soothe is used first, and granting +2 movement to the soothed taraget if piercing shot is used first");
     }
 
     public void MarkSootheContainer()
@@ -281,7 +287,7 @@ public class HuntressUpgrades : Upgrades
 
         upgradeContainers.Remove("MarkSootheContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Mark Prey can now combo with soothe, Burning the target for 4 damage over two turns if soothe is used first, and giving the abilty for soothe to overheal if mark prey is used first");
     }
 
     public void MedicineSootheContainer()
@@ -298,7 +304,7 @@ public class HuntressUpgrades : Upgrades
 
         upgradeContainers.Remove("MedicineSootheContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Field medicine can now combo with soothe, granting both the ability to overheal if comboed");
     }
 
     public void SnipeSootheContainer()
@@ -315,6 +321,6 @@ public class HuntressUpgrades : Upgrades
 
         upgradeContainers.Remove("SnipeSootheContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Snipe can now combo with soothe, Granting snipe +5 damage if soothe is used first, and granting soothe the ability to overheal");
     }
 }

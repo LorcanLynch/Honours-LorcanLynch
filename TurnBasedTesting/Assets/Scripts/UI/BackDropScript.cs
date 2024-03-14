@@ -62,13 +62,14 @@ public class BackDropScript : MonoBehaviour
         }
 
     }
-    public void newUnit(Sprite[] newIcons, int[] cooldown,bool attackReady)
+    public void newUnit(Sprite[] newIcons, int[] cooldown,bool attackReady, string[] text)
     {
         
         for(int i = 0; i < baseIcons.Length; i++)
-        {
+        {   
             if (newIcons[i] != null)
             {
+                baseIcons[i].GetComponent<AbilityIconScript>().abilityText = text[i];
                 baseIcons[i].GetComponent<Image>().sprite = newIcons[i];
                 
                 baseIcons[i].GetComponent<AbilityIconScript>().cooldownPanel(cooldown[i]);
@@ -77,6 +78,7 @@ public class BackDropScript : MonoBehaviour
             }
             else
             {
+                baseIcons[i].GetComponent<AbilityIconScript>().abilityText = text[i];
                 baseIcons[i].GetComponent<Image>().sprite = LockIcon.sprite;
                 baseIcons[i].GetComponent<AbilityIconScript>().cooldownPanel(cooldown[i]);
             }

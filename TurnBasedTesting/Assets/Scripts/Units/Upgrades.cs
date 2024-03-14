@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,16 +22,18 @@ public class Upgrades : MonoBehaviour
     {
         tileMapObj = GameObject.Find("Map").GetComponent<ObjectiveScript>();
     }
-    public void AfterUpgradeApplied()
+    public void AfterUpgradeApplied(string upgradeText)
     {
         if(upgradeScreen.GetComponent<UpgradeHolder>().upgraded == 1)
         {
+            upgradeScreen.GetComponent<UpgradeHolder>().upgradesUnlocked.Add(upgradeText);
             upgradesCancelled();
             upgradeScreen.GetComponent<UpgradeHolder>().upgraded = 0;
         }
         else
         {
             upgradeScreen.GetComponent<UpgradeHolder>().upgraded++;
+            upgradeScreen.GetComponent<UpgradeHolder>().upgradesUnlocked.Add(upgradeText);
             attachedButton.gameObject.SetActive(false);
 
         }

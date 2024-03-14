@@ -23,6 +23,8 @@ public class KnightUpgrades : Upgrades
         upgradeContainers.Add("GloryContainer");
         upgradeContainers.Add("UnstopableContainer");
         upgradeContainers.Add("RiposteContainer");
+        upgradeContainers.Add("DeathKnightContainer");
+        upgradeContainers.Add("SlayerContainer");
         GenerateChoice();
     }
 
@@ -48,9 +50,9 @@ public class KnightUpgrades : Upgrades
     void HalberdOnClick(Button targetButton)
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().domumHalberd = true;
-      //  GameObject.Find("Knight").GetComponent<KnightScript>().attackRange++;
+        GameObject.Find("Knight").GetComponent<KnightScript>().attackRange++;
         upgradeContainers.Remove("HalberdContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("+1 range, and cleave now sweeps \n all in range, stunning them for one turn");
     }
 
     public void HardenedWarriorContainer()
@@ -69,7 +71,7 @@ public class KnightUpgrades : Upgrades
         GameObject.Find("Knight").GetComponent<KnightScript>().maxhealth+=10;
         GameObject.Find("Knight").GetComponent<KnightScript>().hardened = true;
         upgradeContainers.Remove("HardenedWarriorContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Knight gains a flat +10 Hp, and can no longer be stunned");
     }
 
     public void RawGritContainer()
@@ -87,7 +89,7 @@ public class KnightUpgrades : Upgrades
         GameObject.Find("Knight").GetComponent<KnightScript>().rawGrit = true;
         GameObject.Find("Knight").GetComponent<KnightScript>().rawGritUsed = false;
         upgradeContainers.Remove("RawGritContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The first time per map the knight drops below 0hp, he is instead set to 1hp");
     }
 
 
@@ -104,7 +106,7 @@ public class KnightUpgrades : Upgrades
         GameObject.Find("Knight").GetComponent<KnightScript>().parryDamage = true;
 
         upgradeContainers.Remove("ParryStrikebackContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("After Activating Parry, the first time the knight is struck they take no damage and strike all enemies in range");
     }
 
     void ParryDodgeChanceContainer()
@@ -122,8 +124,7 @@ public class KnightUpgrades : Upgrades
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().parryHoldfast = true;
         upgradeContainers.Remove("ParryDodgeChanceContainer");
-       
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Parry now increases dodge by 4x(Previously 2x), and its cooldown is one turn shorter");
     }
 
     void FrenziedContainer()
@@ -140,12 +141,13 @@ public class KnightUpgrades : Upgrades
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().frenziedStrike = true;
          GameObject.Find("Knight").GetComponent<KnightScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Knight").GetComponent<KnightScript>().abilityDesc[2] = "Attacks the same target 3 times in quick succession";
         upgradeContainers.Remove("GloryContainer");
         upgradeContainers.Remove("FrenziedContainer");
         upgradeContainers.Remove("UnstopableContainer");
         upgradeContainers.Remove("FlamingContainer");
         upgradeContainers.Add("FrenzyComboContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Knight's 3rd ability becomes 'Frenzied Strike', which attacks the same target 3 times in quick succession");
     }
     void FlamingContainer()
     {
@@ -161,13 +163,14 @@ public class KnightUpgrades : Upgrades
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().flamingBlade = true;
         GameObject.Find("Knight").GetComponent<KnightScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Knight").GetComponent<KnightScript>().abilityDesc[2] = "+4 damage for three turns";
         upgradeContainers.Remove("GloryContainer");
         upgradeContainers.Remove("FrenziedContainer");
         upgradeContainers.Remove("UnstopableContainer");
         upgradeContainers.Remove("FlamingContainer");
         upgradeContainers.Add("LingeringFlameContainer");
         upgradeContainers.Add("FlamingComboContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Knight's 3rd ability becomes 'Flaming Blade', which grants +4 damage on the knight's attacks");
     }
 
     void LingeringFlameContainer()
@@ -185,7 +188,7 @@ public class KnightUpgrades : Upgrades
         GameObject.Find("Knight").GetComponent<KnightScript>().lingeringFlame = true;
         upgradeContainers.Remove("LingeringFlameContainer");
         
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Flaming blade now applies a burn to the target on hit");
     }
 
     void GloryContainer()
@@ -201,13 +204,14 @@ public class KnightUpgrades : Upgrades
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
         GameObject.Find("Knight").GetComponent<KnightScript>().righteousGlory = true;
+        GameObject.Find("Knight").GetComponent<KnightScript>().abilityDesc[2] = "+2 armour to all allies within 2 tiles";
         upgradeContainers.Remove("GloryContainer");
         upgradeContainers.Remove("FrenziedContainer");
         upgradeContainers.Remove("UnstopableContainer");
         upgradeContainers.Remove("FlamingContainer");
         upgradeContainers.Add("GloriousWarriorContainer");
         upgradeContainers.Add("RighteousComboContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Knight's 3rd ability becomes 'Glory or Death', Granting +2 Damage reduction to all friendly units within 2 tiles");
     }
 
     void GloriousWarriorContainer()
@@ -225,20 +229,21 @@ public class KnightUpgrades : Upgrades
         GameObject.Find("Knight").GetComponent<KnightScript>().lingeringFlame = true;
         upgradeContainers.Remove("GloriousWarriorContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Glory or Death additionally grants +2 damage for the duration");
     }
     void UnstopableContainer()
     {
         
         attachedButton.GetComponent<Image>().sprite = abilitySprites[5];
-        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 3rd ability becomes 'Unstopable Force', Causing them to take no damage until their next turn";
+        
+        GameObject.Find("Knight").GetComponent<KnightScript>().abilityDesc[2] = "The knight ignores all damage for one turn";
 
-     
         attachedButton.onClick.AddListener(delegate { UnstopableOnClick(attachedButton); });
     }
     void UnstopableOnClick(Button targetButton)
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 3rd ability becomes 'Unstopable Force', Causing them to take no damage until their next turn";
         GameObject.Find("Knight").GetComponent<KnightScript>().unstopableForce = true;
         upgradeContainers.Remove("GloryContainer");
         upgradeContainers.Remove("FrenziedContainer");
@@ -246,7 +251,7 @@ public class KnightUpgrades : Upgrades
         upgradeContainers.Remove("FlamingContainer");
         upgradeContainers.Add("UnmovableContainer");
         upgradeContainers.Add("UnstopableComboContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Knight's 3rd ability becomes 'Unstopable Force', Causing them to take no damage until their next turn");
     }
 
     void UnmovableContainer()
@@ -264,14 +269,14 @@ public class KnightUpgrades : Upgrades
         GameObject.Find("Knight").GetComponent<KnightScript>().maxhealth += 5;
         upgradeContainers.Remove("UnmovableContainer");
        
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("When Unstopable is active, the knight stuns any target they strike, additionally they gain maximum +5 hp");
     }
 
     void DeathKnightContainer()
     {
        
         attachedButton.GetComponent<Image>().sprite = abilitySprites[7];
-        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 4th ability becomes the passive ability 'Death Knight', causing them to heal a portion of all the damage they deal";
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 4th ability becomes the passive ability 'Death Knight', causing them to heal for a portion of all the damage they deal";
 
       
         attachedButton.onClick.AddListener(delegate { DeathKnightOnClick(attachedButton); });
@@ -280,27 +285,29 @@ public class KnightUpgrades : Upgrades
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
         GameObject.Find("Knight").GetComponent<KnightScript>().deathKnight = true;
+        GameObject.Find("Knight").GetComponent<KnightScript>().abilityDesc[3] = "Passive, heal for a portion of all damage the knight deals";
         upgradeContainers.Remove("DeathKnightContainer");
         upgradeContainers.Remove("SlayerContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Knight's 4th ability becomes the passive ability 'Death Knight', causing them to heal for a portion of all the damage they deal");
     }
     void SlayerContainer()
     {
 
         attachedButton.GetComponent<Image>().sprite = abilitySprites[6];
-        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 4th ability becomes the passive ability 'Slayer's Wrath', granting them +1 damage each time they are struck(To a maximum of 5)";
 
-      
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 4th ability becomes the passive ability 'Slayer's Wrath', granting them +1 damage each time they are struck(To a maximum of 5)";
         attachedButton.onClick.AddListener(delegate { SlayerOnClick(attachedButton); });
     }
     void SlayerOnClick(Button targetButton)
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Knight").GetComponent<KnightScript>().abilityDesc[3] = "Passive,each time the knight is struck they gain +1 damage, max +5 damage";
+        
         GameObject.Find("Knight").GetComponent<KnightScript>().slayer = true;
         upgradeContainers.Remove("DeathKnightContainer");
         upgradeContainers.Remove("SlayerContainer");
         
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Knight's 4th ability becomes the passive ability 'Slayer's Wrath', granting them +1 damage each time they are struck(To a maximum of 5)");
     }
 
     ///Combos
@@ -320,7 +327,7 @@ public class KnightUpgrades : Upgrades
         GameObject.Find("Knight").GetComponent<KnightScript>().riposte = true;
         upgradeContainers.Remove("RiposteContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Parry can now combo with cleave, reducing the cooldown of both abilities if parry is used first, and granting +3 damage reduction if cleave is used first");
     }
 
     void FrenzyComboContainer()
@@ -337,7 +344,7 @@ public class KnightUpgrades : Upgrades
         GameObject.Find("Knight").GetComponent<KnightScript>().combosU[0] = true;
         upgradeContainers.Remove("FrenzyComboContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Parry can now combo with Frenzied Strikes, adding and extra attack if parry is used first, and healing for 5hp if frenzied strikes is used first");
     }
 
     void UnstopableComboContainer()
@@ -354,7 +361,7 @@ public class KnightUpgrades : Upgrades
         GameObject.Find("Knight").GetComponent<KnightScript>().combosU[1] = true;
         upgradeContainers.Remove("RiposteContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Parry can now combo with Unstopable Force, Doubling the duration of the comboed ability");
     }
 
     void RighteousComboContainer()
@@ -371,7 +378,7 @@ public class KnightUpgrades : Upgrades
         GameObject.Find("Knight").GetComponent<KnightScript>().combosU[3] = true;
         upgradeContainers.Remove("RighteousComboContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Parry can now combo with Righteous Glory, healing all nearby allies when using the comboed ability");
     }
 
     void FlamingComboContainer()
@@ -388,7 +395,7 @@ public class KnightUpgrades : Upgrades
         GameObject.Find("Knight").GetComponent<KnightScript>().combosU[2] = true;
         upgradeContainers.Remove("RiposteContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Parry can now combo with Flaming blade, granting +1 duration if Parry is used first, and an exploding AoE when struck if flaming blade is used first");
     }
 
 }

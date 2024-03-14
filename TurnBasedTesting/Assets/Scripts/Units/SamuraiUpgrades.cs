@@ -51,7 +51,7 @@ public class SamuraiUpgrades : Upgrades
         GameObject.Find("Samurai").GetComponent<SamuraiScript>().dodgeRating +=5;
         upgradeContainers.Remove("AlertExecutionerContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Samurai's execute now grants +40 dodge for one turn if it kills it's target, additionally he gains +5 dodge");
     }
 
     public void TrueStrikeContainer()
@@ -69,7 +69,7 @@ public class SamuraiUpgrades : Upgrades
         GameObject.Find("Samurai").GetComponent<SamuraiScript>().attackPower++;
         upgradeContainers.Remove("AlertExecutionerContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Samurai's first attack each turn always hits, Additionally he gains +1 attack power");
     }
 
     public void TheThrillContainer()
@@ -87,7 +87,7 @@ public class SamuraiUpgrades : Upgrades
         
         upgradeContainers.Remove("TheThrillContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Samurai's execute refunds its attack if it kills its target.");
     }
 
     void EndlessWindContainer()
@@ -102,9 +102,9 @@ public class SamuraiUpgrades : Upgrades
     {
         GameObject.Find("Samurai").GetComponent<SamuraiScript>().thrill = true;
 
-        upgradeContainers.Remove("TheThrillContainer");
+        upgradeContainers.Remove("EndlessWindContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Once the Samurai activates dash, for that turn he gains +40 dodge");
     }
 
     public void FocusContainer()
@@ -120,10 +120,11 @@ public class SamuraiUpgrades : Upgrades
     {
         GameObject.Find("Samurai").GetComponent<SamuraiScript>().focus = true;
         GameObject.Find("Samurai").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Samurai").GetComponent<SamuraiScript>().abilityDesc[2] = "Grants a small bonus to all attack stats and dodgee chance for 3 turns, free action";
         upgradeContainers.Remove("FocusContainer");
         upgradeContainers.Add("HarmonyContainer");
         upgradeContainers.Add("FocusDashContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Samurai's 3rd ability becomes focus, a free action buff granting a small bonus to all attack stats, and 10 dodge chance");
     }
 
     public void HarmonyContainer()
@@ -141,7 +142,7 @@ public class SamuraiUpgrades : Upgrades
 
         upgradeContainers.Remove("HarmonyContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Samurai's Focus now heals the samurai to full health, but costs a full action");
     }
 
     public void ExploitWeaknessContainer()
@@ -157,9 +158,10 @@ public class SamuraiUpgrades : Upgrades
     {
         GameObject.Find("Samurai").GetComponent<SamuraiScript>().exploit = true;
         GameObject.Find("Samurai").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Samurai").GetComponent<SamuraiScript>().abilityDesc[2] = "The Samurai ignores armour for 2 turns";
         upgradeContainers.Remove("ExploitWeaknessContainer");
         upgradeContainers.Add("ExploitDashContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Samurai's 3rd ability becomes exploit weakness, granting them the abilty to ignore armor for the next 2 turns");
     }
 
     public void ShurikenContainer()
@@ -175,10 +177,11 @@ public class SamuraiUpgrades : Upgrades
     {
         GameObject.Find("Samurai").GetComponent<SamuraiScript>().shuriken = true;
         GameObject.Find("Samurai").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Samurai").GetComponent<SamuraiScript>().abilityDesc[2] = "Free action basic attack which has +2 range";
         upgradeContainers.Remove("ShurikenContainer");
         upgradeContainers.Add("ShreddingShurikenContainer");
         upgradeContainers.Add("ShurikenDashContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Samurai's 3rd ability becomes Shuriken Throw, a basic attack with +2 range.");
     }
 
     public void ShreddingShurikenContainer()
@@ -196,7 +199,7 @@ public class SamuraiUpgrades : Upgrades
 
         upgradeContainers.Remove("ShreeddingShurikenContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Samurai's Shuriken throw now bleeds the target, dealing 9 additional damage over 3 turns");
     }
 
     public void BloodthirstContainer()
@@ -212,10 +215,11 @@ public class SamuraiUpgrades : Upgrades
     {
         GameObject.Find("Samurai").GetComponent<SamuraiScript>().bloodThirst = true;
         GameObject.Find("Samurai").GetComponent<UnitScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Samurai").GetComponent<SamuraiScript>().abilityDesc[3] = "Grants bloodthirst for one turn, which resets the samurai's attack on kill";
         upgradeContainers.Remove("BloodthirstContainer");
         upgradeContainers.Remove("ClearMindContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Samurai's 4th ability becomes bloodthist, a free action buff that resets his attack on any of his kills");
     }
 
     public void ClearMindContainer()
@@ -231,10 +235,11 @@ public class SamuraiUpgrades : Upgrades
     {
         GameObject.Find("Samurai").GetComponent<SamuraiScript>().clearMind = true;
         GameObject.Find("Samurai").GetComponent<UnitScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Samurai").GetComponent<SamuraiScript>().abilityDesc[3] = "Reset all the samurai's cooldowns";
         upgradeContainers.Remove("BloodthirstContainer");
         upgradeContainers.Remove("ClearMindContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Samurai's 4th ability becomes Clear Mind, a free action that resets all ability cooldowns");
     }
 
 
@@ -254,7 +259,7 @@ public class SamuraiUpgrades : Upgrades
         upgradeContainers.Remove("SwiftExecutionerContainer");
        
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Execute can now combo with dash, Restoring a large amount of health on execute kill, or a smaller amount if dash is used first");
     }
 
     public void ShurikenDashContainer()
@@ -272,7 +277,7 @@ public class SamuraiUpgrades : Upgrades
 
         upgradeContainers.Remove("ShurikenDashContainer");
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Shuriken Throw can now combo with dash, Granting +4 damage if dash is used first, and +2 movespeed if Shuriken throw is used first");
     }
 
     public void ExploitDashContainer()
@@ -291,7 +296,7 @@ public class SamuraiUpgrades : Upgrades
         upgradeContainers.Remove("ExploitDashContainer");
        
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Exploit weakness can now combo with Dash, granting an extra +2 movespeed if exploit weakness is used first, and +1 move speed per turn if dash is used first");
     }
 
     public void FocusDashContainer()
@@ -310,7 +315,7 @@ public class SamuraiUpgrades : Upgrades
         upgradeContainers.Remove("FocusDashContainer");
         
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Focus can now combo with Dash, doubling its duration if dash is used first, and reducing the cooldown of both abilities by 1 if focus is used first");
     }
 
     // Update is called once per frame

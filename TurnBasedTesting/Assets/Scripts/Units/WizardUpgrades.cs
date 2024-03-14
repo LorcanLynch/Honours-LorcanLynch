@@ -50,7 +50,7 @@ public class WizardUpgrades : Upgrades
         GameObject.Find("Wizard").GetComponent<WizardScript>().attackPower = Mathf.RoundToInt(GameObject.Find("Wizard").GetComponent<WizardScript>().attackPower / 2);
         upgradeContainers.Remove("SeekingBlastContainer");
        
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The wizard can no longer miss, but his damage is halved");
     }
 
     void FireLordContainer()
@@ -67,7 +67,7 @@ public class WizardUpgrades : Upgrades
         GameObject.Find("Wizard").GetComponent<WizardScript>().fireLord= true;
         upgradeContainers.Remove("FireLordContainer");
       
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The wizard's basic attacks now deal an extra 8 damage over 4 turns, but accuracy is reduced by 10");
     }
 
     void IceLordContainer()
@@ -83,7 +83,7 @@ public class WizardUpgrades : Upgrades
         
         GameObject.Find("Wizard").GetComponent<WizardScript>().iceLord = true;
         upgradeContainers.Remove("IceLordContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Wizard now has a chance to freeze enemies with his basic attacks, stunning them");
     }
 
     void BombardmentContainer()
@@ -99,13 +99,14 @@ public class WizardUpgrades : Upgrades
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().Bombardment = true;
         GameObject.Find("Wizard").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
+        GameObject.Find("Wizard").GetComponent<WizardScript>().abilityDesc[2] = "Massive range attack, but low damage";
         upgradeContainers.Remove("BombardmentContainer");
         upgradeContainers.Remove("LifeDrainContainer");
         upgradeContainers.Remove("IncantationContainer");
         upgradeContainers.Add("MassBombardmentContainer");
         upgradeContainers.Add("BombardComboContainer");
      
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Wizard's Third Abilty becomes Bombardment, a low damage ability but with extreme range");
     }
 
     void MassBombardmentContainer()
@@ -123,7 +124,7 @@ public class WizardUpgrades : Upgrades
 
         upgradeContainers.Remove("MassBombardmentContainer");
         
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Bombardment now hits in a small area around the target, dealing the same damage to all in the area");
     }
     void PowerSurgeContainer()
     {
@@ -138,13 +139,13 @@ public class WizardUpgrades : Upgrades
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().PowerSurge = true;
         upgradeContainers.Remove("PowerSurgeContainer");
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Surge now also grants +4 damage, and 2 additional move speed \n (This exceeds a character's max move speed)");
     }
     void LifeDrainContainer()
     {
         attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "The Wizard's Third Abilty becomes life drain, a standard attack that heals \n the wizard for the damage done";
         attachedButton.GetComponent<Image>().sprite = abilitySprites[3];
- 
+        
         attachedButton.onClick.AddListener(delegate { LifeDrainOnClick(attachedButton); });
 
     }
@@ -155,10 +156,10 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Remove("IncantationContainer");
         upgradeContainers.Add("SoulDrainContainer");
         upgradeContainers.Add("LifeDrainComboContainer");
-        
+        GameObject.Find("Wizard").GetComponent<WizardScript>().abilityDesc[2] = "Basic attack that heals the Wizard for the damage dealt";
         GameObject.Find("Wizard").GetComponent<WizardScript>().lifeDrain = true;
         GameObject.Find("Wizard").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Wizard's Third Abilty becomes life drain, a standard attack that heals \n the wizard for the damage done");
     }
 
     void SoulDrainContainer()
@@ -175,7 +176,7 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Remove("SoulDrainContainer");
         GameObject.Find("Wizard").GetComponent<WizardScript>().soulDrain = true;
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("Life drain applies a damage over time affect, dealing 100% of the abilities damage over 4 turns");
     }
 
 
@@ -194,9 +195,10 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Remove("IncantationContainer");
         upgradeContainers.Add("SurgeIncantationContainer");
         upgradeContainers.Add("IncantationSurgeContainer");
+        GameObject.Find("Wizard").GetComponent<WizardScript>().abilityDesc[2] = "Grants +4 damage for two turns to all allies around the wizard";
         GameObject.Find("Wizard").GetComponent<WizardScript>().incantationOfPower = true;
         GameObject.Find("Wizard").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Wizard's Third Abilty becomes Incantation of Power, an AoE buff that increases damage done \n of all nearby allies");
     }
 
     void SurgeIncantationContainer()
@@ -214,7 +216,7 @@ public class WizardUpgrades : Upgrades
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().greaterInvocation = true;
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Wizard's Incantation of Power now resets all allies attacks");
     }
 
     void FireballContainer()
@@ -231,8 +233,8 @@ public class WizardUpgrades : Upgrades
         GameObject.Find("Wizard").GetComponent<UnitScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
         upgradeContainers.Remove("MassFreezeContainer");
         GameObject.Find("Wizard").GetComponent<WizardScript>().fireball = true;
-
-        AfterUpgradeApplied();
+        GameObject.Find("Wizard").GetComponent<WizardScript>().abilityDesc[3] = "Large damage AoE that hits everything around the target, can't miss";
+        AfterUpgradeApplied("The Wizard's Fourth Abilty becomes Fireball, a large damage AoE.");
     }
 
     void MassFreezeContainer()
@@ -249,8 +251,8 @@ public class WizardUpgrades : Upgrades
         upgradeContainers.Remove("FireballContainer");
         GameObject.Find("Wizard").GetComponent<UnitScript>().abilityIcons[3] = attachedButton.GetComponent<Image>().sprite;
         GameObject.Find("Wizard").GetComponent<WizardScript>().breathOfCold = true;
-
-        AfterUpgradeApplied();
+        GameObject.Find("Wizard").GetComponent<WizardScript>().abilityDesc[3] = "Low damage AoE that hits everything around the target and can stun enemies, can't miss";
+        AfterUpgradeApplied("The Wizard's Fourth Abilty becomes Breath of Cold, a damaging AoE that stuns enemies it strikes.");
     }
 
     void LightningSurgeContainer()
@@ -268,7 +270,7 @@ public class WizardUpgrades : Upgrades
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().lightningSurgeCombo = true;
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Wizard's lightning strike can now combo with power surge, granting lightning strike + 4 damage if surge is used first, and granting the target +4 damage that turn if lightning strike is used first.");
     }
 
     void IncantationSurgeContainer()
@@ -286,7 +288,7 @@ public class WizardUpgrades : Upgrades
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().combos[2] = true;
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Wizard's Incantation can now combo with power surge, Reducing both cooldowns by 1 when comboed");
     }
 
     void LifeDrainComboContainer()
@@ -305,7 +307,7 @@ public class WizardUpgrades : Upgrades
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().combos[1] = true;
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Wizard's Life Drain can now combo with power surge, Granting +5 damage to life drain when comboed, and healing the target for 5 when surge is comboed");
     }
 
     void BombardComboContainer()
@@ -323,7 +325,7 @@ public class WizardUpgrades : Upgrades
 
         GameObject.Find("Wizard").GetComponent<WizardScript>().combos[0] = true;
 
-        AfterUpgradeApplied();
+        AfterUpgradeApplied("The Wizard's Life Drain can now combo with Bombardment, Granting +5 damage to Bombardment when comboed, and granting +2 movespeed to the target when surge is comboed");
     }
 
 }

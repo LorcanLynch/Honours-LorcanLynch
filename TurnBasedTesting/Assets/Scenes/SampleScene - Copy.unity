@@ -1251,6 +1251,22 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1012403152, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
+      propertyPath: abilityDesc.Array.data[0]
+      value: Basic attack that ignores all armour
+      objectReference: {fileID: 0}
+    - target: {fileID: 1012403152, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
+      propertyPath: abilityDesc.Array.data[1]
+      value: Heals all allies around the Huntress
+      objectReference: {fileID: 0}
+    - target: {fileID: 1012403152, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
+      propertyPath: abilityDesc.Array.data[2]
+      value: High damage attack that cannot miss
+      objectReference: {fileID: 0}
+    - target: {fileID: 1012403152, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
+      propertyPath: abilityDesc.Array.data[3]
+      value: Grants +200 accuracy and +20 evasion for 4 turns
+      objectReference: {fileID: 0}
+    - target: {fileID: 1012403152, guid: bf125b158f156014bbd5e6af6d30f0c6, type: 3}
       propertyPath: abilityIcons.Array.data[2]
       value: 
       objectReference: {fileID: 21300000, guid: b0fa3e6798f2a1340a5970f1a5231f33, type: 3}
@@ -1327,6 +1343,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &662295026 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4659603289760928303, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
+  m_PrefabInstance: {fileID: 4659603290871835789}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &662295031
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662295026}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 220, y: 450, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &757584662 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4659603290551484315, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
@@ -1586,6 +1620,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1165274163, guid: 6c8c7e93caf7aef4eb1fe793022e5527, type: 3}
+      propertyPath: abilityDesc.Array.data[0]
+      value: Deal extra damage to target if they are below half health
+      objectReference: {fileID: 0}
+    - target: {fileID: 1165274163, guid: 6c8c7e93caf7aef4eb1fe793022e5527, type: 3}
+      propertyPath: abilityDesc.Array.data[1]
+      value: Refresh Samurai's movement, Free action
+      objectReference: {fileID: 0}
+    - target: {fileID: 1165274163, guid: 6c8c7e93caf7aef4eb1fe793022e5527, type: 3}
+      propertyPath: abilityDesc.Array.data[2]
+      value: Sumurai ignores armour for 3 turns
+      objectReference: {fileID: 0}
+    - target: {fileID: 1165274163, guid: 6c8c7e93caf7aef4eb1fe793022e5527, type: 3}
+      propertyPath: abilityDesc.Array.data[3]
+      value: Refunds all Samurai's cooldowns
+      objectReference: {fileID: 0}
+    - target: {fileID: 1165274163, guid: 6c8c7e93caf7aef4eb1fe793022e5527, type: 3}
       propertyPath: abilityIcons.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: 8e36cdedec1283d428ebf0edfa8a11f2, type: 3}
@@ -1727,6 +1777,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 263081224, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
+      propertyPath: abilityDesc.Array.data[0]
+      value: Strike the targetted enemy and all enemies in range
+      objectReference: {fileID: 0}
+    - target: {fileID: 263081224, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
+      propertyPath: abilityDesc.Array.data[1]
+      value: Increase armour and evasion for 2 turns
+      objectReference: {fileID: 0}
+    - target: {fileID: 263081224, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
+      propertyPath: abilityDesc.Array.data[2]
+      value: Strike the target three times in quick succession
+      objectReference: {fileID: 0}
+    - target: {fileID: 263081224, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
+      propertyPath: abilityDesc.Array.data[3]
+      value: 'Passive: Heal for a portion of all damage dealt'
+      objectReference: {fileID: 0}
+    - target: {fileID: 263081224, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
       propertyPath: abilityIcons.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: c8189a0366fadb54f86ebaac932374cc, type: 3}
@@ -1792,11 +1858,142 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac665fdb7889e0a41afa0064de373faf, type: 3}
+--- !u!1 &1119841404 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2055330339260496787, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
+  m_PrefabInstance: {fileID: 4659603290871835789}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1119841409
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119841404}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 220, y: 450, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1152184608 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4659603289660157675, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
+  m_PrefabInstance: {fileID: 4659603290871835789}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1152184613
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152184608}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 220, y: 450, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1283856779 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4659603289514387756, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
+  m_PrefabInstance: {fileID: 4659603290871835789}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1283856784
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283856779}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 220, y: 450, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1296766528 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4659603290020068045, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
   m_PrefabInstance: {fileID: 4659603290871835789}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1298159344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1298159345}
+  - component: {fileID: 1298159347}
+  - component: {fileID: 1298159346}
+  m_Layer: 5
+  m_Name: abilityPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1298159345
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298159344}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.000030398369}
+  m_LocalScale: {x: 0.99957037, y: 1.001034, z: 0.9993597}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1930517576}
+  m_Father: {fileID: 4659603290871835791}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 33.000122, y: 724.00977}
+  m_SizeDelta: {x: -1063.626, y: -829.337}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1298159346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298159344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1298159347
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298159344}
+  m_CullTransparentMesh: 1
 --- !u!1 &1309933372
 GameObject:
   m_ObjectHideFlags: 0
@@ -2712,6 +2909,141 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920500792}
   m_CullTransparentMesh: 1
+--- !u!1 &1930517575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1930517576}
+  - component: {fileID: 1930517578}
+  - component: {fileID: 1930517577}
+  m_Layer: 5
+  m_Name: abilityText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1930517576
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930517575}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1298159345}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.0011597, y: 0.0017242}
+  m_SizeDelta: {x: 1496.4, y: 610.67}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1930517577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930517575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Hover over an ability to show its description!
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: baef8595533da394b9b1be5abd6537b8, type: 2}
+  m_sharedMaterial: {fileID: 318233503025038335, guid: baef8595533da394b9b1be5abd6537b8, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 108
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 108
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1930517578
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930517575}
+  m_CullTransparentMesh: 1
 --- !u!114 &1948037669 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4659603289597583016, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
@@ -3072,6 +3404,22 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1965886441, guid: e072ee0e89f0e8d4a899d7a0aaeb51d2, type: 3}
+      propertyPath: abilityDesc.Array.data[0]
+      value: Hits all enemies in line with the target
+      objectReference: {fileID: 0}
+    - target: {fileID: 1965886441, guid: e072ee0e89f0e8d4a899d7a0aaeb51d2, type: 3}
+      propertyPath: abilityDesc.Array.data[1]
+      value: Refreshes an ally's attack and movement
+      objectReference: {fileID: 0}
+    - target: {fileID: 1965886441, guid: e072ee0e89f0e8d4a899d7a0aaeb51d2, type: 3}
+      propertyPath: abilityDesc.Array.data[2]
+      value: Basic attack that heals for the damage dealt
+      objectReference: {fileID: 0}
+    - target: {fileID: 1965886441, guid: e072ee0e89f0e8d4a899d7a0aaeb51d2, type: 3}
+      propertyPath: abilityDesc.Array.data[3]
+      value: Large damage AoE to everything around the target, cannot miss
+      objectReference: {fileID: 0}
+    - target: {fileID: 1965886441, guid: e072ee0e89f0e8d4a899d7a0aaeb51d2, type: 3}
       propertyPath: abilityIcons.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: 544a5d71e4396f0419a577ff07d16685, type: 3}
@@ -3152,10 +3500,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4659603289330903612, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1004.69995
+      objectReference: {fileID: 0}
     - target: {fileID: 4659603289336112772, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 4659603289336112772, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659603289336112772, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4659603289336112775, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3248,6 +3608,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4659603289649812267, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -197.58002
+      objectReference: {fileID: 0}
     - target: {fileID: 4659603289654894107, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -13
@@ -3260,6 +3624,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 867357558}
+    - target: {fileID: 4659603289670641634, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -419.53003
+      objectReference: {fileID: 0}
     - target: {fileID: 4659603289813740199, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3296,11 +3664,20 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4659603291059331397, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -419.53003
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
 --- !u!1 &4659603290871835790 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4659603290954104320, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
+  m_PrefabInstance: {fileID: 4659603290871835789}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &4659603290871835791 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4659603290596770008, guid: 26feb37e1a8d5344f9d8beb297fb7d0b, type: 3}
   m_PrefabInstance: {fileID: 4659603290871835789}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6799306731017195084

@@ -865,14 +865,14 @@ public class TileMap : MonoBehaviour
               
 
             }
-            panelBackdrop.GetComponent<BackDropScript>().newUnit(unit.GetComponent<UnitScript>().abilityIcons, unit.GetComponent<UnitScript>().abilitiesCooldown,unit.GetComponent<UnitScript>().attackAvailable);
+            panelBackdrop.GetComponent<BackDropScript>().newUnit(unit.GetComponent<UnitScript>().abilityIcons, unit.GetComponent<UnitScript>().abilitiesCooldown,unit.GetComponent<UnitScript>().attackAvailable,unit.GetComponent<UnitScript>().abilityDesc);
             unit.GetComponent<SpriteRenderer>().color = Color.red;
             selectedUnit = unit;
         }
     }
     public void UpdateCooldowns(GameObject unit)
     {
-        panelBackdrop.GetComponent<BackDropScript>().newUnit(unit.GetComponent<UnitScript>().abilityIcons, unit.GetComponent<UnitScript>().abilitiesCooldown, unit.GetComponent<UnitScript>().attackAvailable) ;
+        panelBackdrop.GetComponent<BackDropScript>().newUnit(unit.GetComponent<UnitScript>().abilityIcons, unit.GetComponent<UnitScript>().abilitiesCooldown, unit.GetComponent<UnitScript>().attackAvailable,unit.GetComponent<UnitScript>().abilityDesc) ;
     }
 
     public void UpdateIconSelection(int index) 

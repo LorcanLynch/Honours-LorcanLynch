@@ -55,6 +55,7 @@ public class KnightScript : UnitScript
     public bool unmovable;
     public bool unmovableA;
 
+    
 
     public override void UnitDamage(float AP)
     {
@@ -213,6 +214,7 @@ public class KnightScript : UnitScript
         ///<summary>
         ///Allows the knight to use it's cleave abiltiy
         /// </summary>
+        
         animator.SetTrigger("attack");
         abilitiesCooldown[0] = 4;
         attackAvailable = false;
@@ -445,7 +447,7 @@ public class KnightScript : UnitScript
         if(flamingBlade)
         {
             litBlade = 3;
-            abilitiesCooldown[2] = 4;
+            abilitiesCooldown[2] = 7;
             riposteCombo = false;
             
 
@@ -470,7 +472,7 @@ public class KnightScript : UnitScript
         if(righteousGlory)
         {
             
-            abilitiesCooldown[2] = 4;
+            abilitiesCooldown[2] = 6;
             RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, 1.6f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
             foreach (RaycastHit2D hit in targets)
             {
