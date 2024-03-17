@@ -235,15 +235,15 @@ public class KnightUpgrades : Upgrades
     {
         
         attachedButton.GetComponent<Image>().sprite = abilitySprites[5];
-        
-        GameObject.Find("Knight").GetComponent<KnightScript>().abilityDesc[2] = "The knight ignores all damage for one turn";
+        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 3rd ability becomes 'Unstopable Force', Causing them to take no damage until their next turn";
+     
 
         attachedButton.onClick.AddListener(delegate { UnstopableOnClick(attachedButton); });
     }
     void UnstopableOnClick(Button targetButton)
     {
         GameObject.Find("Knight").GetComponent<KnightScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
-        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "Knight's 3rd ability becomes 'Unstopable Force', Causing them to take no damage until their next turn";
+        GameObject.Find("Knight").GetComponent<KnightScript>().abilityDesc[2] = "The knight ignores all damage for one turn";
         GameObject.Find("Knight").GetComponent<KnightScript>().unstopableForce = true;
         upgradeContainers.Remove("GloryContainer");
         upgradeContainers.Remove("FrenziedContainer");

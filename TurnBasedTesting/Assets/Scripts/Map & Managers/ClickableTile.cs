@@ -13,7 +13,7 @@ public class ClickableTile : MonoBehaviour
      void OnMouseUp()
     {
         
-            print(tileX + tileY.ToString());
+           
             map.GeneratePathTo(tileY, tileX, true);
         
     }

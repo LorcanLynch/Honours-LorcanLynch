@@ -82,9 +82,9 @@ public class SamuraiScript : UnitScript
             }
 
             attacking = false;
-           
+
             attackAvailable = false;
-            
+
             if (target.GetComponent<UnitScript>().health <= 0)
             {
                 if (bloodThirstA)
@@ -93,7 +93,7 @@ public class SamuraiScript : UnitScript
                 }
             }
             swiftExeA = false;
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 abilityCombosA[i] = false;
             }
@@ -103,9 +103,9 @@ public class SamuraiScript : UnitScript
     {
         if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY))
         {
-           
-                attackAvailable = false;
-            
+
+            attackAvailable = false;
+
             ///<summary>
             ///Allows the Samurai to use execute
             ///</summary>
@@ -150,7 +150,7 @@ public class SamuraiScript : UnitScript
                     {
                         attackAvailable = true;
                     }
-                    if(swiftExeA)
+                    if (swiftExeA)
                     {
                         HealDamage(5);
                     }
@@ -195,7 +195,7 @@ public class SamuraiScript : UnitScript
 
         if (abilityCombosA[0])
         {
-            moveSpeed+=2;
+            moveSpeed += 2;
             abilityCombosA[0] = false;
         }
         else
@@ -219,7 +219,7 @@ public class SamuraiScript : UnitScript
             }
         }
 
-        if(endlessWind)
+        if (endlessWind)
         {
             DodgeBuff(2, 40);
         }
@@ -227,19 +227,19 @@ public class SamuraiScript : UnitScript
 
     public override void Ability3(GameObject targetUnit)
     {
-        if(focus)
+        if (focus)
         {
-            if(harmony)
+            if (harmony)
             {
                 health = maxhealth;
                 attackAvailable = false;
             }
-            
+
             DamageBuff(3, 2);
             DRBuff(3, 1);
             DodgeBuff(3, 10);
 
-           
+
             if (!bloodThirstA)
             {
                 attackAvailable = false;
@@ -264,7 +264,7 @@ public class SamuraiScript : UnitScript
             swiftExeA = false;
 
         }
-        if(exploit)
+        if (exploit)
         {
             exploitA = true;
             exploitT = 2;
@@ -283,36 +283,36 @@ public class SamuraiScript : UnitScript
             }
             swiftExeA = false;
         }
-        if(shuriken)
+        if (shuriken)
         {
-            
-            if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY,3))
+
+            if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, 3))
             {
 
-                
-                    int hitChance = Random.Range(0, 100);
-                    animator.SetTrigger("attack");
-                    if (hitChance < accuracy - targetUnit.GetComponent<UnitScript>().dodgeRating)
 
+                int hitChance = Random.Range(0, 100);
+                animator.SetTrigger("attack");
+                if (hitChance < accuracy - targetUnit.GetComponent<UnitScript>().dodgeRating)
+
+                {
+                    targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);
+                    if (abilityCombosA[2])
                     {
-                        targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);
-                         if (abilityCombosA[2])
-                         {
-                              targetUnit.GetComponent<UnitScript>().UnitDamage(4 + targetUnit.GetComponent<UnitScript>().damageReduction);
-                         }
-                        if (shreddingShuriken)
-                        {
-                            targetUnit.GetComponent<UnitScript>().Burn(2, 2);
-                        }
+                        targetUnit.GetComponent<UnitScript>().UnitDamage(4 + targetUnit.GetComponent<UnitScript>().damageReduction);
                     }
-                    if(targetUnit.GetComponent<UnitScript>().health<=0)
-                     
-                abilitiesCooldown[2] = 4;
+                    if (shreddingShuriken)
+                    {
+                        targetUnit.GetComponent<UnitScript>().Burn(2, 2);
+                    }
                 }
+                if (targetUnit.GetComponent<UnitScript>().health <= 0)
+
+                    abilitiesCooldown[2] = 4;
+            }
 
             if (abilityCombosA[2])
             {
-                
+
                 abilityCombosA[2] = false;
             }
             else
@@ -328,17 +328,17 @@ public class SamuraiScript : UnitScript
 
     public override void Ability4(GameObject targetUnit)
     {
-        if(bloodThirst)
+        if (bloodThirst)
         {
             bloodThirstA = true;
             abilitiesCooldown[3] = 6;
         }
-        if(clearMind)
+        if (clearMind)
         {
-            for (int i = 0; i<3;i++)
+            for (int i = 0; i < 3; i++)
             {
                 abilitiesCooldown[i] = 0;
-               
+
             }
             abilitiesCooldown[3] = 7;
         }
@@ -346,12 +346,12 @@ public class SamuraiScript : UnitScript
         {
             abilityCombosA[i] = false;
         }
-        
+
     }
 
     public override void TurnOver()
     {
-        if(trueStrike)
+        if (trueStrike)
         {
             trueStrikeR = true;
         }
@@ -359,178 +359,65 @@ public class SamuraiScript : UnitScript
             bloodThirstA = false;
 
         exploitT--;
-        if(exploitT == 0)
+        if (exploitT == 0)
         {
-            exploitA = false;   
+            exploitA = false;
         }
 
         agileA--;
-        if(agileA == 0)
+        if (agileA == 0)
         {
             dodgeRating -= 40;
         }
 
         focusT--;
-        if(focusT == 0)
+        if (focusT == 0)
         {
             accuracy -= 10;
             attackPower -= 2;
             damageReduction -= 1;
             dodgeRating -= 10;
-            
+
 
         }
         base.TurnOver();
     }
 
 
-    public override void Update()
+    public override void AbilityTarget(int abilityIndex)
     {
-        if (gm.paused == false)
+        int range = attackRange;
+        for (int i = 0; i < 4; i++)
         {
-            //First 2 if statements here are testers for final controls, start the attack and set ability one to be active.
-            if (Input.GetKeyDown(KeyCode.Space) && map.selectedUnit == gameObject)
+            if (i == abilityIndex)
             {
-                targetting();
-                attacking = !attacking;
-
-
+                abilitiesTarget[abilityIndex] = !abilitiesTarget[abilityIndex];
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1) && map.selectedUnit == gameObject)
+            else
             {
-                abilitiesTarget[0] = !abilitiesTarget[0];
-                abilitiesTarget[2] = false;
-                abilitiesTarget[1] = false;
-                abilitiesTarget[3] = false;
-                targetting();
-                map.UpdateIconSelection(0);
-
+                abilitiesTarget[i] = false;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2) && map.selectedUnit == gameObject)
-            {
-
-                abilitiesTarget[0] = false;
-                abilitiesTarget[2] = false;
-                abilitiesTarget[1] = !abilitiesTarget[1];
-                abilitiesTarget[3] = false;
-                targetting();
-                map.UpdateIconSelection(1);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3) && map.selectedUnit == gameObject)
-            {
-
-                abilitiesTarget[0] = false;
-                abilitiesTarget[1] = false;
-                abilitiesTarget[2] = !abilitiesTarget[2];
-                abilitiesTarget[3] = false;
-
-                if (shuriken)
-                {
-                    targetting(3);
-                }
-                else
-                {
-                    targetting();
-                }
-                
-
-                map.UpdateIconSelection(2);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4) && map.selectedUnit == gameObject)
-            {
-
-                abilitiesTarget[0] = false;
-                abilitiesTarget[1] = false;
-                abilitiesTarget[2] = false;
-                abilitiesTarget[3] = !abilitiesTarget[3];
-                targetting();
-                map.UpdateIconSelection(3);
-            }
-            //if(currentPath != null)
-            //    {
-            //    int currNode = 0;
-            //    while(currNode < currentPath.Count -1)
-            //    {
-            //        Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x,currentPath[currNode].y) + new Vector3(0,0,-2)  ;
-            //        Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode+1].x, currentPath[currNode+1].y ) + new Vector3(0, 0, -2);
+        }
+        if (shuriken && abilityIndex == 2)
+        {
+            range = 3;
+        }
+        if (abilityIndex == 1)
+        {
+            range = 0;
+        }
+        attacking = false;
 
 
-            //        Debug.DrawLine(start, end, Color.black);
+        targetting(range);
+        map.UpdateIconSelection(abilityIndex);
 
-            //        currNode++;
-            //    }
-            //}
-
-
-
-            //
-            if (map.selectedUnit == gameObject)
-            {
-                map.UpdateCooldowns(gameObject);
-            }
-
-
-            //Rudimentary version of the movement script, this is really innefecient but it does the job for now, preferably this  should be moved to a coroutine
-            if (currentPath != null)// Checks if there is a path to follow 
-            {
-                if (gameObject.transform.position == target)
-                {
-
-                    if (currentPath != null && moveSpeed >= map.costToEnter(currentPath[1].x, currentPath[1].y))// We check if we have enough movement speed to move into the next tile
-                    {
-                        moveSpeed -= map.costToEnter(currentPath[1].x, currentPath[1].y);//if we do we reduce our movement speed by the cost to enter the next tile
-
-                        target = map.TileCoordToWorldCoord(currentPath[1].x, currentPath[1].y);// We set our target to the next tile
-
-                        map.UnitMoving(gameObject);
-                        tileX = currentPath[1].x;//once were moving we set our current tile to the target tile
-                        tileY = currentPath[1].y;
-
-                        currentPath.RemoveAt(0);//we remove the current tile from the path
-
-                        if (currentPath.Count == 1)//Once the path is finished we set the path to null and stop moving
-                        {
-
-                            move = false;
-                            currentPath = null;
-
-
-                        }
-
-
-
-                    }
-                    else// if we dont have enough movement or the path is empty we clear out the relevant data
-                    {
-                        map.UnitStopped(gameObject);
-                        target = map.TileCoordToWorldCoord(tileX, tileY);//set our target to the current tile
-                        tileX = currentPath[0].x;//we set our current tile to this tile
-                        tileY = currentPath[0].y;
-                        targetX = tileX;
-                        targetY = tileY;
-                        currentPath = null;
-                        move = false;
-                        animator.SetBool("moving", false);
-
-
-                    }
-
-                }
-
-            }
-
-
-
-
-
-            if (currentPath == null && target == gameObject.transform.position)
-            {
-                animator.SetBool("moving", false);// simply stops the moving animation once we stop
-
-
-            }
-            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, target, speedFloatVal * Time.deltaTime);//We are constantly moving towards the target, this is why this should be in a coroutine
+        if (abilitiesTarget[abilityIndex] == false)
+        {
+            CancelTarggeting();
         }
 
     }
 }
+
+  

@@ -60,13 +60,19 @@ public class EnemyScript : MonoBehaviour
     {
         if (unitTarget != null) 
         {
-            
+
             if (GetComponent<UnitScript>().attackAvailable)
             {
-                List<Node> possiblePath = map.GenerateAttackPath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileX);
-                if (possiblePath.Count - 1 < GetComponent<UnitScript>().attackRange)
+                if (unitTarget != null)
                 {
-                    GetComponent<UnitScript>().attack(unitTarget);
+                    List<Node> possiblePath = map.GenerateAttackPath(gameObject, gameObject.GetComponent<UnitScript>().tileX, gameObject.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileY, unitTarget.GetComponent<UnitScript>().tileX);
+                    if (possiblePath != null)
+                    {
+                        if (possiblePath.Count - 1 < GetComponent<UnitScript>().attackRange)
+                        {
+                            GetComponent<UnitScript>().attack(unitTarget);
+                        }
+                    }
                 }
             }
         }

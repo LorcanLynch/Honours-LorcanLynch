@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
 using static UnityEngine.GraphicsBuffer;
@@ -522,7 +523,55 @@ public class KnightScript : UnitScript
         map.UpdateCooldowns(gameObject);
         abilitiesTarget[2] = false;
     }
+    public override void AbilityTarget(int abilityIndex)
+    {
+        if (abilityIndex == 3)
+        {
+            return;
+        }
+        int range = attackRange;
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == abilityIndex)
+            {
+               
+                abilitiesTarget[abilityIndex] = !abilitiesTarget[abilityIndex];
+            }
+            else
+            {
+                abilitiesTarget[i] = false;
+            }
+        }
+        if (unstopableForce && abilityIndex == 2)
+        {
+            range = 0;
+        }
+        if (flamingBlade && abilityIndex == 2)
+        {
+            range = 0;
+        }
+        if (righteousGlory && abilityIndex == 2)
+        {
+            range = 2;
+        }
+        if ( abilityIndex == 1)
+        {
+            range = 0;
+        }
 
+
+        attacking = false;
+
+
+        targetting(range);
+        map.UpdateIconSelection(abilityIndex);
+
+        if (abilitiesTarget[abilityIndex] == false)
+        {
+            CancelTarggeting();
+        }
+
+    }
     public override void TurnOver()
     {
         

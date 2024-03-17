@@ -363,158 +363,50 @@ public class HuntressScript : UnitScript
         abilitiesTarget[2] = false;
     }
 
-    public override void Update()
+    public override void AbilityTarget(int abilityIndex)
     {
-        if (gm.paused == false)
+        int range = attackRange;
+        for (int i = 0; i < 4; i++)
         {
-            //First 2 if statements here are testers for final controls, start the attack and set ability one to be active.
-            if (Input.GetKeyDown(KeyCode.Space) && map.selectedUnit == gameObject)
+            if (i == abilityIndex)
             {
-                targetting();
-                attacking = !attacking;
-
-
+                abilitiesTarget[abilityIndex] = !abilitiesTarget[abilityIndex];
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1) && map.selectedUnit == gameObject)
+            else
             {
-                abilitiesTarget[0] = !abilitiesTarget[0];
-                abilitiesTarget[2] = false;
-                abilitiesTarget[1] = false;
-                abilitiesTarget[3] = false;
-                targetting();
-                map.UpdateIconSelection(0);
-
+                abilitiesTarget[i] = false;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2) && map.selectedUnit == gameObject)
-            {
-
-                abilitiesTarget[0] = false;
-                abilitiesTarget[2] = false;
-                abilitiesTarget[1] = !abilitiesTarget[1];
-                abilitiesTarget[3] = false;
-                targetting(1);
-                map.UpdateIconSelection(1);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3) && map.selectedUnit == gameObject)
-            {
-
-                abilitiesTarget[0] = false;
-                abilitiesTarget[1] = false;
-                abilitiesTarget[2] = !abilitiesTarget[2];
-                abilitiesTarget[3] = false;
-
-                if(longShot)
-                {
-                    targetting(7);
-                }
-                else if(fieldMedicine)
-                {
-                    targetting(1);
-                }
-                else
-                {
-                    targetting();
-                }
-               
-                map.UpdateIconSelection(2);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4) && map.selectedUnit == gameObject)
-            {
-
-                abilitiesTarget[0] = false;
-                abilitiesTarget[1] = false;
-                abilitiesTarget[2] = false;
-                abilitiesTarget[3] = !abilitiesTarget[3];
-                targetting();
-                map.UpdateIconSelection(3);
-            }
-            //if(currentPath != null)
-            //    {
-            //    int currNode = 0;
-            //    while(currNode < currentPath.Count -1)
-            //    {
-            //        Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x,currentPath[currNode].y) + new Vector3(0,0,-2)  ;
-            //        Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode+1].x, currentPath[currNode+1].y ) + new Vector3(0, 0, -2);
+        }
+        if (longShot && abilityIndex == 2)
+        {
+            range = 3;
+        }
+        if (fieldMedicine && abilityIndex == 2)
+        {
+            range = 3;
+        }
+        if (abilityIndex == 1)
+        {
+            range = 1;
+        }
+        if (abilityIndex == 3)
+        {
+            range = 0;
+        }
+        attacking = false;
 
 
-            //        Debug.DrawLine(start, end, Color.black);
+        targetting(range);
+        map.UpdateIconSelection(abilityIndex);
 
-            //        currNode++;
-            //    }
-            //}
-
-
-
-            //
-            if (map.selectedUnit == gameObject)
-            {
-                map.UpdateCooldowns(gameObject);
-            }
-
-
-            //Rudimentary version of the movement script, this is really innefecient but it does the job for now, preferably this  should be moved to a coroutine
-            if (currentPath != null)// Checks if there is a path to follow 
-            {
-                if (gameObject.transform.position == target)
-                {
-
-                    if (currentPath != null && moveSpeed >= map.costToEnter(currentPath[1].x, currentPath[1].y))// We check if we have enough movement speed to move into the next tile
-                    {
-                        moveSpeed -= map.costToEnter(currentPath[1].x, currentPath[1].y);//if we do we reduce our movement speed by the cost to enter the next tile
-
-                        target = map.TileCoordToWorldCoord(currentPath[1].x, currentPath[1].y);// We set our target to the next tile
-
-                        map.UnitMoving(gameObject);
-                        tileX = currentPath[1].x;//once were moving we set our current tile to the target tile
-                        tileY = currentPath[1].y;
-
-                        currentPath.RemoveAt(0);//we remove the current tile from the path
-
-                        if (currentPath.Count == 1)//Once the path is finished we set the path to null and stop moving
-                        {
-
-                            move = false;
-                            currentPath = null;
-
-
-                        }
-
-
-
-                    }
-                    else// if we dont have enough movement or the path is empty we clear out the relevant data
-                    {
-                        map.UnitStopped(gameObject);
-                        target = map.TileCoordToWorldCoord(tileX, tileY);//set our target to the current tile
-                        tileX = currentPath[0].x;//we set our current tile to this tile
-                        tileY = currentPath[0].y;
-                        targetX = tileX;
-                        targetY = tileY;
-                        currentPath = null;
-                        move = false;
-                        animator.SetBool("moving", false);
-
-
-                    }
-
-                }
-
-            }
-
-
-
-
-
-            if (currentPath == null && target == gameObject.transform.position)
-            {
-                animator.SetBool("moving", false);// simply stops the moving animation once we stop
-
-
-            }
-            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, target, speedFloatVal * Time.deltaTime);//We are constantly moving towards the target, this is why this should be in a coroutine
+        if (abilitiesTarget[abilityIndex] == false)
+        {
+            CancelTarggeting();
         }
 
     }
+
+  
     public override void Ability4(GameObject targetUnit)
     {
         if(exudeWarmth)

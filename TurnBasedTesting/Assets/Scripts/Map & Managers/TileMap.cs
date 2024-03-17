@@ -42,10 +42,10 @@ public class TileMap : MonoBehaviour
         selectedUnit.transform.position = TileCoordToWorldCoord(selectedUnit.GetComponent<UnitScript>().tileX, selectedUnit.GetComponent<UnitScript>().tileY);
         //GenerateFort();
         ChooseMap();
-        GeneratePathfindingGraph();
-        GenerateMap();
-     
-        
+        //GeneratePathfindingGraph();
+        //GenerateMap();
+
+
         healthText = GameObject.Find("HealthText").GetComponent<TextMeshProUGUI>();
     }
 
@@ -101,7 +101,7 @@ public class TileMap : MonoBehaviour
             }
         }
         Units.Clear();
-       Units.Add(GameObject.Find("Huntress"));
+        Units.Add(GameObject.Find("Huntress"));
         Units.Add(GameObject.Find("Knight"));
         Units.Add(GameObject.Find("Wizard"));
         Units.Add(GameObject.Find("Samurai"));
@@ -261,7 +261,7 @@ public class TileMap : MonoBehaviour
                                  ];
 
             Node target = graph[y, x];
-            //if(target.containsUnit)
+            
 
             dist[source] = 0;
             prev[source] = null;
@@ -281,7 +281,7 @@ public class TileMap : MonoBehaviour
                 Node u = null;
                 foreach (Node possibleU in unvisited)
                 {
-                    if (u == null || dist[possibleU] < dist[u]) //&& !graph[possibleU.y, possibleU.x].containsUnit)
+                    if (u == null || dist[possibleU] < dist[u]) 
                     {
                         u = possibleU;
                     }
@@ -894,7 +894,12 @@ public class TileMap : MonoBehaviour
     {
         graph[unit.GetComponent<UnitScript>().tileX, unit.GetComponent<UnitScript>().tileY].containsUnit = true;
 
-    }   
+    }  
+
+    public void AbilityButton(int index)
+    {
+        selectedUnit.GetComponent<UnitScript>().AbilityTarget(index);
+    }
 
     public void ShowStats(GameObject target)
     {
