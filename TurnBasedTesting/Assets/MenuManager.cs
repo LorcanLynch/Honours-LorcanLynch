@@ -14,6 +14,8 @@ public class MenuManager : MonoBehaviour
     public Button quitButton;
     public Button backButton;
 
+    public Button[] tutButtons;
+
     public TextMeshProUGUI controlsText;
     public TextMeshProUGUI creditsText;
     // Start is called before the first frame update
@@ -46,7 +48,10 @@ public class MenuManager : MonoBehaviour
         creditsButton.gameObject.SetActive(false);
         quitButton.gameObject.SetActive(false);
         backButton.gameObject.SetActive(true);
-        controlsText.gameObject.SetActive(true);
+        foreach(Button button in tutButtons)
+        {
+            button.gameObject.SetActive(true);
+        }
     }
 
     public void Credits()
@@ -70,6 +75,10 @@ public class MenuManager : MonoBehaviour
         backButton.gameObject.SetActive(false);
         controlsText.gameObject.SetActive(false);
         creditsText.gameObject.SetActive(false);
+        foreach (Button button in tutButtons)
+        {
+            button.gameObject.SetActive(false);
+        }
     }
 
     public void Quit()
