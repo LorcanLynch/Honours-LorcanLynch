@@ -24,7 +24,7 @@ public class HuntressScript : UnitScript
 
     public bool thirdCharm;
     public int thirdCharmC;
-
+    public AudioClip healSound;
     public bool warding;
 
     public bool trainedSurgeon;
@@ -112,8 +112,8 @@ public class HuntressScript : UnitScript
             if (hitChance < accuracy - target.GetComponent<UnitScript>().dodgeRating)
 
             {
-               
-                    target.GetComponent<UnitScript>().UnitDamage(attackPower);
+                aSource.PlayOneShot(hitEffect);
+                target.GetComponent<UnitScript>().UnitDamage(attackPower);
                     if (eyes)
                     {
                         int critChance = Random.Range(0, 100);
@@ -133,6 +133,11 @@ public class HuntressScript : UnitScript
                 }
 
             }
+            else
+            {
+                text.GetComponent<DamageTextScript>().UpdateText("Miss");
+                aSource.PlayOneShot(missEffect);
+            }
 
             songComboA = false;
             for (int i = 0; i < 3; i++)
@@ -149,6 +154,7 @@ public class HuntressScript : UnitScript
     {
         if (attackAvailable)
         {
+            aSource.PlayOneShot(healSound);
             abilitiesCooldown[1] = 4;
             map.UpdateCooldowns(gameObject);
             attackAvailable = false;
@@ -230,6 +236,7 @@ public class HuntressScript : UnitScript
     {
         if (targetUnit.tag != gameObject.tag && markPrey)
         {
+            aSource.PlayOneShot(hitEffect);
             prey = targetUnit;
             preyTimer = 3;
             abilitiesCooldown[2] = 6;
@@ -252,6 +259,7 @@ public class HuntressScript : UnitScript
         {
             if (fieldMedicineUses > 0)
             {
+                aSource.PlayOneShot(healSound);
                 if (abilityCombosA[0] == true)
                 {
                     targetUnit.GetComponent<UnitScript>().health +=3;
@@ -291,7 +299,7 @@ public class HuntressScript : UnitScript
             abilitiesCooldown[2] = 5;
             if(!longShot)
             {
-                
+                aSource.PlayOneShot(hitEffect);
                 if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, attackRange))
                 {
                     targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower + 10);
@@ -411,12 +419,13 @@ public class HuntressScript : UnitScript
     {
         if(exudeWarmth)
         {
-           
+            aSource.PlayOneShot(healSound);
             warmthTimer = 4;
             abilitiesCooldown[3] = 8;
         }
         if(TrueShot)
         {
+            aSource.PlayOneShot(healSound);
             trueShotTimer = 4;
             accuracy += 200;
             dodgeRating += 20;

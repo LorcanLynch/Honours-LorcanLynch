@@ -6,7 +6,7 @@ public class ClickableTile : MonoBehaviour
 {
     public int tileX;
     public int tileY;
-   
+    public Color prev = Color.white;
     public TileMap map;
 
     // Start is called before the first frame update
@@ -17,25 +17,26 @@ public class ClickableTile : MonoBehaviour
             map.GeneratePathTo(tileY, tileX, true);
         
     }
+   
+    private void OnMouseEnter()
+    {
+        prev = GetComponent<SpriteRenderer>().color;
+        if (prev != Color.red)
+        {
+
+            GetComponent<SpriteRenderer>().color = Color.yellow;
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if (GetComponent<SpriteRenderer>().color != Color.red && prev!= Color.red)
+        {
+            GetComponent<SpriteRenderer>().color = prev;
+        }
+    }
+
+
 
     
-
-
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.layer == 6)
-    //    {
-    //        map.UnitStopped(collision.gameObject);
-
-    //    }
-    //}
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.layer == 6)
-    //    {
-    //        map.UnitMoving(collision.gameObject);
-
-    //    }
-    //}
 }

@@ -558,12 +558,12 @@ public class UnitScript : MonoBehaviour
                 attacking = false;
                
 
-                RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-                foreach (RaycastHit2D wacked in wack)
+                RaycastHit2D[] tiles = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));
+                foreach (RaycastHit2D tile in tiles)
                 {
-                    if (wacked.collider.gameObject.layer == 8)
+                    if (tile.collider.gameObject.layer == 8)
                     {
-                        wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                        tile.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
                     }
                 }
 

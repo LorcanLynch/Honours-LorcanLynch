@@ -122,6 +122,8 @@ public class SamuraiUpgrades : Upgrades
         GameObject.Find("Samurai").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
         GameObject.Find("Samurai").GetComponent<SamuraiScript>().abilityDesc[2] = "Grants a small bonus to all attack stats and dodgee chance for 3 turns, free action";
         upgradeContainers.Remove("FocusContainer");
+        upgradeContainers.Remove("ShurikenContainer");
+        upgradeContainers.Remove("ExploitWeaknessContainer");
         upgradeContainers.Add("HarmonyContainer");
         upgradeContainers.Add("FocusDashContainer");
         AfterUpgradeApplied("The Samurai's 3rd ability becomes focus, a free action buff granting a small bonus to all attack stats, and 10 dodge chance");
@@ -160,6 +162,8 @@ public class SamuraiUpgrades : Upgrades
         GameObject.Find("Samurai").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
         GameObject.Find("Samurai").GetComponent<SamuraiScript>().abilityDesc[2] = "The Samurai ignores armour for 2 turns";
         upgradeContainers.Remove("ExploitWeaknessContainer");
+        upgradeContainers.Remove("FocusContainer");
+        upgradeContainers.Remove("ShurikenContainer");
         upgradeContainers.Add("ExploitDashContainer");
         AfterUpgradeApplied("The Samurai's 3rd ability becomes exploit weakness, granting them the abilty to ignore armor for the next 2 turns");
     }
@@ -179,6 +183,8 @@ public class SamuraiUpgrades : Upgrades
         GameObject.Find("Samurai").GetComponent<UnitScript>().abilityIcons[2] = attachedButton.GetComponent<Image>().sprite;
         GameObject.Find("Samurai").GetComponent<SamuraiScript>().abilityDesc[2] = "Free action basic attack which has +2 range";
         upgradeContainers.Remove("ShurikenContainer");
+        upgradeContainers.Remove("FocusContainer");
+        upgradeContainers.Remove("ExploitWeaknessContainer");
         upgradeContainers.Add("ShreddingShurikenContainer");
         upgradeContainers.Add("ShurikenDashContainer");
         AfterUpgradeApplied("The Samurai's 3rd ability becomes Shuriken Throw, a basic attack with +2 range.");

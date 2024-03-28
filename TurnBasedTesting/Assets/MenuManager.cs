@@ -18,10 +18,11 @@ public class MenuManager : MonoBehaviour
 
     public TextMeshProUGUI controlsText;
     public TextMeshProUGUI creditsText;
+    public AudioSource aS;
     // Start is called before the first frame update
     void Start()
     {
-        
+        aS = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -32,16 +33,19 @@ public class MenuManager : MonoBehaviour
 
     public void Play()
     {
+        aS.Play();
         SceneManager.LoadScene(1);
     }
 
     public void Upgradeless()
     {
+        aS.Play();
         SceneManager.LoadScene(2);
     }
 
     public void Controls()
     {
+        aS.Play();
         playButton.gameObject.SetActive(false);
         upgradelessButton.gameObject.SetActive(false);
         controlsButton.gameObject.SetActive(false);
@@ -56,6 +60,7 @@ public class MenuManager : MonoBehaviour
 
     public void Credits()
     {
+        aS.Play();
         playButton.gameObject.SetActive(false);
         upgradelessButton.gameObject.SetActive(false);
         controlsButton.gameObject.SetActive(false);
@@ -67,6 +72,7 @@ public class MenuManager : MonoBehaviour
 
     public void Back()
     {
+        aS.Play();
         playButton.gameObject.SetActive(true);
         upgradelessButton.gameObject.SetActive(true);
         controlsButton.gameObject.SetActive(true);
@@ -83,6 +89,7 @@ public class MenuManager : MonoBehaviour
 
     public void Quit()
     {
+        aS.Play();
         Application.Quit();
     }
 

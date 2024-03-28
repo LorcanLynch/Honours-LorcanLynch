@@ -18,10 +18,7 @@ public class Upgrades : MonoBehaviour
     public TextMeshProUGUI enemyText;
     public GameObject[] allUnits;
     public bool upgrading = false;
-    void Start()
-    {
-        tileMapObj = GameObject.Find("Map").GetComponent<ObjectiveScript>();
-    }
+    
     public void AfterUpgradeApplied(string upgradeText)
     {
         if(upgradeScreen.GetComponent<UpgradeHolder>().upgraded == 1)

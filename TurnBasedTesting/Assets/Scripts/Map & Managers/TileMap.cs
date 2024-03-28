@@ -334,11 +334,6 @@ public class TileMap : MonoBehaviour
         else { return null; }
 
 
-
-
-
-
-
     }
 
     public List<Node> GenerateAttackPath(GameObject unitRequesting, int startX, int startY, int x, int y)

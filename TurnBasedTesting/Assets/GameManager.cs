@@ -16,13 +16,14 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public List<GameObject> unitsSpawnable;
     public bool paused = false;
-    List<Node> spawnableTiles = new List<Node> { };   
+    List<Node> spawnableTiles = new List<Node> { };
+    public AudioSource aS;
     // Start is called before the first frame update
     void Start()
     {
-          
-            
-       
+
+
+        aS = GetComponent<AudioSource>();
         
     }
     private void Awake()
@@ -41,12 +42,14 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        aS.Play();
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
        
     }
    public void Pause()
     {
+        aS.Play();
         if (!paused)
         {
             Time.timeScale = 0;
@@ -64,6 +67,7 @@ public class GameManager : MonoBehaviour
 
     public void Quit()
     {
+        aS.Play();
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
@@ -149,7 +153,7 @@ public class GameManager : MonoBehaviour
         else
         {
             
-            print("happened");
+           
             int i = 0;
             foreach (Node neighbour in tileMap.graph[tileX, tileY].connections)
             {

@@ -12,7 +12,10 @@ public class UpgradeHolder : MonoBehaviour
     {
         tileMapObj = GameObject.Find("Map").GetComponent<ObjectiveScript>(); 
     }
-
+    private void OnEnable()
+    {
+        gameObject.GetComponent<AudioSource>().Play();
+    }
     // Update is called once per frame
     void Update()
     {

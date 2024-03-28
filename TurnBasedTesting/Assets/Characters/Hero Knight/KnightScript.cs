@@ -20,7 +20,7 @@ public class KnightScript : UnitScript
 
     public bool lordlyGreatsword;
     public bool domumHalberd;
-
+    public AudioClip parrySound;
     public bool frenziedStrike;
     public bool flamingBlade;
     public bool righteousGlory;
@@ -215,7 +215,7 @@ public class KnightScript : UnitScript
         ///<summary>
         ///Allows the knight to use it's cleave abiltiy
         /// </summary>
-        
+        aSource.PlayOneShot(hitEffect);
         animator.SetTrigger("attack");
         abilitiesCooldown[0] = 4;
         attackAvailable = false;
@@ -268,6 +268,7 @@ public class KnightScript : UnitScript
     {
         if (attackAvailable)
         {
+            aSource.PlayOneShot(parrySound);
             attackAvailable = false;
 
             abilitiesCooldown[1] = 5;
@@ -420,7 +421,7 @@ public class KnightScript : UnitScript
             abilitiesCooldown[2] = 4;
             attackAvailable = false;
             riposteCombo = false;
-
+            aSource.PlayOneShot(parrySound);
 
             if (combosU[1])
             {
@@ -447,6 +448,7 @@ public class KnightScript : UnitScript
         ///FlamingBlade
         if(flamingBlade)
         {
+            aSource.PlayOneShot(parrySound);
             litBlade = 3;
             abilitiesCooldown[2] = 7;
             riposteCombo = false;
@@ -472,7 +474,7 @@ public class KnightScript : UnitScript
         ///Righteous
         if(righteousGlory)
         {
-            
+            aSource.PlayOneShot(parrySound);
             abilitiesCooldown[2] = 6;
             RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, 1.6f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
             foreach (RaycastHit2D hit in targets)

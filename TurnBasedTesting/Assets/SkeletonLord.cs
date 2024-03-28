@@ -18,13 +18,7 @@ public class SkeletonLord : EnemyScript
 
 
     // Update is called once per frame
-    private void FixedUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            NecromanticExpulsion();
-        } 
-    }
+   
     public override bool turnStart()
     {
         if(bonesCD <= 0)

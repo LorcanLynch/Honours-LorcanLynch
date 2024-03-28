@@ -21,8 +21,8 @@ public class WizardScript : UnitScript
 
     public bool lightningSurgeCombo;
     public bool lightningSurgeComboA;
-
-
+    public AudioClip fireSound;
+    public AudioClip buffSound;
     public bool fireLord;
     public bool iceLord;
     public bool breathOfCold = false;
@@ -44,6 +44,7 @@ public class WizardScript : UnitScript
             animator.SetTrigger("attack");
             if (hitChance < accuracy - target.GetComponent<UnitScript>().dodgeRating)
             {
+                aSource.PlayOneShot(hitEffect);
                 target.GetComponent<UnitScript>().UnitDamage(attackPower);
                 if (fireLord)
                 {
@@ -62,6 +63,11 @@ public class WizardScript : UnitScript
                
               
             }
+            else
+            {
+                text.GetComponent<DamageTextScript>().UpdateText("Miss");
+                aSource.PlayOneShot(missEffect);
+            }
             attackAvailable = false;
             attacking = false;
         }
@@ -74,6 +80,7 @@ public class WizardScript : UnitScript
         ///This is a little out of system but checking each hex in a line seemed like it would take to much processing work so i simple instantiate an object with damages each unit it touches
         /// </summary>
         //RaycastHit2D[] unitsHit = Physics2D.LinecastAll(gameObject.transform.position, targetUnit.transform.position);
+        aSource.PlayOneShot(buffSound);
         GameObject bolt = Instantiate(lightningBolt, Vector3.MoveTowards(gameObject.transform.position, targetUnit.transform.position, .4f), Quaternion.FromToRotation(transform.position, -targetUnit.transform.position));
         bolt.GetComponent<LightningBoltScript>().target = targetUnit.transform.position;
         if(lightningSurgeComboA)
@@ -101,6 +108,7 @@ public class WizardScript : UnitScript
     {
         if(targetUnit.tag == gameObject.tag)
         {
+            aSource.PlayOneShot(buffSound);
             targetUnit.GetComponent<UnitScript>().attackAvailable = true;
             targetUnit.GetComponent<UnitScript>().moveSpeed = targetUnit.GetComponent<UnitScript>().maxMoveSpeed;
             if(PowerSurge)
@@ -181,6 +189,7 @@ public class WizardScript : UnitScript
     {
         if (Bombardment)
         {
+            aSource.PlayOneShot(fireSound);
             abilitiesCooldown[2] = 5;
             if (targetUnit.tag != gameObject.tag && CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY,10))
             {
@@ -221,6 +230,7 @@ public class WizardScript : UnitScript
         {
             if(gameObject.tag != targetUnit.tag)
             {
+                aSource.PlayOneShot(fireSound);
                 if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, attackRange))
                 {
                     abilitiesCooldown[2] = 5;
@@ -250,7 +260,7 @@ public class WizardScript : UnitScript
         if(incantationOfPower)
         {
 
-
+            aSource.PlayOneShot(buffSound);
             abilitiesCooldown[2] = 7;
             RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, 1f, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
             foreach (RaycastHit2D hit in targets)
@@ -288,6 +298,7 @@ public class WizardScript : UnitScript
 
         if (fireball)
         {
+            aSource.PlayOneShot(fireSound);
             if (map.GenerateAttackPath(gameObject, targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, tileY, tileX).Count - 2 < attackRange)
             {
                 animator.SetTrigger("attack");
@@ -310,6 +321,7 @@ public class WizardScript : UnitScript
         }
         if (breathOfCold)
         {
+            aSource.PlayOneShot(fireSound);
             if (map.GenerateAttackPath(gameObject, targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, tileY, tileX).Count - 2 < attackRange)
             {
                 animator.SetTrigger("attack");

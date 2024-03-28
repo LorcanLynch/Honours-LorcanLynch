@@ -267,10 +267,15 @@ MonoBehaviour:
   baseDodge: 0
   baseReduction: 0
   abilityIcons:
+  - {fileID: 21300000, guid: 544a5d71e4396f0419a577ff07d16685, type: 3}
+  - {fileID: 21300000, guid: 1663fbe77d2ccfc40b3f14906bd5849d, type: 3}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  abilityDesc:
+  - Strike all enemies in a line, must target an enemy in range
+  - Reset an allies movement and attack
+  - Ability Locked
+  - Ability Locked
   abilitiesTarget: 00000000
   abilitiesCooldown: 00000000000000000000000000000000
   attacking: 0
@@ -280,9 +285,10 @@ MonoBehaviour:
   burning: 0
   burnTimer: 0
   burnDamage: 0
+  targettingA: 0
   aSource: {fileID: 0}
-  hitEffect: {fileID: 0}
-  missEffect: {fileID: 0}
+  hitEffect: {fileID: 8300000, guid: 4d3b90bc8f6907c44ad7e855d3b2b4c0, type: 3}
+  missEffect: {fileID: 8300000, guid: 51d0e27d390f1fd49af123b049900b85, type: 3}
   maxMoveSpeed: 3
   moveSpeed: 3
   maxhealth: 10
@@ -290,7 +296,7 @@ MonoBehaviour:
   attackPower: 10
   attackRange: 3
   claveHb: {fileID: 0}
-  lightningBolt: {fileID: 0}
+  lightningBolt: {fileID: 7276387949780668854, guid: 93c7d24db34241442a68787d5e6aacf7, type: 3}
   accuracy: 75
   visibility: 0
   dodgeRating: 5
@@ -310,6 +316,7 @@ MonoBehaviour:
   damageBuffT: 0
   damageBuffed: 0
   damageBuffN: 0
+  gm: {fileID: 0}
   fireball: 0
   lifeDrain: 0
   incantationOfPower: 0
@@ -321,6 +328,8 @@ MonoBehaviour:
   drainedTimer: 0
   lightningSurgeCombo: 0
   lightningSurgeComboA: 0
+  fireSound: {fileID: 8300000, guid: 5b29512702d788546ab723d4146a0a5c, type: 3}
+  buffSound: {fileID: 8300000, guid: 67df430b29d48604891df24de23196a3, type: 3}
   fireLord: 0
   iceLord: 0
   breathOfCold: 0
@@ -659,7 +668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.13399053, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

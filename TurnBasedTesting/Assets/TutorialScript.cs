@@ -18,10 +18,12 @@ public class TutorialScript : MonoBehaviour
     public  Image tutSprite;
     public int currPage;
     public int maxPage;
+    AudioSource aS;
     // Start is called before the first frame update
     void Start()
     {
         AbilitiesPrefab();
+        aS = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -30,7 +32,10 @@ public class TutorialScript : MonoBehaviour
         
     }
 
-    
+    private void OnEnable()
+    {
+      
+    }
     public void AttackingPrefab()
     {
         currSprites = new List<Sprite> { allSprites[0], allSprites[1], allSprites[2] };

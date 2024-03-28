@@ -29,14 +29,6 @@ public class KnightUpgrades : Upgrades
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
-      
-
-    }
-     
-
     public void HalberdContainer()
     {
        attachedButton.GetComponentInChildren<TextMeshProUGUI>().text = "+1 range, and cleave now sweeps \n all in range, stunning them for one turn";

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 373728223162344295}
   - component: {fileID: 604473576}
   - component: {fileID: 1012403152}
+  - component: {fileID: 96879597}
   m_Layer: 6
   m_Name: Huntress
   m_TagString: team1
@@ -253,6 +254,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 537a26dce8fb0984a8865df29d791ee2, type: 3}
   - {fileID: 0}
   - {fileID: 0}
+  abilityDesc:
+  - Basic attack that ignores all armour
+  - Heal all allies around the huntress
+  - Ability Locked
+  - Ability Locked
   abilitiesTarget: 00000000
   abilitiesCooldown: 00000000000000000000000000000000
   attacking: 0
@@ -262,10 +268,14 @@ MonoBehaviour:
   burning: 0
   burnTimer: 0
   burnDamage: 0
+  targettingA: 0
+  aSource: {fileID: 0}
+  hitEffect: {fileID: 8300000, guid: df9775e9a475f6b4eac6cde16e9ab8ad, type: 3}
+  missEffect: {fileID: 8300000, guid: 14264f2c60d2fdf498285c666ba8368b, type: 3}
   maxMoveSpeed: 3
   moveSpeed: 3
-  maxhealth: 10
-  health: 0
+  maxhealth: 15
+  health: 15
   attackPower: 6
   attackRange: 4
   claveHb: {fileID: 0}
@@ -289,6 +299,7 @@ MonoBehaviour:
   damageBuffT: 0
   damageBuffed: 0
   damageBuffN: 0
+  gm: {fileID: 0}
   lastingInfluence: 0
   markPrey: 0
   prey: {fileID: 0}
@@ -301,6 +312,7 @@ MonoBehaviour:
   eyes: 0
   thirdCharm: 0
   thirdCharmC: 0
+  healSound: {fileID: 8300000, guid: 80db7f389f4e2f24d97b75f89b62aa22, type: 3}
   warding: 0
   trainedSurgeon: 0
   longShot: 0
@@ -310,6 +322,102 @@ MonoBehaviour:
   songComboA: 0
   abilityCombos: 00000000
   abilityCombosA: 00000000
+--- !u!82 &96879597
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373728223162344294}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &991802911083348212
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,7 +872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.13333334, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

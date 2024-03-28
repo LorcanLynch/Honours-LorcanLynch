@@ -174,7 +174,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 0.9764151, b: 0.9764151, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.13333334, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -307,6 +307,7 @@ GameObject:
   - component: {fileID: 6567224499875456972}
   - component: {fileID: 1165274163}
   - component: {fileID: -5744224130760228567}
+  - component: {fileID: 572291941}
   m_Layer: 6
   m_Name: Samurai
   m_TagString: team1
@@ -542,10 +543,15 @@ MonoBehaviour:
   baseDodge: 0
   baseReduction: 0
   abilityIcons:
+  - {fileID: 21300000, guid: 8e36cdedec1283d428ebf0edfa8a11f2, type: 3}
+  - {fileID: 21300000, guid: 95b8a80043cb1944db19aa75d21b1d38, type: 3}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  abilityDesc:
+  - Deal bonus damage to enemies below half health
+  - Refresh the samurai's movement, free action
+  - Ability Locked
+  - Ability Locked
   abilitiesTarget: 00000000
   abilitiesCooldown: 00000000000000000000000000000000
   attacking: 0
@@ -555,14 +561,15 @@ MonoBehaviour:
   burning: 0
   burnTimer: 0
   burnDamage: 0
+  targettingA: 0
   aSource: {fileID: 0}
-  hitEffect: {fileID: 0}
-  missEffect: {fileID: 0}
+  hitEffect: {fileID: 8300000, guid: 3f2094ba0d4428c4fb82c94ea5aa9e3a, type: 3}
+  missEffect: {fileID: 8300000, guid: 2638f0ef266e903489f96e953d078420, type: 3}
   maxMoveSpeed: 4
   moveSpeed: 4
-  maxhealth: 10
-  health: 0
-  attackPower: 7
+  maxhealth: 15
+  health: 15
+  attackPower: 8
   attackRange: 1
   claveHb: {fileID: 0}
   lightningBolt: {fileID: 0}
@@ -585,6 +592,7 @@ MonoBehaviour:
   damageBuffT: 0
   damageBuffed: 0
   damageBuffN: 0
+  gm: {fileID: 0}
   thrill: 0
   agileX: 0
   exploit: 0
@@ -600,6 +608,7 @@ MonoBehaviour:
   agileA: 0
   trueStrike: 0
   trueStrikeR: 0
+  buffEffect: {fileID: 8300000, guid: 80db7f389f4e2f24d97b75f89b62aa22, type: 3}
   swiftExe: 0
   swiftExeA: 0
   harmony: 0
@@ -607,6 +616,102 @@ MonoBehaviour:
   abilityCombos: 000000
   abilityCombosA: 000000
 --- !u!82 &-5744224130760228567
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6777011672565598522}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &572291941
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

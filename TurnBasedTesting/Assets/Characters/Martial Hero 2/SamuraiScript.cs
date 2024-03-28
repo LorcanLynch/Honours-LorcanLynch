@@ -28,7 +28,7 @@ public class SamuraiScript : UnitScript
 
     public bool trueStrike;
     public bool trueStrikeR;
-
+    public AudioClip buffEffect;
     public bool swiftExe;
     public bool swiftExeA;
 
@@ -54,6 +54,7 @@ public class SamuraiScript : UnitScript
                 if (hitChance < accuracy - target.GetComponent<UnitScript>().dodgeRating)
 
                 {
+                    aSource.PlayOneShot(hitEffect);
                     if (exploitA)
                     {
                         target.GetComponent<UnitScript>().UnitDamage(attackPower + target.GetComponent<UnitScript>().damageReduction);
@@ -66,6 +67,7 @@ public class SamuraiScript : UnitScript
                 else
                 {
                     text.GetComponent<DamageTextScript>().UpdateText("Miss");
+                    aSource.PlayOneShot(missEffect);
                 }
             }
             else
@@ -111,12 +113,18 @@ public class SamuraiScript : UnitScript
             ///</summary>
             if (targetUnit.GetComponent<UnitScript>().health < targetUnit.GetComponent<UnitScript>().maxhealth / 2)
             {
+                aSource.PlayOneShot(hitEffect);
                 int hitChance = Random.Range(0, 100);//Does a normal attack, then if the target's health is lower than half it's max then it does extra damage, otherwise it does normal damage
                 animator.SetTrigger("attack");
                 if (hitChance < accuracy - targetUnit.GetComponent<UnitScript>().dodgeRating)
 
                 {
                     targetUnit.GetComponent<UnitScript>().UnitDamage(Mathf.Round(attackPower * 1.5f));
+                }
+                else
+                {
+                    text.GetComponent<DamageTextScript>().UpdateText("Miss");
+                    aSource.PlayOneShot(missEffect);
                 }
                 if (targetUnit.GetComponent<UnitScript>().health <= 0)
                 {
@@ -143,6 +151,11 @@ public class SamuraiScript : UnitScript
 
                 {
                     targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);
+                }
+                else
+                {
+                    text.GetComponent<DamageTextScript>().UpdateText("Miss");
+                    aSource.PlayOneShot(missEffect);
                 }
                 if (targetUnit.GetComponent<UnitScript>().health <= 0)
                 {
@@ -182,7 +195,7 @@ public class SamuraiScript : UnitScript
         abilitiesTarget[1] = false;
         moveSpeed += 4;
         abilitiesCooldown[1] = 3;
-
+        aSource.PlayOneShot(buffEffect);
         if (!swiftExeA)
         {
             swiftExeA = true;
@@ -229,6 +242,7 @@ public class SamuraiScript : UnitScript
     {
         if (focus)
         {
+            aSource.PlayOneShot(buffEffect);
             if (harmony)
             {
                 health = maxhealth;
@@ -240,10 +254,7 @@ public class SamuraiScript : UnitScript
             DodgeBuff(3, 10);
 
 
-            if (!bloodThirstA)
-            {
-                attackAvailable = false;
-            }
+            
             abilitiesCooldown[2] = 5;
 
             if (abilityCombosA[0])
@@ -266,6 +277,7 @@ public class SamuraiScript : UnitScript
         }
         if (exploit)
         {
+            aSource.PlayOneShot(buffEffect);
             exploitA = true;
             exploitT = 2;
             abilitiesCooldown[2] = 4;
@@ -285,44 +297,52 @@ public class SamuraiScript : UnitScript
         }
         if (shuriken)
         {
-
-            if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, 3))
+            if (targetUnit.tag != gameObject.tag)
             {
-
-
-                int hitChance = Random.Range(0, 100);
-                animator.SetTrigger("attack");
-                if (hitChance < accuracy - targetUnit.GetComponent<UnitScript>().dodgeRating)
-
+                if (CheckAttackDistance(targetUnit.GetComponent<UnitScript>().tileX, targetUnit.GetComponent<UnitScript>().tileY, 3))
                 {
-                    targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);
-                    if (abilityCombosA[2])
+
+
+                    int hitChance = Random.Range(0, 100);
+                    animator.SetTrigger("attack");
+                    if (hitChance < accuracy - targetUnit.GetComponent<UnitScript>().dodgeRating)
+
                     {
-                        targetUnit.GetComponent<UnitScript>().UnitDamage(4 + targetUnit.GetComponent<UnitScript>().damageReduction);
+                        aSource.PlayOneShot(hitEffect);
+                        targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower);
+                        if (abilityCombosA[2])
+                        {
+                            targetUnit.GetComponent<UnitScript>().UnitDamage(4 + targetUnit.GetComponent<UnitScript>().damageReduction);
+                        }
+                        if (shreddingShuriken)
+                        {
+                            targetUnit.GetComponent<UnitScript>().Burn(2, 2);
+                        }
                     }
-                    if (shreddingShuriken)
+                    else
                     {
-                        targetUnit.GetComponent<UnitScript>().Burn(2, 2);
+                        text.GetComponent<DamageTextScript>().UpdateText("Miss");
+                        aSource.PlayOneShot(missEffect);
                     }
-                }
-                if (targetUnit.GetComponent<UnitScript>().health <= 0)
 
                     abilitiesCooldown[2] = 4;
-            }
-
-            if (abilityCombosA[2])
-            {
-
-                abilityCombosA[2] = false;
-            }
-            else
-            {
-                if (abilityCombos[2])
-                {
-                    abilityCombosA[2] = true;
                 }
+                
+
+                if (abilityCombosA[2])
+                {
+
+                    abilityCombosA[2] = false;
+                }
+                else
+                {
+                    if (abilityCombos[2])
+                    {
+                        abilityCombosA[2] = true;
+                    }
+                }
+                swiftExeA = false;
             }
-            swiftExeA = false;
         }
     }
 
@@ -330,11 +350,13 @@ public class SamuraiScript : UnitScript
     {
         if (bloodThirst)
         {
+            aSource.PlayOneShot(buffEffect);
             bloodThirstA = true;
             abilitiesCooldown[3] = 6;
         }
         if (clearMind)
         {
+            aSource.PlayOneShot(buffEffect);
             for (int i = 0; i < 3; i++)
             {
                 abilitiesCooldown[i] = 0;
