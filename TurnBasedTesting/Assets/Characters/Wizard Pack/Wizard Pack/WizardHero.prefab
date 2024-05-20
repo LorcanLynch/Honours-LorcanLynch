@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 373728223162344290}
   - component: {fileID: 373728223162344288}
   - component: {fileID: 373728223162344295}
-  - component: {fileID: -1753030336412577868}
   - component: {fileID: 1459552990621170734}
   - component: {fileID: 1965886441}
   - component: {fileID: -4459245982238542970}
@@ -206,22 +205,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!58 &-1753030336412577868
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373728223162344294}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!95 &1459552990621170734
 Animator:
   serializedVersion: 4
@@ -254,6 +237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff83071c4abcef04298463196cdcd1c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  taunted: 0
+  tauntTarget: {fileID: 0}
   tileY: 0
   tileX: 0
   selected: 0
@@ -317,6 +302,19 @@ MonoBehaviour:
   damageBuffed: 0
   damageBuffN: 0
   gm: {fileID: 0}
+  skillPoints: 0
+  level: 0
+  xpValue: 0
+  xpMax: 0
+  beingLead: 0
+  leadByLord: 0
+  statGrowth: 00000000000000000000000000000000
+  pointsHolder: {fileID: 0}
+  hotKeysString:
+  - Print
+  abilitiesTargetting: 00000000000000000000
+  abilitiesRange: 05000000050000000500000005000000050000000500000005000000050000000500000005000000
+  targetUnit: {fileID: 0}
   fireball: 0
   lifeDrain: 0
   incantationOfPower: 0

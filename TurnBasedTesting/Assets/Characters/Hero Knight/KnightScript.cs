@@ -1,5 +1,6 @@
 
 
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,7 @@ using System.Xml;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements.Experimental;
-using static UnityEngine.GraphicsBuffer;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class KnightScript : UnitScript
 {
@@ -56,7 +56,24 @@ public class KnightScript : UnitScript
     public bool unmovable;
     public bool unmovableA;
 
-    
+    public int leadershipRange = 1;
+
+    public bool berserk;
+    public bool berserkA;
+
+    public bool leader;
+    public bool lord;
+    public bool fearedLord;
+    public bool adaptiveLord;
+    public bool deathToFoes;
+    public override void Start()
+    {
+
+        base.Start();
+        abilitiesRange = new List<int> { 1, 2, 3, 5, 5, 5, 5, 5, 5, 5 };
+        hotKeysString = new List<string> { "Cleave","Print" };
+}
+
 
     public override void UnitDamage(float AP)
     {
@@ -193,6 +210,14 @@ public class KnightScript : UnitScript
                 {
                     target.GetComponent<UnitScript>().stunned = true;
                 }
+
+                if(target.GetComponent<UnitScript>().health <= 0)
+                {
+                    if(berserk)
+                    {
+                        berserkA = true;
+                    }
+                }
             }
             else
             {
@@ -209,7 +234,61 @@ public class KnightScript : UnitScript
             attackAvailable = false;
         }
     }
+   
+    //private void LateUpdate()
+    //{
+    //    RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, 5f * leadershipRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+    //    foreach (RaycastHit2D hit in targets)
+    //    {
+    //        if (hit.collider.tag == "team1")
+    //        {
+    //            if (leadByLord)
+    //            {
+    //                hit.collider.GetComponent<UnitScript>().leadByLord = false;
+    //                hit.collider.GetComponent<UnitScript>().attackPower--;
+    //                hit.collider.GetComponent<UnitScript>().damageReduction--;
+                    
+                   
+                
+    //            }
+    //            if (beingLead)
+    //            {
+    //                hit.collider.GetComponent<UnitScript>().beingLead = false;
+    //                hit.collider.GetComponent<UnitScript>().attackPower--;
+    //                hit.collider.GetComponent<UnitScript>().damageReduction--;
+                   
+    //            }
+               
+    //        }
+    //    }
+    //    targets = Physics2D.CircleCastAll(gameObject.transform.position, .8f* leadershipRange , new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+    //    foreach (RaycastHit2D hit in targets)
+    //    {
+    //        if (hit.collider.tag == "team1")
+    //        {
+    //            if(!beingLead)
+    //            {
+    //                hit.collider.GetComponent<UnitScript>().attackPower++;
+    //                hit.collider.GetComponent<UnitScript>().damageReduction++;
+    //                hit.collider.GetComponent<UnitScript>().beingLead = true;
+    //            }
+               
+    //            if(gloryActivated > 0)
+    //            {
+    //                if (!leadByLord)
+    //                {
+    //                    hit.collider.GetComponent<UnitScript>().attackPower++;
+    //                    hit.collider.GetComponent<UnitScript>().damageReduction++;
+    //                    hit.collider.GetComponent<UnitScript>().leadByLord = true;
+    //                }
+                   
+    //            }
+              
+    //        }
+    //    }
 
+       
+    //}
     public override void Ability1(GameObject targetUnit)
     {
         ///<summary>
@@ -525,55 +604,55 @@ public class KnightScript : UnitScript
         map.UpdateCooldowns(gameObject);
         abilitiesTarget[2] = false;
     }
-    public override void AbilityTarget(int abilityIndex)
-    {
-        if (abilityIndex == 3)
-        {
-            return;
-        }
-        int range = attackRange;
-        for (int i = 0; i < 4; i++)
-        {
-            if (i == abilityIndex)
-            {
+    //public override void AbilityTarget(int abilityIndex)
+    //{
+    //    if (abilityIndex == 3)
+    //    {
+    //        return;
+    //    }
+    //    int range = attackRange;
+    //    for (int i = 0; i < 4; i++)
+    //    {
+    //        if (i == abilityIndex)
+    //        {
                
-                abilitiesTarget[abilityIndex] = !abilitiesTarget[abilityIndex];
-            }
-            else
-            {
-                abilitiesTarget[i] = false;
-            }
-        }
-        if (unstopableForce && abilityIndex == 2)
-        {
-            range = 0;
-        }
-        if (flamingBlade && abilityIndex == 2)
-        {
-            range = 0;
-        }
-        if (righteousGlory && abilityIndex == 2)
-        {
-            range = 2;
-        }
-        if ( abilityIndex == 1)
-        {
-            range = 0;
-        }
+    //            abilitiesTarget[abilityIndex] = !abilitiesTarget[abilityIndex];
+    //        }
+    //        else
+    //        {
+    //            abilitiesTarget[i] = false;
+    //        }
+    //    }
+    //    if (unstopableForce && abilityIndex == 2)
+    //    {
+    //        range = 0;
+    //    }
+    //    if (flamingBlade && abilityIndex == 2)
+    //    {
+    //        range = 0;
+    //    }
+    //    if (righteousGlory && abilityIndex == 2)
+    //    {
+    //        range = 2;
+    //    }
+    //    if ( abilityIndex == 1)
+    //    {
+    //        range = 0;
+    //    }
 
 
-        attacking = false;
+    //    attacking = false;
 
 
-        targetting(range);
-        map.UpdateIconSelection(abilityIndex);
+    //    targetting(range);
+    //    map.UpdateIconSelection(abilityIndex);
 
-        if (abilitiesTarget[abilityIndex] == false)
-        {
-            CancelTarggeting();
-        }
+    //    if (abilitiesTarget[abilityIndex] == false)
+    //    {
+    //        CancelTarggeting();
+    //    }
 
-    }
+    //}
     public override void TurnOver()
     {
         
@@ -648,6 +727,13 @@ public class KnightScript : UnitScript
             }
         }
 
+        if (gloryActivated > 0)
+        {
+            
+            gloryActivated--;
+           
+        }
+
         if (dodgeBuffed)
         {
 
@@ -709,7 +795,113 @@ public class KnightScript : UnitScript
         }
     }
 
+    public void Cleave()
+    {
+        aSource.PlayOneShot(hitEffect);
+        animator.SetTrigger("attack");
+        
+        attackAvailable = false;
+        targetUnit.GetComponent<UnitScript>().UnitDamage(attackPower/2);//simple attack
+        RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, 1f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+        foreach(RaycastHit2D target in targets)
+        {
+            if(target.collider.tag != gameObject.tag)
+            {
+                target.collider.gameObject.GetComponent<UnitScript>().UnitDamage(attackPower);
+                if (target.collider.gameObject.GetComponent<UnitScript>().health <= 0)
+                {
+                    if (berserk)
+                    {
+                        berserkA = true;
+                    }
+                }
+            }
+            
+        }
+        
+        targetUnit = null;
+        map.UpdateCooldowns(gameObject);
+        for(int i = 0; i<abilitiesTargetting.Count; i++)
+        {
+            abilitiesTargetting[i] = false;
+        }
+    }
 
+    public void Taunt()
+    {
+        RaycastHit2D[] targets = Physics2D.CircleCastAll(gameObject.transform.position, 1f * attackRange, new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+        foreach (RaycastHit2D target in targets)
+        {
+            if (target.collider.tag != gameObject.tag)
+            {
+                target.collider.gameObject.GetComponent<UnitScript>().taunted = true;
+                target.collider.GetComponent<UnitScript>().tauntTarget = gameObject;
+            }
+
+        }
+        
+      
+        for (int i = 0; i < abilitiesTargetting.Count; i++)
+        {
+            abilitiesTargetting[i] = false;
+        }
+    }
+
+    public void FrenziedStrikes()
+    {
+                    attack(targetUnit);
+                    attackAvailable = true;
+                    attack(targetUnit);
+                    attackAvailable = true;
+                    attack(targetUnit);
+                    attackAvailable = true;
+                    abilitiesCooldown[2] = 4;
+                    attackAvailable = false;
+                    riposteCombo = false;
+                    targetUnit = null;
+    }
+
+    public void PreparedForWar()
+    {
+        
+            aSource.PlayOneShot(parrySound);
+            litBlade = 3;
+            abilitiesCooldown[2] = 7;
+
+        targetUnit = null;
+
+        for (int i = 0; i < abilitiesTargetting.Count; i++)
+        {
+            abilitiesTargetting[i] = false;
+        }
+
+
+    }
+
+    public void UnstopableForce()
+    {
+      
+            unstopableWarrior = 2;
+            HealDamage(Random.Range(1, 5));
+            abilitiesCooldown[2] = 4;
+            attackAvailable = false;
+            riposteCombo = false;
+            aSource.PlayOneShot(parrySound);
+            targetUnit = null;
+
+        for (int i = 0; i < abilitiesTargetting.Count; i++)
+        {
+            abilitiesTargetting[i] = false;
+        }
+
+
+    }
+
+    public void RighteousGlory()
+    {
+        gloryActivated = 3;
+        targetUnit = null;
+    }
     // Update is called once per frame
 
 }

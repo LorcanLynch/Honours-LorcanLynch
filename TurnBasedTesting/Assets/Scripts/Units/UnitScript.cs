@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 using UnityEngine.UI;
@@ -19,6 +20,8 @@ public class UnitScript : MonoBehaviour
     /// <summary>
     /// Delcares all useful variables I use within the Script, 
     /// </summary>
+    public bool taunted;
+    public GameObject tauntTarget;
     public int tileY; //Due to Djikstra using Y where i would use X I just flipped the value here, so this is actually the X value of the unit, same for the variable Below
     public int tileX;
     public bool selected = false;
@@ -56,6 +59,7 @@ public class UnitScript : MonoBehaviour
     public float health;
     public float attackPower = 1;
     public int attackRange = 3;
+
     public Collider2D claveHb;
     public GameObject lightningBolt;
 
@@ -83,10 +87,36 @@ public class UnitScript : MonoBehaviour
     public int damageBuffT = 0;
     public bool damageBuffed;
     public int damageBuffN = 0;
-
+    
     public GameManager gm;
-    public void Start()
+
+    public int skillPoints;
+
+    public int level;
+    public int xpValue;
+    public int xpMax;
+    public bool beingLead;
+    public bool leadByLord;
+    public bool fearedByLord;
+    public bool feared;
+   
+    public int[] statGrowth = new int[4];
+    
+    public OOCStats pointsHolder;
+
+
+    List<KeyCode> hotKeys = new List<KeyCode> { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
+    public List<string> hotKeysString = new List<string> { "Print"};
+    public List<bool> abilitiesTargetting = new List<bool> { false, false, false, false, false,false, false, false, false, false };
+    public List<int> abilitiesRange = new List<int> { 5,5,5,5,5,5,5,5,5,5};
+    int nextHotkey = 0;
+    public GameObject targetUnit = null;
+
+    public virtual void Start()
     {
+
+        abilitiesRange = new List<int> { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
+        pointsHolder = GameObject.Find("PointsHolder").GetComponent<OOCStats>();
         //This sets all the various initial values needed for a unit
         health = maxhealth;
         map = GameObject.Find("Map").GetComponent<TileMap>();
@@ -102,6 +132,7 @@ public class UnitScript : MonoBehaviour
         abilitiesCooldown = new int[4] { 0, 0, 0, 0 };
     }
 
+    
     private void OnMouseUp()
     {
 
@@ -128,13 +159,10 @@ public class UnitScript : MonoBehaviour
                 return;
             }
 
-
-            //Again a mess but it simply checks what ability the unit should use(1-4), then what ability that corelates to on the selected Unit's class and calls the
-            //related function, this should definitly be its own script and **Should be** refactored later
-            if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[0] && map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY) && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[0] <= 0 && map.selectedUnit.tag != gameObject.tag && map.selectedUnit.GetComponent<UnitScript>().attackAvailable)
+            if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTargetting[0] && map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY, abilitiesRange[0]) && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[0] <= 0 && map.selectedUnit.tag != gameObject.tag && map.selectedUnit.GetComponent<UnitScript>().attackAvailable)
             {
-
-                map.selectedUnit.GetComponent<UnitScript>().Ability1(gameObject);
+                map.selectedUnit.GetComponent<UnitScript>().targetUnit = gameObject;
+                map.selectedUnit.GetComponent<UnitScript>().Invoke(map.selectedUnit.GetComponent<UnitScript>().hotKeysString[0], 0f);
                 RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
                 foreach (RaycastHit2D wacked in wack)
                 {
@@ -145,46 +173,6 @@ public class UnitScript : MonoBehaviour
                 }
 
             }
-            else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[1] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[1] <= 0)
-            {
-
-                map.selectedUnit.GetComponent<UnitScript>().Ability2(gameObject);
-                RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-                foreach (RaycastHit2D wacked in wack)
-                {
-                    if (wacked.collider.gameObject.layer == 8)
-                    {
-                        wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                    }
-                }
-            }
-            else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[2] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[2] <= 0)
-            {
-
-                map.selectedUnit.GetComponent<UnitScript>().Ability3(gameObject);
-                RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-                foreach (RaycastHit2D wacked in wack)
-                {
-                    if (wacked.collider.gameObject.layer == 8)
-                    {
-                        wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                    }
-                }
-            }
-            else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[3] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[3] <= 0)
-            {
-
-                map.selectedUnit.GetComponent<UnitScript>().Ability4(gameObject);
-                RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
-                foreach (RaycastHit2D wacked in wack)
-                {
-                    if (wacked.collider.gameObject.layer == 8)
-                    {
-                        wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                    }
-                }
-            }
-           
             else if (map.selectedUnit.GetComponent<UnitScript>().attacking && gameObject.tag != map.selectedUnit.tag)
             // if the unit can attack but isnt trying to use an ability then we simply attack with their basic ability
             {
@@ -197,17 +185,80 @@ public class UnitScript : MonoBehaviour
                     {
                         if (wacked.collider.gameObject.layer == 8)
                         {
-                            wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                        }
+                           wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                       }
                     }
 
-                }
+               }
             }
             else
             {
                 map.UnitSelected(gameObject);
                 map.ClearIconSelection();
             }
+
+            //Again a mess but it simply checks what ability the unit should use(1-4), then what ability that corelates to on the selected Unit's class and calls the
+            //related function, this should definitly be its own script and **Should be** refactored later
+            //if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[0] && map.selectedUnit.GetComponent<UnitScript>().CheckAttackDistance(tileX, tileY) && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[0] <= 0 && map.selectedUnit.tag != gameObject.tag && map.selectedUnit.GetComponent<UnitScript>().attackAvailable)
+            //{
+
+            //    map.selectedUnit.GetComponent<UnitScript>().Ability1(gameObject);
+            //    RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+            //    foreach (RaycastHit2D wacked in wack)
+            //    {
+            //        if (wacked.collider.gameObject.layer == 8)
+            //        {
+            //            wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            //        }
+            //    }
+
+            //}
+            //else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[1] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[1] <= 0)
+            //{
+
+            //    map.selectedUnit.GetComponent<UnitScript>().Ability2(gameObject);
+            //    RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+            //    foreach (RaycastHit2D wacked in wack)
+            //    {
+            //        if (wacked.collider.gameObject.layer == 8)
+            //        {
+            //            wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            //        }
+            //    }
+            //}
+            //else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[2] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[2] <= 0)
+            //{
+
+            //    map.selectedUnit.GetComponent<UnitScript>().Ability3(gameObject);
+            //    RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+            //    foreach (RaycastHit2D wacked in wack)
+            //    {
+            //        if (wacked.collider.gameObject.layer == 8)
+            //        {
+            //            wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            //        }
+            //    }
+            //}
+            //else if (map.selectedUnit.GetComponent<UnitScript>().abilitiesTarget[3] && map.selectedUnit.GetComponent<UnitScript>().abilitiesCooldown[3] <= 0)
+            //{
+
+            //    map.selectedUnit.GetComponent<UnitScript>().Ability4(gameObject);
+            //    RaycastHit2D[] wack = Physics2D.CircleCastAll(gameObject.transform.position, (100f), new Vector2(0, 0));//creates a circle around the unit and damages each unit in it
+            //    foreach (RaycastHit2D wacked in wack)
+            //    {
+            //        if (wacked.collider.gameObject.layer == 8)
+            //        {
+            //            wacked.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            //        }
+            //    }
+            //}
+
+            
+            //else
+            //{
+            //    map.UnitSelected(gameObject);
+            //    map.ClearIconSelection();
+            //}
 
 
 
@@ -218,6 +269,43 @@ public class UnitScript : MonoBehaviour
 
     }
 
+    
+
+    public void LevelUp()
+    {
+        level++;
+        skillPoints++;
+        if(level % 5 ==0)
+        {
+            skillPoints++;
+        }
+        int x = 0;
+        foreach(int growth in statGrowth)
+        {
+           
+            if(D100(growth))
+            {
+                switch (x)
+                {
+                    case 0:
+                        maxhealth++;
+                        break;
+                    case 1:
+                        attackPower++;
+                        break;
+                    case 2:
+                        dodgeRating++;
+                        break;
+                    case 3:
+                        accuracy++;
+                        break;
+                    
+                }
+            }
+                x++;
+        }
+        
+    }
     public void targetting()
     {
        
@@ -234,6 +322,16 @@ public class UnitScript : MonoBehaviour
         
     }
 
+
+    bool D100(int targetValue)
+    {
+        int x = Random.Range(0, 100);
+        if (x < targetValue) 
+        {
+            return true;
+        }
+        else return false;
+    }
 
     public void CancelTarggeting()
     {
@@ -346,25 +444,25 @@ public class UnitScript : MonoBehaviour
 
     public virtual void AbilityTarget(int abilityIndex)
     {
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < hotKeysString.Count; i++)
         {
             if (i == abilityIndex)
             {
-                abilitiesTarget[abilityIndex] = !abilitiesTarget[abilityIndex];
+                abilitiesTargetting[abilityIndex] = !abilitiesTargetting[abilityIndex];
             }
             else
             {
-                abilitiesTarget[i] = false;
+                abilitiesTargetting[i] = false;
             }
         }
       
         attacking = false;
-      
-      
-        targetting();
-        map.UpdateIconSelection(abilityIndex);
 
-        if (abilitiesTarget[abilityIndex] == false)
+
+        targetting(abilitiesRange[abilityIndex]);
+        //map.UpdateIconSelection(abilityIndex);
+
+        if (abilitiesTargetting[abilityIndex] == false)
         {
             CancelTarggeting();
         }
@@ -419,26 +517,39 @@ public class UnitScript : MonoBehaviour
                 map.ClearIconSelection();
 
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1) && map.selectedUnit == gameObject)
-            {
-                AbilityTarget(0);
+          
 
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2) && map.selectedUnit == gameObject)
+            for(int i = 0;i< hotKeysString.Count; i++ )
             {
+                if (Input.GetKeyDown(hotKeys[i]) && map.selectedUnit == gameObject)
+                {
 
-                AbilityTarget(1);
+                    AbilityTarget(i);
+                    
+                    
+                }
+                
             }
-            if (Input.GetKeyDown(KeyCode.Alpha3) && map.selectedUnit == gameObject)
-            {
+            //if (Input.GetKeyDown(KeyCode.Alpha1) && map.selectedUnit == gameObject)
+            //{
+            //    AbilityTarget(0);
 
-                AbilityTarget(2);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4) && map.selectedUnit == gameObject)
-            {
-                AbilityTarget(3);
+            //}
+            //if (Input.GetKeyDown(KeyCode.Alpha2) && map.selectedUnit == gameObject)
+            //{
 
-            }
+            //    AbilityTarget(1);
+            //}
+            //if (Input.GetKeyDown(KeyCode.Alpha3) && map.selectedUnit == gameObject)
+            //{
+
+            //    AbilityTarget(2);
+            //}
+            //if (Input.GetKeyDown(KeyCode.Alpha4) && map.selectedUnit == gameObject)
+            //{
+            //    AbilityTarget(3);
+
+            //}
             //if(currentPath != null)
             //    {
             //    int currNode = 0;
@@ -524,7 +635,7 @@ public class UnitScript : MonoBehaviour
             }
             gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, target, speedFloatVal * Time.deltaTime);//We are constantly moving towards the target, this is why this should be in a coroutine
         }
-
+        
     }
 
 
@@ -541,7 +652,7 @@ public class UnitScript : MonoBehaviour
         abilitiesTarget[3] = false;
         attacking = false;
         CancelTarggeting();
-        print("poss" + possiblePath.Count);
+       
         if (!move)
         {
             float moveRemaining = moveSpeed;//Sets how much movement we have for the linerenderer
@@ -589,7 +700,7 @@ public class UnitScript : MonoBehaviour
                     currNode++;
                 }
                 lineRenderer.positionCount = currNode + 1;
-                print(currNode);
+                
                 lineRenderer.SetPosition(0, new Vector3(start.x, start.y, start.z + 2));
                 for (int i = 0; i < currNode; i++)//simply iterates and draws a line to each point in the array we made
                 {
@@ -709,7 +820,15 @@ public class UnitScript : MonoBehaviour
 
     public virtual void TurnOver()
     {
-        moveSpeed = maxMoveSpeed;
+        if (!feared)
+        {
+            moveSpeed = maxMoveSpeed;
+        }
+        else
+        {
+            moveSpeed = 0;
+            feared = false;
+        }
         if (!stunned)
         {
             attackAvailable = true;
@@ -869,12 +988,28 @@ public class UnitScript : MonoBehaviour
         }
 
     }
+
+        
+
+    
+    
+    public void Print()
+    {
+        print("1");
+        hotKeysString.Add("Print2");
+        
+    }
+    public void Print2()
+    {
+        print("2");
+    }
+
 }
 
 
-   
 
-   
+
+
 
 
 

@@ -38,6 +38,11 @@ public class GameManager : MonoBehaviour
         {
             Pause();
         }
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            SpawnUnit(10, 10);
+        }
     }
 
     public void Restart()
@@ -105,7 +110,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            print("happened");
+           
             SpawnUnit();
         }
         
@@ -221,7 +226,7 @@ public class GameManager : MonoBehaviour
         else
         {
            
-            print("happened");
+           
             int i = 0;
             foreach (Node neighbour in tileMap.graph[tileX, tileY].connections)
             {

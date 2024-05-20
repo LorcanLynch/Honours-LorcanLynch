@@ -99,29 +99,29 @@ public class ObjectiveScript : MonoBehaviour
                 unit.GetComponent<UnitScript>().NewMap();
             }
         }
-        switch (objective)
-        {
-            case 0:
-                MapObjective = ObjectiveScript.objective.Survive;
-                print("Survive");
-                SurviveStart();
-                break;
-            case 1:
-                MapObjective = ObjectiveScript.objective.Secure;
-                SecureStart();
+        //switch (objective)
+        //{
+        //    case 0:
+        //        MapObjective = ObjectiveScript.objective.Survive;
+        //        print("Survive");
+        //        SurviveStart();
+        //        break;
+        //    case 1:
+        //        MapObjective = ObjectiveScript.objective.Secure;
+        //        SecureStart();
                 
-                break;
-            case 2:
-                MapObjective = ObjectiveScript.objective.Capture;
-                CreateCaptureZone();
-                print("Capture");
-                break;
-            case 3:
-                MapObjective = ObjectiveScript.objective.Assassinate;
-                SpawnBoss();
-                break;
+        //        break;
+        //    case 2:
+        //        MapObjective = ObjectiveScript.objective.Capture;
+        //        CreateCaptureZone();
+        //        print("Capture");
+        //        break;
+        //    case 3:
+        //        MapObjective = ObjectiveScript.objective.Assassinate;
+        //        SpawnBoss();
+        //        break;
 
-        }
+        //}
     }
 
 
